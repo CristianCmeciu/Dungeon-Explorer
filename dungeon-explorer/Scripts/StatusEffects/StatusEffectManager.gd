@@ -6,7 +6,9 @@ var activeEffects: Array[StatusEffect] = []
 func applyEffect(effect: StatusEffect, target: Node):
 	for activeEffect in activeEffects:
 		if activeEffect.name == effect.name:
-			activeEffects.remove_at(activeEffects.find(activeEffect))
+			activeEffect.duration = effect.duration
+			effect.onApply(target)
+			return
 	activeEffects.append(effect)
 	effect.onApply(target)
 

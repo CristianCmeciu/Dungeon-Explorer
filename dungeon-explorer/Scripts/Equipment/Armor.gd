@@ -3,3 +3,4 @@ extends Resource
 
 var defense: int
 var name: String
+var goldValue: int

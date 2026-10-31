@@ -8,9 +8,9 @@ func _ready():
 	create_weapons()
 	
 func create_armors():
-	create_armor("Leather Armor",1)
-	create_armor("Chainmail Armor",2)
-	create_armor("Plate Armor",3)
+	create_armor("Leather Armor",1,100)
+	create_armor("Chainmail Armor",2,200)
+	create_armor("Plate Armor",3,300)
 	
 func create_weapons():
 	create_weapon("Club",1,1)
@@ -20,10 +20,11 @@ func create_weapons():
 	create_weapon("Bow",4, 0, Poison.new())
 	create_weapon("Crossbow",6,0, Poison.new())
 	
-func create_armor(armorName: String, defense: int):
+func create_armor(armorName: String, defense: int, goldValue: int):
 	var armor = Armor.new()
 	armor.name = armorName
 	armor.defense = defense
+	armor.goldValue = goldValue
 	armors.append(armor)
 	
 func create_weapon(weaponName: String, damage: int, stunTime: int = 0, statusEffect: StatusEffect = null):
