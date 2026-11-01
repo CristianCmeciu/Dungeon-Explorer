@@ -1,21 +1,17 @@
-extends Node
+extends Entity
 class_name Player
 
-var statusEffectManager: StatusEffectManager
-var hp: int
-var maxHp: int
 var armor: Armor
 var weapon: Weapon
 var gold: int
-
-func _ready():
-	statusEffectManager = StatusEffectManager.new()
 	
 func takeDamage(damage: int):
 	var damageTaken = damage
 	if armor:
 		damageTaken -= armor.defense
-	hp -= max(0, damageTaken)
+	hp -= damageTaken
+	if hp <= 0:
+		die()
 	
 func attack() -> int:
 	if weapon:
@@ -31,12 +27,9 @@ func equipWeapon(newWeapon: Weapon):
 func onNextRoom():
 	hp = min(hp + 5, maxHp)
 	statusEffectManager.onTurnOrRoomEnd(self)
-	
-func onTurnEnd():
-	statusEffectManager.onTurnOrRoomEnd(self)
-
-func applyEffect(effect: StatusEffect):
-	statusEffectManager.applyEffect(effect, self)
 
 func getGold(goldWon: int):
 	gold+= goldWon
+
+func die():
+	pass
