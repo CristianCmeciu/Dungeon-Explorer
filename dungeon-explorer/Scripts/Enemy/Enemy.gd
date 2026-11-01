@@ -1,6 +1,7 @@
 class_name Enemy
 extends Entity
 
+signal died
 var damage: int
 
 func activateEnemy(enemyHp: int, enemyDamage: int):
@@ -8,7 +9,7 @@ func activateEnemy(enemyHp: int, enemyDamage: int):
 	damage = enemyDamage
 	
 func attack() -> int:
-	return damage
+	return randi_range(2,3)
 
 func takeDamage(damageTaken: int):
 	hp-=damageTaken
@@ -16,4 +17,4 @@ func takeDamage(damageTaken: int):
 		die()
 		
 func die():
-	queue_free()
+	died.emit()

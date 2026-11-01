@@ -10,10 +10,6 @@ var turnsDefending: int
 func initialize():
 	maxHp = 100
 	hp = 100
-	var poison = Poison.new()
-	poison.initialDamage = 0
-	poison.damage = 2
-	statusEffectManager.applyEffect(poison,self)
 	
 func defend():
 	isDefending = true
@@ -32,6 +28,7 @@ func takeDamage(damage: int) -> int:
 	if hp <= 0:
 		die()
 	return damageTaken
+	
 func attack() -> int:
 	turnsDefending -= 1
 	if turnsDefending <= 0:
