@@ -9,19 +9,18 @@ offset_left = 61.0
 offset_top = 2.0
 offset_right = 61.0
 offset_bottom = 2.0
-scale = Vector2(0.16493295, 0.3159857)
 script = ExtResource("1_6iqwr")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=963540563]
 layout_mode = 0
-offset_left = 510.93494
-offset_top = 410.06467
-offset_right = 550.93494
-offset_bottom = 457.06467
-scale = Vector2(17.860645, 7.5255213)
+offset_left = 342.0
+offset_top = 208.0
+offset_right = 382.0
+offset_bottom = 282.0
 
 [node name="RoomNumber" type="Label" parent="VBoxContainer" unique_id=1697926487]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 
 [node name="ItemLabel" type="Label" parent="VBoxContainer" unique_id=1339855550]
 layout_mode = 2
@@ -34,8 +33,11 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=878886662]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = -291.02734
+offset_top = 1136.1273
+offset_right = -251.02734
+offset_bottom = 1176.1273
+scale = Vector2(48.57317, 8.505852)
 
 [node name="ArmorLabel" type="Label" parent="HBoxContainer" unique_id=1216401263]
 layout_mode = 2
