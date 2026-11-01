@@ -8,7 +8,7 @@ func activateEnemy(enemyHp: int, enemyDamage: int):
 	damage = enemyDamage
 	
 func attack() -> int:
-	return damage
+	return randi_range(2,3)
 
 func takeDamage(damageTaken: int):
 	hp-=damageTaken

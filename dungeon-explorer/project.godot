@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Dungeon Explorer"
-run/main_scene="uid://boxsy56s3xvts"
+run/main_scene="uid://b7cwus8vsu8jo"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [display]

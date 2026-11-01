@@ -6,6 +6,7 @@ signal room_died
 @export var doors: Array[Area2D]
 @export var event_label: Label
 @export var fake_door_label: Label
+@export var mimic: PackedScene
 
 var thresholds = [15, 35, 60, 70, 75, 80, 90, 100]
 var events = [
@@ -18,13 +19,18 @@ func setup(my_event: String):
 	if event_label:
 		event_label.text = "Event: " + my_event
 		
+	if my_event == "mimic fight":
+		var event = mimic.instantiate()
+		self.add_child(event)
+		
+		
 	if my_event == "trap room":
 		room_died.emit()
 		return 
 		
 	for door in doors:
 		var future_event = get_random_event()
-		# future_event = "usa fache"
+		future_event = "mimic fight"
 		door.set_target_event(future_event)
 		door.clicked.connect(_on_door_clicked)
 		door.fake_clicked.connect(_on_fake_door_clicked)
