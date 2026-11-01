@@ -22,9 +22,12 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 texture = SubResource("GradientTexture2D_1knuh")
 
-[node name="Chest" type="Node2D" parent="." unique_id=1397656007]
+[node name="Chest" type="Node2D" parent="." unique_id=1397656007 node_paths=PackedStringArray("player", "combatManager", "button")]
 position = Vector2(896, 476)
 script = ExtResource("1_irwtn")
+player = NodePath("../Player")
+combatManager = NodePath("../CombatManager")
+button = NodePath("Button")
 
 [node name="TextureRect" type="TextureRect" parent="Chest" unique_id=818809626]
 self_modulate = Color(0.7254902, 0.7294118, 0.08627451, 1)
@@ -56,3 +59,15 @@ offset_top = 664.0
 offset_right = 1443.0
 offset_bottom = 728.0
 text = "Attack"
+
+[node name="Button2" type="Button" parent="." unique_id=1649714283]
+offset_left = 1328.0
+offset_top = 577.0
+offset_right = 1448.0
+offset_bottom = 630.0
+theme_override_font_sizes/font_size = 32
+text = "Defend"
+
+[connection signal="pressed" from="Chest/Button" to="Chest" method="openChest"]
+[connection signal="pressed" from="Button" to="CombatManager" method="playerAttack"]
+[connection signal="pressed" from="Button2" to="CombatManager" method="playerDefend"]

@@ -9,3 +9,4 @@ func onApply(target: Node):
 	
 func onTurnOrRoomEnd(target: Node):
 	target.takeDamage(damage)
+	print(target.name, " took damage for: ",damage)

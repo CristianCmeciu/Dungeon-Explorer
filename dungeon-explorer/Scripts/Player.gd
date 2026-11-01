@@ -3,17 +3,39 @@ class_name Player
 
 var armor: Armor
 var weapon: Weapon
-var gold: int
+var gold: int	
+var isDefending: bool
+var turnsDefending: int
+
+func initialize():
+	maxHp = 100
+	hp = 100
+	var poison = Poison.new()
+	poison.initialDamage = 0
+	poison.damage = 2
+	statusEffectManager.applyEffect(poison,self)
 	
-func takeDamage(damage: int):
+func defend():
+	isDefending = true
+	turnsDefending = 3
+
+func takeDamage(damage: int) -> int:
 	var damageTaken = damage
+	if isDefending:
+		damageTaken /= 2
+		turnsDefending-= 1
+		if turnsDefending <= 0:
+			isDefending = false
 	if armor:
 		damageTaken -= armor.defense
-	hp -= damageTaken
+	hp -= max(0,damageTaken)
 	if hp <= 0:
 		die()
-	
+	return damageTaken
 func attack() -> int:
+	turnsDefending -= 1
+	if turnsDefending <= 0:
+		isDefending = false
 	if weapon:
 		return statusEffectManager.modifyDamage(weapon.damage)
 	return statusEffectManager.modifyDamage(1)

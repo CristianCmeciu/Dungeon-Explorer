@@ -10,15 +10,21 @@ func startCombat(p: Player, e: Entity, enemyAttacksFirst: bool):
 	if enemyAttacksFirst:
 		enemyTurn()
 
+func playerDefend():
+	player.defend()
+	enemyTurn()
+
 func playerAttack():
 	enemy.takeDamage(player.attack())
+	print("Enemy hit for: ",player.attack(),". Remaining hp: ",enemy.hp)
 	if enemy.hp <= 0:
 		endCombat()
 		return
 	enemyTurn()
 	
 func enemyTurn():
-	player.takeDamage(enemy.attack())
+	var damageTaken = player.takeDamage(enemy.attack())
+	print("Player hit for: ",damageTaken,". Remaining hp: ",player.hp)
 	if player.hp <= 0:
 		endCombat()
 		return
