@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://boxsy56s3xvts"]
+
+[ext_resource type="Script" uid="uid://m2rmljjfbmj8" path="res://Scripts/Chest.gd" id="1_irwtn"]
+[ext_resource type="Script" uid="uid://m8fqr07dg67y" path="res://Scripts/Enemy/Enemy.gd" id="2_18xhi"]
+[ext_resource type="Script" uid="uid://bb1nx4dygfpq" path="res://Scripts/Player.gd" id="3_82og2"]
+[ext_resource type="Script" uid="uid://ct45ykfk27brl" path="res://Scripts/CombatManager.gd" id="4_jfrxn"]
+
+[sub_resource type="Gradient" id="Gradient_sbtiq"]
+offsets = PackedFloat32Array(0, 0.99759614, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.7620192, 0.7620192, 0.7620192, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1knuh"]
+gradient = SubResource("Gradient_sbtiq")
+fill_from = Vector2(0, 0.3420139)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_1knuh"]
+
+[node name="Node2D" type="Node2D" unique_id=1413953936]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1250600806]
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = SubResource("GradientTexture2D_1knuh")
+
+[node name="Chest" type="Node2D" parent="." unique_id=1397656007 node_paths=PackedStringArray("player", "combatManager", "button")]
+position = Vector2(896, 476)
+script = ExtResource("1_irwtn")
+player = NodePath("../Player")
+combatManager = NodePath("../CombatManager")
+button = NodePath("Button")
+
+[node name="TextureRect" type="TextureRect" parent="Chest" unique_id=818809626]
+self_modulate = Color(0.7254902, 0.7294118, 0.08627451, 1)
+offset_right = 128.0
+offset_bottom = 128.0
+texture = SubResource("CanvasTexture_1knuh")
+
+[node name="Button" type="Button" parent="Chest" unique_id=1354113599]
+offset_top = -96.0
+offset_right = 128.0
+offset_bottom = -32.0
+text = "Open?"
+
+[node name="Mimic" type="Node" parent="Chest" unique_id=1270702656]
+script = ExtResource("2_18xhi")
+metadata/_custom_type_script = "uid://m8fqr07dg67y"
+
+[node name="Player" type="Node" parent="." unique_id=1435866772]
+script = ExtResource("3_82og2")
+metadata/_custom_type_script = "uid://bb1nx4dygfpq"
+
+[node name="CombatManager" type="Node" parent="." unique_id=147825681]
+script = ExtResource("4_jfrxn")
+metadata/_custom_type_script = "uid://ct45ykfk27brl"
+
+[node name="Button" type="Button" parent="." unique_id=307643817]
+offset_left = 1315.0
+offset_top = 664.0
+offset_right = 1443.0
+offset_bottom = 728.0
+text = "Attack"
+
+[node name="Button2" type="Button" parent="." unique_id=1649714283]
+offset_left = 1328.0
+offset_top = 577.0
+offset_right = 1448.0
+offset_bottom = 630.0
+theme_override_font_sizes/font_size = 32
+text = "Defend"
+
+[connection signal="pressed" from="Chest/Button" to="Chest" method="openChest"]
+[connection signal="pressed" from="Button" to="CombatManager" method="playerAttack"]
+[connection signal="pressed" from="Button2" to="CombatManager" method="playerDefend"]
