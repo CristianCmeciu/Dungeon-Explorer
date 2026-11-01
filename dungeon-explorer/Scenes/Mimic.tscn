@@ -42,6 +42,21 @@ text = "Open?"
 script = ExtResource("2_18xhi")
 metadata/_custom_type_script = "uid://m8fqr07dg67y"
 
+[node name="AttackBtn" type="Button" parent="Chest" unique_id=307643817]
+offset_left = 419.0
+offset_top = 188.0
+offset_right = 547.0
+offset_bottom = 252.0
+text = "Attack"
+
+[node name="DefendBtn" type="Button" parent="Chest" unique_id=1649714283]
+offset_left = 432.0
+offset_top = 101.0
+offset_right = 552.0
+offset_bottom = 154.0
+theme_override_font_sizes/font_size = 32
+text = "Defend"
+
 [node name="Player" type="Node" parent="." unique_id=1435866772]
 script = ExtResource("3_82og2")
 metadata/_custom_type_script = "uid://bb1nx4dygfpq"
@@ -50,21 +65,6 @@ metadata/_custom_type_script = "uid://bb1nx4dygfpq"
 script = ExtResource("4_jfrxn")
 metadata/_custom_type_script = "uid://ct45ykfk27brl"
 
-[node name="Button" type="Button" parent="." unique_id=307643817]
-offset_left = 1315.0
-offset_top = 664.0
-offset_right = 1443.0
-offset_bottom = 728.0
-text = "Attack"
-
-[node name="Button2" type="Button" parent="." unique_id=1649714283]
-offset_left = 1328.0
-offset_top = 577.0
-offset_right = 1448.0
-offset_bottom = 630.0
-theme_override_font_sizes/font_size = 32
-text = "Defend"
-
 [connection signal="pressed" from="Chest/Button" to="Chest" method="openChest"]
-[connection signal="pressed" from="Button" to="CombatManager" method="playerAttack"]
-[connection signal="pressed" from="Button2" to="CombatManager" method="playerDefend"]
+[connection signal="pressed" from="Chest/AttackBtn" to="CombatManager" method="playerAttack"]
+[connection signal="pressed" from="Chest/DefendBtn" to="CombatManager" method="playerDefend"]
