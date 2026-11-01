@@ -70,7 +70,7 @@ func _on_fake_door_clicked():
 		fake_door_label.show()
 		
 		var tween = create_tween()
-		tween.tween_interval(0.15)
+		tween.tween_interval(0.2)
 		tween.tween_callback(func():
 			if is_instance_valid(fake_door_label):fake_door_label.hide())
 		
