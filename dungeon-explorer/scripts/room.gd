@@ -6,7 +6,9 @@ signal room_died
 @export var doors: Array[Area2D]
 @export var event_label: Label
 @export var fake_door_label: Label
-@export var mimic: PackedScene
+@export var fight_scene: PackedScene
+
+var currentEvent: Node2D
 
 var thresholds = [15, 35, 60, 70, 75, 80, 90, 100]
 var events = [
@@ -20,9 +22,10 @@ func setup(my_event: String):
 		event_label.text = "Event: " + my_event
 		
 	if my_event == "mimic fight":
-		var event = mimic.instantiate()
-		self.add_child(event)
-		
+		currentEvent = fight_scene.instantiate()
+		self.add_child(currentEvent)
+		currentEvent.generateEnemy(my_event)
+		currentEvent.exitFight.connect(fightWon)
 		
 	if my_event == "trap room":
 		room_died.emit()
@@ -80,3 +83,5 @@ func _on_fake_door_clicked():
 		tween.tween_callback(func():
 			if is_instance_valid(fake_door_label):fake_door_label.hide())
 		
+func fightWon():
+	currentEvent.queue_free()

@@ -1,10 +1,12 @@
 class_name CombatManager
 extends Node
 
+signal fightWon
+
 var player: Player
 var enemy: Enemy
 
-func startCombat(p: Player, e: Entity, enemyAttacksFirst: bool):
+func startCombat(p: Player, e: Entity, enemyAttacksFirst: bool = false):
 	player = p
 	enemy = e
 	if enemyAttacksFirst:
@@ -16,7 +18,7 @@ func playerDefend():
 
 func playerAttack():
 	enemy.takeDamage(player.attack())
-	print("Enemy hit for: ",player.attack(),". Remaining hp: ",enemy.hp)
+	print("Enemy got hit ",player.attack(),". Remaining hp: ",enemy.hp)
 	if enemy.hp <= 0:
 		endCombat()
 		return
@@ -24,7 +26,7 @@ func playerAttack():
 	
 func enemyTurn():
 	var damageTaken = player.takeDamage(enemy.attack())
-	print("Player hit for: ",damageTaken,". Remaining hp: ",player.hp)
+	print("Player got hit: ",damageTaken,". Remaining hp: ",player.hp)
 	if player.hp <= 0:
 		endCombat()
 		return
@@ -37,5 +39,6 @@ func enemyTurn():
 func endCombat():
 	if player.hp >= 0:
 		print("Player won")
+		fightWon.emit()
 	else:
 		print("Player not won")
