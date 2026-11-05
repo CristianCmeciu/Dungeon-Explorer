@@ -45,8 +45,17 @@ func generate_next_room(next_event: String):
 	if rooms_cleared >= 15:
 		game_over(GameOverType.SUCCESS)
 		return
-		
-	var next_scene = possible_rooms.pick_random()
+	
+	var next_scene = possible_rooms.get(0)
+	
+	if next_event == "usa fache":
+		next_scene = possible_rooms.get(1)
+	else: if next_event == "treasure room":
+		next_scene = possible_rooms.get(2)
+	else: if next_event == "mimic fight":
+		next_scene = possible_rooms.get(3)
+	else:
+		next_scene = possible_rooms.get(0)
 	current_room = next_scene.instantiate()
 	
 	current_room.room_completed.connect(generate_next_room)

@@ -1,12 +1,14 @@
 [gd_scene format=3 uid="uid://b7cwus8vsu8jo"]
 
-[ext_resource type="Script" uid="uid://bqpeo7tndbbdk" path="res://scripts/main.gd" id="1_h2yge"]
-[ext_resource type="PackedScene" uid="uid://ctllidl2x1poj" path="res://scenes/room_2.tscn" id="2_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://1q4dhvxj2yiq" path="res://scenes/room_3.tscn" id="3_lquwl"]
+[ext_resource type="Script" uid="uid://bqpeo7tndbbdk" path="res://Scripts/main.gd" id="1_h2yge"]
+[ext_resource type="PackedScene" uid="uid://ctllidl2x1poj" path="res://Scenes/room_2.tscn" id="2_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://1q4dhvxj2yiq" path="res://Scenes/room_3.tscn" id="3_lquwl"]
+[ext_resource type="PackedScene" uid="uid://5046f4o8jwle" path="res://Scenes/event_treasure.tscn" id="4_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://boxsy56s3xvts" path="res://Scenes/Mimic.tscn" id="5_kry3j"]
 
 [node name="main" type="Node2D" unique_id=291351431]
 script = ExtResource("1_h2yge")
-possible_rooms = Array[PackedScene]([ExtResource("2_1bvp3"), ExtResource("3_lquwl")])
+possible_rooms = Array[PackedScene]([ExtResource("2_1bvp3"), ExtResource("3_lquwl"), ExtResource("4_jjvhh"), ExtResource("5_kry3j")])
 
 [node name="GameTimer" type="Timer" parent="." unique_id=15269563]
 one_shot = true
