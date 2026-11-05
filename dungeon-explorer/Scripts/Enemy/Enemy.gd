@@ -4,12 +4,12 @@ extends Entity
 signal died
 var damage: int
 
-func activateEnemy(enemyHp: int, enemyDamage: int):
+func activateEnemy(enemyHp: int, enemyDamage: int = 0):
 	hp = enemyHp
 	damage = enemyDamage
 	
 func attack() -> int:
-	return randi_range(2,3)
+	return damage
 
 func takeDamage(damageTaken: int):
 	hp-=damageTaken

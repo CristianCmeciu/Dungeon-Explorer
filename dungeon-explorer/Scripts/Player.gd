@@ -17,10 +17,12 @@ func defend():
 
 func takeDamage(damage: int) -> int:
 	var damageTaken = damage
+	print("Should have taken: ",damageTaken," damage")
 	if isDefending:
 		damageTaken /= 2
 		turnsDefending-= 1
 		if turnsDefending <= 0:
+			print("No more defending")
 			isDefending = false
 	if armor:
 		damageTaken -= armor.defense
@@ -30,12 +32,9 @@ func takeDamage(damage: int) -> int:
 	return damageTaken
 	
 func attack() -> int:
-	turnsDefending -= 1
-	if turnsDefending <= 0:
-		isDefending = false
 	if weapon:
 		return statusEffectManager.modifyDamage(weapon.damage)
-	return statusEffectManager.modifyDamage(1)
+	return statusEffectManager.modifyDamage(20)
 
 func equipArmor(newArmor: Armor):
 	armor = newArmor

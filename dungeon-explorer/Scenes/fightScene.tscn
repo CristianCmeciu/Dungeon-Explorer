@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://boxsy56s3xvts"]
+
+[ext_resource type="Script" uid="uid://m2rmljjfbmj8" path="res://Scripts/FightSceneManager.gd" id="1_uvvmo"]
+[ext_resource type="PackedScene" uid="uid://b7ift8gj1o4dk" path="res://Scenes/FightEvents/mimicFight.tscn" id="2_57ar5"]
+[ext_resource type="Script" uid="uid://bb1nx4dygfpq" path="res://Scripts/Player.gd" id="2_yk4my"]
+[ext_resource type="Script" uid="uid://ct45ykfk27brl" path="res://Scripts/CombatManager.gd" id="3_57ar5"]
+
+[sub_resource type="Gradient" id="Gradient_sbtiq"]
+offsets = PackedFloat32Array(0, 0.99759614, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.7620192, 0.7620192, 0.7620192, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1knuh"]
+gradient = SubResource("Gradient_sbtiq")
+fill_from = Vector2(0, 0.3420139)
+
+[node name="FightScene" type="Node2D" unique_id=1413953936]
+script = ExtResource("1_uvvmo")
+mimicFight = ExtResource("2_57ar5")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1250600806]
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = SubResource("GradientTexture2D_1knuh")
+
+[node name="Player" type="Node" parent="." unique_id=1435866772]
+script = ExtResource("2_yk4my")
+metadata/_custom_type_script = "uid://bb1nx4dygfpq"
+
+[node name="CombatManager" type="Node" parent="." unique_id=147825681]
+script = ExtResource("3_57ar5")
+metadata/_custom_type_script = "uid://ct45ykfk27brl"
+
+[node name="AttackBtn" type="Button" parent="." unique_id=307643817]
+offset_left = 1315.0
+offset_top = 664.0
+offset_right = 1443.0
+offset_bottom = 728.0
+text = "Attack"
+
+[node name="DefendBtn" type="Button" parent="." unique_id=1649714283]
+offset_left = 1328.0
+offset_top = 577.0
+offset_right = 1448.0
+offset_bottom = 630.0
+theme_override_font_sizes/font_size = 32
+text = "Defend"
+
+[connection signal="pressed" from="AttackBtn" to="CombatManager" method="playerAttack"]
+[connection signal="pressed" from="DefendBtn" to="CombatManager" method="playerDefend"]
