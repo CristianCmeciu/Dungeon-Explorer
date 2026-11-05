@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://ctllidl2x1poj"]
+
+[ext_resource type="Script" uid="uid://cnemwhv1fab1y" path="res://scripts/room.gd" id="1_4et86"]
+[ext_resource type="Texture2D" uid="uid://dv1baokx5e67n" path="res://assets/camera_2opt.png" id="2_ktm03"]
+[ext_resource type="PackedScene" uid="uid://boxsy56s3xvts" path="res://scenes/Mimic.tscn" id="2_lsxps"]
+[ext_resource type="Script" uid="uid://bjb10f70fulpx" path="res://scripts/door.gd" id="3_lsxps"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_khhxn"]
+bg_color = Color(0.16862746, 0.6, 0.6, 0.42745098)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+
+[node name="room_2" type="Node2D" unique_id=1677610979 node_paths=PackedStringArray("doors", "event_label", "fake_door_label")]
+script = ExtResource("1_4et86")
+doors = [NodePath("DoorRight"), NodePath("DoorLeft")]
+event_label = NodePath("Label")
+fake_door_label = NodePath("FakeDoorLabel")
+mimic = ExtResource("2_lsxps")
+
+[node name="Camera2Opt" type="Sprite2D" parent="." unique_id=1813972507]
+texture = ExtResource("2_ktm03")
+centered = false
+
+[node name="Label" type="Label" parent="." unique_id=1556193400]
+offset_left = 25.0
+offset_top = 15.0
+offset_right = 375.0
+offset_bottom = 111.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_khhxn")
+
+[node name="FakeDoorLabel" type="Label" parent="." unique_id=624991337]
+offset_left = 271.0
+offset_top = 374.0
+offset_right = 1670.0
+offset_bottom = 879.0
+theme_override_colors/font_color = Color(18.892157, 0, 0, 1)
+theme_override_font_sizes/font_size = 250
+text = "FAKE DOOR"
+
+[node name="DoorRight" type="Area2D" parent="." unique_id=429143043]
+position = Vector2(1479, 361)
+script = ExtResource("3_lsxps")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DoorRight" unique_id=1888983164]
+polygon = PackedVector2Array(0, 0, 197, 81, 177, 539, -2, 407, -1, 0)
+
+[node name="Polygon2D" type="Polygon2D" parent="DoorRight" unique_id=899587892]
+color = Color(1, 1, 1, 0.15686275)
+polygon = PackedVector2Array(0, 0, 197, 81, 177, 539, -2, 407, -1, 0)
+
+[node name="DoorLeft" type="Area2D" parent="." unique_id=349915579]
+position = Vector2(224, 396)
+script = ExtResource("3_lsxps")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DoorLeft" unique_id=893072663]
+polygon = PackedVector2Array(164, -86, 0, -1, 20, 540, 182, 428)
+
+[node name="Polygon2D" type="Polygon2D" parent="DoorLeft" unique_id=1952413590]
+color = Color(1, 1, 1, 0.15686275)
+polygon = PackedVector2Array(164, -86, 0, -1, 20, 540, 182, 428)

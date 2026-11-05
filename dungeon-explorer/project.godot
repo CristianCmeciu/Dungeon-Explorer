@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Dungeon Explorer"
-run/main_scene="uid://dwgpqjod27nkx"
+run/main_scene="uid://b7cwus8vsu8jo"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://icon.svg"
+
+[autoload]
+
+Equipments="*uid://buxvx7vpbgrns"
+StatsUi="*uid://bq5ptni1p7hb6"
 
 [display]
 
