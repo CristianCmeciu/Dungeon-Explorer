@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://5046f4o8jwle"]
+
+[ext_resource type="Script" uid="uid://ciuip15w3yuud" path="res://Scripts/EventTreasure.gd" id="1_ydfjn"]
+
+[node name="EventTreasure" type="Node2D" unique_id=1731451470]
+script = ExtResource("1_ydfjn")
+
+[node name="Item" type="Control" parent="." unique_id=1827582517]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Item" unique_id=355945578]
+layout_mode = 0
+offset_left = 960.0
+offset_top = 540.0
+offset_right = 1600.0
+offset_bottom = 900.0
+
+[node name="ItemDescriptionLabel" type="Label" parent="Item/VBoxContainer" unique_id=1683180967]
+layout_mode = 2
+
+[node name="TakeItemBtn" type="Button" parent="Item/VBoxContainer" unique_id=1162367794]
+layout_mode = 2
+
+[node name="TakeGoldBtn" type="Button" parent="Item/VBoxContainer" unique_id=2072747722]
+layout_mode = 2
+
+[node name="TreasureChest" type="Control" parent="." unique_id=377917992]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TreasureChest" unique_id=1627800791]
+layout_mode = 0
+offset_left = 960.0
+offset_top = 540.0
+offset_right = 1600.0
+offset_bottom = 900.0
+
+[node name="Label" type="Label" parent="TreasureChest/VBoxContainer" unique_id=1170485602]
+layout_mode = 2
+
+[node name="OpenBtn" type="Button" parent="TreasureChest/VBoxContainer" unique_id=724730469]
+layout_mode = 2
+
+[node name="PassBtn" type="Button" parent="TreasureChest/VBoxContainer" unique_id=1718236294]
+layout_mode = 2
