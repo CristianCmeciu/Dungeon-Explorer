@@ -30,7 +30,7 @@ func setup(my_event: String):
 		
 	for door in doors:
 		var future_event = get_random_event()
-		# future_event = "mimic fight"
+		future_event = "mimic fight"
 		door.set_target_event(future_event)
 		door.clicked.connect(_on_door_clicked)
 		door.fake_clicked.connect(_on_fake_door_clicked)
