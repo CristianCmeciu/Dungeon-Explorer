@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cnemwhv1fab1y" path="res://Scripts/room.gd" id="1_4et86"]
 [ext_resource type="Texture2D" uid="uid://dv1baokx5e67n" path="res://assets/camera_2opt.png" id="2_ktm03"]
 [ext_resource type="PackedScene" uid="uid://boxsy56s3xvts" path="res://Scenes/fightScene.tscn" id="2_lsxps"]
+[ext_resource type="PackedScene" uid="uid://5046f4o8jwle" path="res://Scenes/event_treasure.tscn" id="3_8aln6"]
 [ext_resource type="Script" uid="uid://bjb10f70fulpx" path="res://Scripts/door.gd" id="3_lsxps"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_khhxn"]
@@ -23,6 +24,7 @@ doors = [NodePath("DoorRight"), NodePath("DoorLeft")]
 event_label = NodePath("Label")
 fake_door_label = NodePath("FakeDoorLabel")
 fight_scene = ExtResource("2_lsxps")
+treasure_room = ExtResource("3_8aln6")
 
 [node name="Camera2Opt" type="Sprite2D" parent="." unique_id=1813972507]
 texture = ExtResource("2_ktm03")

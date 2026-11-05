@@ -18,7 +18,11 @@ enum GameOverType {
 @onready var result_label = $GameOverScreen/CenterContainer/VBoxContainer/ResultLabel
 @onready var play_again_btn = $GameOverScreen/CenterContainer/VBoxContainer/PlayAgainButton
 @onready var quit_btn = $GameOverScreen/CenterContainer/VBoxContainer/QuitButton
-
+@onready var hp_label: Label = $HUD/MarginContainer/HBoxContainer/VBoxContainer/Hp
+@onready var gold_label: Label = $HUD/MarginContainer/HBoxContainer/VBoxContainer/Gold
+@onready var armor_label: Label = $HUD/MarginContainer/HBoxContainer/VBoxContainer2/Armor
+@onready var weapon_label: Label = $HUD/MarginContainer/HBoxContainer/VBoxContainer2/Weapon
+@onready var player: Player = $HUD/Player
 
 func _ready():
 	game_timer.timeout.connect(_on_timer_timeout)
@@ -32,8 +36,9 @@ func start_game():
 	rooms_cleared = 0
 	gameover_screen.hide()
 	time_label.show()
-	game_timer.start(20.0)
-	
+	game_timer.start(20000.0)
+	player.initialize()
+	player.regenHP.connect(updateLabel)
 	generate_next_room("nimic")
 
 func generate_next_room(next_event: String):
@@ -45,24 +50,30 @@ func generate_next_room(next_event: String):
 	if rooms_cleared >= 15:
 		game_over(GameOverType.SUCCESS)
 		return
-	
-	var next_scene = possible_rooms.get(0)
-	
-	if next_event == "usa fache":
-		next_scene = possible_rooms.get(1)
-	else: if next_event == "treasure room":
-		next_scene = possible_rooms.get(2)
-	else: if next_event == "mimic fight":
-		next_scene = possible_rooms.get(3)
-	else:
-		next_scene = possible_rooms.get(0)
+		
+	var next_scene = possible_rooms.pick_random()
 	current_room = next_scene.instantiate()
-	
+	current_room.initialise(player)
+	current_room.updateLabel.connect(updateLabel)
 	current_room.room_completed.connect(generate_next_room)
 	current_room.room_died.connect(game_over.bind(GameOverType.TRAP)) 
 	add_child(current_room)
 	
 	current_room.setup(next_event)
+	
+func updateLabel():
+	hp_label.text = "HP: %d / %d" % [player.hp, player.maxHp]
+	gold_label.text = "Gold: %d" % player.gold
+		
+	if player.armor:
+		armor_label.text = "Armor: %s (DEF: %d)" % [player.armor.name, player.armor.defense]
+	else:
+		armor_label.text = "Armor: None"
+		
+	if player.weapon:
+		weapon_label.text = "Weapon: %s (ATK: %d)" % [player.weapon.name, player.weapon.damage]
+	else:
+		weapon_label.text = "Weapon: None"
 	
 func _process(_delta):
 	

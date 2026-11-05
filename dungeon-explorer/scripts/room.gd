@@ -2,11 +2,15 @@ extends Node2D
 
 signal room_completed(next_event: String)
 signal room_died
+signal updateLabel
 
 @export var doors: Array[Area2D]
 @export var event_label: Label
 @export var fake_door_label: Label
 @export var fight_scene: PackedScene
+@export var treasure_room: PackedScene
+
+var player: Player
 
 var currentEvent: Node2D
 
@@ -16,6 +20,10 @@ var events = [
 	"witch fight", "trap room", "mimic fight", "skeleton fight"
 ]
 
+func initialise(p: Player):
+	player = p
+	player.onNextRoom()
+
 func setup(my_event: String):
 	
 	if event_label:
@@ -24,12 +32,19 @@ func setup(my_event: String):
 	if my_event == "mimic fight":
 		currentEvent = fight_scene.instantiate()
 		self.add_child(currentEvent)
-		currentEvent.generateEnemy(my_event)
+		currentEvent.generateEnemy(my_event,player)
 		currentEvent.exitFight.connect(fightWon)
+		currentEvent.updateLabel.connect(updateLabels)
 		
 	if my_event == "trap room":
 		room_died.emit()
 		return 
+		
+	if my_event == "treasure room":
+		currentEvent = treasure_room.instantiate()
+		self.add_child(currentEvent)
+		currentEvent.initialise(player)
+		currentEvent.treasure_chosen.connect(fightWon)
 		
 	for door in doors:
 		var future_event = get_random_event()
@@ -43,6 +58,7 @@ func setup(my_event: String):
 	
 	if my_event == "usa fache":
 		setup_fake_doors()
+	updateLabels()
 
 func setup_fake_doors():
 	
@@ -85,3 +101,7 @@ func _on_fake_door_clicked():
 		
 func fightWon():
 	currentEvent.queue_free()
+	updateLabels()
+	
+func updateLabels():
+	updateLabel.emit()

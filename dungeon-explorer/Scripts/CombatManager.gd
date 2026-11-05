@@ -2,6 +2,7 @@ class_name CombatManager
 extends Node
 
 signal fightWon
+signal updateHP
 
 var player: Player
 var enemy: Enemy
@@ -27,6 +28,7 @@ func playerAttack():
 func enemyTurn():
 	var damageTaken = player.takeDamage(enemy.attack())
 	print("Player got hit: ",damageTaken,". Remaining hp: ",player.hp)
+	updateHP.emit()
 	if player.hp <= 0:
 		endCombat()
 		return

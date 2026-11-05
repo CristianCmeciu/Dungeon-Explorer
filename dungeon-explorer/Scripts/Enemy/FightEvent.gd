@@ -15,6 +15,5 @@ func initialise(attackBttn: Button, defendBttn: Button,combatMngr: CombatManager
 func startFight(enemy: Enemy):
 	attackbtn.show()
 	defendbtn.show()
-	player.initialize()
 	combatManager.startCombat(player,enemy,true)
 	

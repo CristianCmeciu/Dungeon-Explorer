@@ -3,12 +3,11 @@
 [ext_resource type="Script" uid="uid://bqpeo7tndbbdk" path="res://Scripts/main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://ctllidl2x1poj" path="res://Scenes/room_2.tscn" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://1q4dhvxj2yiq" path="res://Scenes/room_3.tscn" id="3_lquwl"]
-[ext_resource type="PackedScene" uid="uid://5046f4o8jwle" path="res://Scenes/event_treasure.tscn" id="4_jjvhh"]
-[ext_resource type="PackedScene" uid="uid://boxsy56s3xvts" path="res://Scenes/Mimic.tscn" id="5_kry3j"]
+[ext_resource type="Script" uid="uid://bb1nx4dygfpq" path="res://Scripts/Player.gd" id="4_jjvhh"]
 
 [node name="main" type="Node2D" unique_id=291351431]
 script = ExtResource("1_h2yge")
-possible_rooms = Array[PackedScene]([ExtResource("2_1bvp3"), ExtResource("3_lquwl"), ExtResource("4_jjvhh"), ExtResource("5_kry3j")])
+possible_rooms = Array[PackedScene]([ExtResource("2_1bvp3"), ExtResource("3_lquwl")])
 
 [node name="GameTimer" type="Timer" parent="." unique_id=15269563]
 one_shot = true
@@ -21,6 +20,49 @@ offset_right = 1084.0
 offset_bottom = 77.0
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Player" type="Node" parent="HUD" unique_id=1635015]
+script = ExtResource("4_jjvhh")
+metadata/_custom_type_script = "uid://bb1nx4dygfpq"
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD" unique_id=386277200]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -300.0
+offset_right = 300.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/MarginContainer" unique_id=776426079]
+layout_mode = 2
+offset_transform_enabled = true
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/MarginContainer/HBoxContainer" unique_id=917850382]
+layout_mode = 2
+
+[node name="Hp" type="Label" parent="HUD/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1052889797]
+layout_mode = 2
+text = "Hp: "
+
+[node name="Gold" type="Label" parent="HUD/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1143573609]
+layout_mode = 2
+text = "Gold"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HUD/MarginContainer/HBoxContainer" unique_id=337944472]
+layout_mode = 2
+
+[node name="Armor" type="Label" parent="HUD/MarginContainer/HBoxContainer/VBoxContainer2" unique_id=1105653016]
+layout_mode = 2
+text = "Armor:"
+
+[node name="Weapon" type="Label" parent="HUD/MarginContainer/HBoxContainer/VBoxContainer2" unique_id=213827408]
+layout_mode = 2
+text = "Armor"
 
 [node name="GameOverScreen" type="CanvasLayer" parent="." unique_id=727161437]
 

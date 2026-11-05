@@ -1,6 +1,8 @@
 extends Entity
 class_name Player
 
+signal regenHP
+
 var armor: Armor
 var weapon: Weapon
 var gold: int	
@@ -34,9 +36,10 @@ func takeDamage(damage: int) -> int:
 func attack() -> int:
 	if weapon:
 		return statusEffectManager.modifyDamage(weapon.damage)
-	return statusEffectManager.modifyDamage(20)
+	return statusEffectManager.modifyDamage(1)
 
 func equipArmor(newArmor: Armor):
+	print("equipped armor: ",newArmor.name)
 	armor = newArmor
 	
 func equipWeapon(newWeapon: Weapon):
@@ -45,8 +48,9 @@ func equipWeapon(newWeapon: Weapon):
 func onNextRoom():
 	hp = min(hp + 5, maxHp)
 	statusEffectManager.onTurnOrRoomEnd(self)
+	isDefending = false
 
-func getGold(goldWon: int):
+func addGold(goldWon: int):
 	gold+= goldWon
 
 func die():

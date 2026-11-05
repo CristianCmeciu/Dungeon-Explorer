@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://m2rmljjfbmj8" path="res://Scripts/FightSceneManager.gd" id="1_uvvmo"]
 [ext_resource type="PackedScene" uid="uid://b7ift8gj1o4dk" path="res://Scenes/FightEvents/mimicFight.tscn" id="2_57ar5"]
-[ext_resource type="Script" uid="uid://bb1nx4dygfpq" path="res://Scripts/Player.gd" id="2_yk4my"]
 [ext_resource type="Script" uid="uid://ct45ykfk27brl" path="res://Scripts/CombatManager.gd" id="3_57ar5"]
 
 [sub_resource type="Gradient" id="Gradient_sbtiq"]
@@ -18,13 +17,10 @@ script = ExtResource("1_uvvmo")
 mimicFight = ExtResource("2_57ar5")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1250600806]
+visible = false
 offset_right = 1920.0
 offset_bottom = 1080.0
 texture = SubResource("GradientTexture2D_1knuh")
-
-[node name="Player" type="Node" parent="." unique_id=1435866772]
-script = ExtResource("2_yk4my")
-metadata/_custom_type_script = "uid://bb1nx4dygfpq"
 
 [node name="CombatManager" type="Node" parent="." unique_id=147825681]
 script = ExtResource("3_57ar5")

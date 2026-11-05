@@ -3,25 +3,33 @@
 [ext_resource type="Script" uid="uid://bdxf4s4q5bkc1" path="res://Scripts/Enemy/MimicEvent.gd" id="1_ore12"]
 [ext_resource type="Script" uid="uid://dq73awhigv08i" path="res://Scripts/Enemy/Mimic.gd" id="2_m4ure"]
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_1knuh"]
-
 [node name="MimicFight" type="Node2D" unique_id=977843497]
 script = ExtResource("1_ore12")
-
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1176438381]
-self_modulate = Color(0.7254902, 0.7294118, 0.08627451, 1)
-offset_right = 128.0
-offset_bottom = 128.0
-texture = SubResource("CanvasTexture_1knuh")
-
-[node name="Button" type="Button" parent="." unique_id=1196734381]
-offset_top = -96.0
-offset_right = 128.0
-offset_bottom = -32.0
-text = "Open?"
 
 [node name="Mimic" type="Node" parent="." unique_id=759201614]
 script = ExtResource("2_m4ure")
 metadata/_custom_type_script = "uid://m8fqr07dg67y"
 
-[connection signal="pressed" from="Button" to="." method="openChest"]
+[node name="TreasureChest" type="Control" parent="." unique_id=645427870]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TreasureChest" unique_id=2069016656]
+layout_mode = 0
+offset_left = 960.0
+offset_top = 540.0
+offset_right = 1600.0
+offset_bottom = 900.0
+
+[node name="Label" type="Label" parent="TreasureChest/VBoxContainer" unique_id=1502619810]
+layout_mode = 2
+
+[node name="OpenBtn" type="Button" parent="TreasureChest/VBoxContainer" unique_id=1799867228]
+layout_mode = 2
+
+[node name="PassBtn" type="Button" parent="TreasureChest/VBoxContainer" unique_id=2094206856]
+layout_mode = 2
+
+[connection signal="pressed" from="TreasureChest/VBoxContainer/OpenBtn" to="." method="openChest"]
