@@ -12,14 +12,16 @@ var player: Player
 func _ready():
 	combatManager.fightWon.connect(fightWon)
 	combatManager.updateHP.connect(updateHP)
+	
 
 func generateEnemy(event: String, _player: Player = null):
 	player = _player
+	
 	if event == "mimic fight":
 		var fightEvent = mimicFight.instantiate()
 		fightEvent.passChestSignal.connect(fightWon)
 		add_child(fightEvent)
-		fightEvent.global_position = get_viewport_rect().size/2
+		
 		fightEvent.initialise(attackbtn,defendbtn,combatManager,player)
 
 func fightWon():

@@ -28,7 +28,8 @@ func initialise(attackBttn: Button, defendBttn: Button,combatMngr: CombatManager
 func openChest():
 	mimic.activateEnemy(40,0)
 	startFight(mimic)
-	openButton.visible = false
+	chest_node.hide()
 
 func passChest():
+	
 	passChestSignal.emit()
