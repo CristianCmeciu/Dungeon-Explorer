@@ -19,7 +19,6 @@ func _ready():
 
 func generateEnemy(event: String, _player: Player = null):
 	player = _player
-	player.equipWeapon(Equipments.weapons[0])
 	if event == "mimic fight":
 		background.hide()
 		var fightEvent = mimicFight.instantiate()

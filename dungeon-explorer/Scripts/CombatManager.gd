@@ -30,7 +30,6 @@ func playerAttack():
 		if(player.weapon.effect != null):
 			var effect = player.weapon.effect
 			enemy.applyEffect(effect)
-			print("Enemy got hit by effect: ",effect.name)
 	enemyTurn()
 	
 func enemyTurn():
