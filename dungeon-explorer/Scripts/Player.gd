@@ -1,6 +1,7 @@
 extends Entity
 class_name Player
 
+signal died
 var armor: Armor
 var weapon: Weapon
 var gold: int	
@@ -8,6 +9,7 @@ var isDefending: bool
 var turnsDefending: int
 
 func initialize():
+	self.statusEffectManager = StatusEffectManager.new()
 	maxHp = 100
 	hp = 100
 	armor = null
@@ -56,6 +58,12 @@ func onNextRoom():
 
 func addGold(goldWon: int):
 	gold+= goldWon
+	
+func getScore():
+	var score = gold
+	if weapon: score += weapon.goldValue
+	if armor: score += armor.goldValue
+	return score
 
 func die():
-	pass
+	died.emit()

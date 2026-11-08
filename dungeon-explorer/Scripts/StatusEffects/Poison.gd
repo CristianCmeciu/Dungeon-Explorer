@@ -12,4 +12,5 @@ func onApply(target: Node):
 	target.takeDamage(initialDamage)
 	
 func onTurnOrRoomEnd(target: Node):
+	duration -=1
 	target.takeDamage(damage)

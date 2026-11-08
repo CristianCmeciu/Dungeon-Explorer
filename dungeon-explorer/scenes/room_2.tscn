@@ -26,7 +26,7 @@ fake_door_label = NodePath("FakeDoorLabel")
 fight_scene = ExtResource("2_lsxps")
 treasure_room = ExtResource("3_8aln6")
 
-[node name="Camera2Opt" type="Sprite2D" parent="." unique_id=1813972507]
+[node name="bg_image" type="Sprite2D" parent="." unique_id=1813972507]
 texture = ExtResource("2_ktm03")
 centered = false
 

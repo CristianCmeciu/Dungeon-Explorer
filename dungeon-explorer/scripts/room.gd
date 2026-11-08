@@ -9,10 +9,13 @@ signal updateLabel
 @export var fake_door_label: Label
 @export var fight_scene: PackedScene
 @export var treasure_room: PackedScene
+@onready var bg_image = $bg_image
+
 
 var player: Player
 
 var currentEvent: Node2D
+var rooms: int
 
 var thresholds = [15, 35, 60, 70, 75, 80, 90, 100]
 var events = [
@@ -20,16 +23,19 @@ var events = [
 	"witch fight", "trap room", "mimic fight", "skeleton fight"
 ]
 
-func initialise(p: Player):
+func initialise(p: Player, rooms_cleared: int):
 	player = p
+	rooms = rooms_cleared
 	player.onNextRoom()
 
 func setup(my_event: String):
 	
+	var blind = player.statusEffectManager.hasEffect("Blindness")
+	
 	if event_label:
 		event_label.text = "Event: " + my_event
 		
-	if my_event == "mimic fight":
+	if my_event == "mimic fight" && !blind:
 		currentEvent = fight_scene.instantiate()
 		self.add_child(currentEvent)
 		currentEvent.generateEnemy(my_event,player)
@@ -54,27 +60,44 @@ func setup(my_event: String):
 		room_died.emit()
 		return 
 		
-	if my_event == "treasure room":
+	if my_event == "treasure room" && !blind:
 		currentEvent = treasure_room.instantiate()
-		self.add_child(currentEvent)
 		currentEvent.initialise(player)
+		self.add_child(currentEvent)
 		currentEvent.treasure_chosen.connect(fightWon)
-		
-	for door in doors:
-		var future_event = get_random_event()
+	
+	var random_bun = 4
+	if rooms<=5:
+		random_bun = randi() % doors.size()
+	
+	for i in range(doors.size()):
+		var future_event = ""
+		if i == random_bun:
+			future_event = get_random_bun()
+		else:
+			future_event = get_random_event()
 		if my_event == "usa fache":
 			while future_event == "trap room":
 				future_event = get_random_event()
-		#future_event = "mimic fight"
-		door.set_target_event(future_event)
-		door.clicked.connect(_on_door_clicked)
-		door.fake_clicked.connect(_on_fake_door_clicked)
+		#future_event = "witch fight"
+		doors[i].set_target_event(future_event)
+		doors[i].clicked.connect(_on_door_clicked)
+		doors[i].fake_clicked.connect(_on_fake_door_clicked)
 	
 	if fake_door_label:
 		fake_door_label.hide()
 	
 	if my_event == "usa fache":
 		setup_fake_doors()
+	
+	if blind:
+		bg_image.hide()
+		if doors.size() == 3:
+			doors[1].hide()
+	else:
+		bg_image.show()
+		if doors.size() == 3:
+			doors[1].show()
 	updateLabels()
 
 func setup_fake_doors():
@@ -100,6 +123,13 @@ func get_random_event() -> String:
 	var roll = randi_range(1, 100)
 	var index = thresholds.bsearch(roll)
 	index = clampi(index, 0, events.size() - 1)
+	return events[index]
+	
+func get_random_bun() -> String:
+	
+	var roll = randi_range(1, 70)
+	var index = thresholds.bsearch(roll)
+	index = clampi(index, 0, events.size() - 5)
 	return events[index]
 
 func _on_door_clicked(event_passed_from_door: String):
