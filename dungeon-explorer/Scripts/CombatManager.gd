@@ -26,7 +26,7 @@ func playerAttack():
 		endCombat()
 		return
 	if(player.weapon != null):
-		if(player.weapon.stunTime != 0):
+		if(player.weapon.stunTime != 0 && enemy.timeStunned == -1):
 			enemy.timeStunned = player.weapon.stunTime
 		if(player.weapon.effect != null):
 			var effect = player.weapon.effect
@@ -35,7 +35,7 @@ func playerAttack():
 	enemyTurn()
 	
 func enemyTurn():
-	if typeof(enemy) == typeof(Witch):
+	if enemy is Witch:
 		var effect = enemy.throwPotion()
 		player.applyEffect(effect)
 		print("Player got hit by a potion: ",effect.name)
@@ -53,6 +53,7 @@ func enemyTurn():
 	if player.hp <= 0 or enemy.hp <= 0:
 		endCombat()
 		return
+		
 
 func endCombat():
 	if player.hp >= 0:

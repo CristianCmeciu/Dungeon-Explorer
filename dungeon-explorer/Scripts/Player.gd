@@ -27,7 +27,7 @@ func takeDamage(damage: int) -> int:
 	if armor:
 		damageTaken -= armor.defense
 	hp -= max(0,damageTaken)
-	print("Player took damage for: ",damageTaken, ". Remaining HP: ",hp)
+	print("Player took damage for: ",max(0,damageTaken), ". Remaining HP: ",hp)
 	if hp <= 0:
 		die()
 	return damageTaken

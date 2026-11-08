@@ -46,7 +46,7 @@ func generate_next_room(next_event: String):
 	if current_room:
 		current_room.queue_free()
 		rooms_cleared += 1
-	if rooms_cleared >= 15:
+	if rooms_cleared >= 15000:
 		game_over(GameOverType.SUCCESS)
 		return
 		

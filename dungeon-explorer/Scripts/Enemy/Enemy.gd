@@ -10,9 +10,10 @@ func activateEnemy(enemyHp: int, enemyDamage: int, gold: int):
 	hp = enemyHp
 	damage = enemyDamage
 	goldValue = gold
+	timeStunned = -1
 	
 func attack() -> int:
-	if timeStunned >0:
+	if timeStunned >=0:
 		timeStunned-=1
 		return 0
 	return damage
