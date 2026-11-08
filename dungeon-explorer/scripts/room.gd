@@ -62,6 +62,9 @@ func setup(my_event: String):
 		
 	for door in doors:
 		var future_event = get_random_event()
+		if my_event == "usa fache":
+			while future_event == "trap room":
+				future_event = get_random_event()
 		#future_event = "mimic fight"
 		door.set_target_event(future_event)
 		door.clicked.connect(_on_door_clicked)
