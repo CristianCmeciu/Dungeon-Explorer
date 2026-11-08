@@ -10,6 +10,11 @@ var turnsDefending: int
 func initialize():
 	maxHp = 100
 	hp = 100
+	armor = null
+	weapon = null
+	gold = 0
+	isDefending = false
+	turnsDefending = 0
 	
 func defend():
 	isDefending = true
