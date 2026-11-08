@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://b7cwus8vsu8jo"]
 
-[ext_resource type="Script" uid="uid://bqpeo7tndbbdk" path="res://Scripts/main.gd" id="1_h2yge"]
-[ext_resource type="PackedScene" uid="uid://ctllidl2x1poj" path="res://Scenes/room_2.tscn" id="2_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://1q4dhvxj2yiq" path="res://Scenes/room_3.tscn" id="3_lquwl"]
-[ext_resource type="Script" uid="uid://bb1nx4dygfpq" path="res://Scripts/Player.gd" id="4_jjvhh"]
+[ext_resource type="Script" uid="uid://bqpeo7tndbbdk" path="res://scripts/main.gd" id="1_h2yge"]
+[ext_resource type="PackedScene" uid="uid://ctllidl2x1poj" path="res://scenes/room_2.tscn" id="2_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://1q4dhvxj2yiq" path="res://scenes/room_3.tscn" id="3_lquwl"]
+[ext_resource type="Script" uid="uid://bb1nx4dygfpq" path="res://scripts/Player.gd" id="4_jjvhh"]
 
 [node name="main" type="Node2D" unique_id=291351431]
 script = ExtResource("1_h2yge")
@@ -84,6 +84,12 @@ offset_bottom = 625.0
 layout_mode = 2
 
 [node name="ResultLabel" type="Label" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=2031443078]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=1609257108]
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 horizontal_alignment = 1

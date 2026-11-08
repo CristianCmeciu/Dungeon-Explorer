@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://dda6il5nwuepa"]
+
+[ext_resource type="Script" uid="uid://dc4d0bgkp7kkq" path="res://Scripts/Enemy/Witch.gd" id="1_3yhqd"]
+[ext_resource type="Script" uid="uid://dnsrya2uhyneo" path="res://Scripts/Enemy/WitchEvent.gd" id="1_5cdhi"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_e58r8"]
+
+[node name="WitchFight" type="Node2D" unique_id=1576949472]
+script = ExtResource("1_5cdhi")
+
+[node name="Witch" type="Node" parent="." unique_id=1675106177]
+script = ExtResource("1_3yhqd")
+metadata/_custom_type_script = "uid://dc4d0bgkp7kkq"
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=654396725]
+modulate = Color(0.60784316, 0.25490198, 0.84705883, 1)
+offset_right = 64.0
+offset_bottom = 128.0
+texture = SubResource("CanvasTexture_e58r8")
+
+[node name="WitchMenu" type="Control" parent="." unique_id=667206903]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WitchMenu" unique_id=1104184625]
+layout_mode = 0
+offset_left = 960.0
+offset_top = 540.0
+offset_right = 1600.0
+offset_bottom = 900.0
+
+[node name="Label" type="Label" parent="WitchMenu/VBoxContainer" unique_id=10947014]
+layout_mode = 2
+text = "You encountered a witch. Fight?"
+
+[node name="RetaliateBtn" type="Button" parent="WitchMenu/VBoxContainer" unique_id=1115490992]
+layout_mode = 2
+text = "Retaliate"
+
+[node name="RunBtn" type="Button" parent="WitchMenu/VBoxContainer" unique_id=965363906]
+layout_mode = 2
+text = "Run"
+
+[connection signal="pressed" from="WitchMenu/VBoxContainer/RetaliateBtn" to="." method="retaliate"]
+[connection signal="pressed" from="WitchMenu/VBoxContainer/RunBtn" to="." method="run"]

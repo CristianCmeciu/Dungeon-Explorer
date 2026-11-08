@@ -6,10 +6,12 @@ signal updateHP
 
 var player: Player
 var enemy: Enemy
+var enemyFirst: bool
 
 func startCombat(p: Player, e: Entity, enemyAttacksFirst: bool = false):
 	player = p
 	enemy = e
+	enemyFirst = enemyAttacksFirst
 	if enemyAttacksFirst:
 		enemyTurn()
 
@@ -23,24 +25,37 @@ func playerAttack():
 	if enemy.hp <= 0:
 		endCombat()
 		return
+	if(player.weapon != null):
+		enemy.applyStun(player.weapon.stunTime)
+		if(player.weapon.effect != null):
+			var effect = player.weapon.effect
+			enemy.applyEffect(effect)
 	enemyTurn()
 	
 func enemyTurn():
-	var damageTaken = player.takeDamage(enemy.attack())
-	print("Player got hit: ",damageTaken,". Remaining hp: ",player.hp)
+	if enemy is Witch:
+		var effect = enemy.throwPotion()
+		player.applyEffect(effect)
+	else:
+		player.takeDamage(enemy.attack())
 	updateHP.emit()
 	if player.hp <= 0:
 		endCombat()
 		return
-	player.onTurnEnd()
+	if !enemyFirst:
+		player.onTurnEnd()
+	else:
+		enemyFirst = false
 	enemy.onTurnEnd()
 	if player.hp <= 0 or enemy.hp <= 0:
 		endCombat()
 		return
+		
 
 func endCombat():
 	if player.hp >= 0:
 		print("Player won")
+		player.addGold(enemy.goldValue)
 		fightWon.emit()
 	else:
 		print("Player not won")

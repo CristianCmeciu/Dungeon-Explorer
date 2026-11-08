@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://1q4dhvxj2yiq"]
 
 [ext_resource type="Texture2D" uid="uid://dtd86i8ggfurn" path="res://assets/camera_3opt.png" id="1_niirm"]
-[ext_resource type="Script" uid="uid://cnemwhv1fab1y" path="res://Scripts/room.gd" id="1_snx3q"]
-[ext_resource type="PackedScene" uid="uid://boxsy56s3xvts" path="res://Scenes/fightScene.tscn" id="2_bg4i0"]
-[ext_resource type="Script" uid="uid://bjb10f70fulpx" path="res://Scripts/door.gd" id="2_snx3q"]
-[ext_resource type="PackedScene" uid="uid://5046f4o8jwle" path="res://Scenes/event_treasure.tscn" id="3_3h1gi"]
+[ext_resource type="Script" uid="uid://cnemwhv1fab1y" path="res://scripts/room.gd" id="1_snx3q"]
+[ext_resource type="PackedScene" uid="uid://boxsy56s3xvts" path="res://scenes/fightScene.tscn" id="2_bg4i0"]
+[ext_resource type="Script" uid="uid://bjb10f70fulpx" path="res://scripts/door.gd" id="2_snx3q"]
+[ext_resource type="PackedScene" uid="uid://5046f4o8jwle" path="res://scenes/event_treasure.tscn" id="3_3h1gi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_snx3q"]
 bg_color = Color(0.16862746, 0.6, 0.6, 0.42745098)
@@ -20,13 +20,13 @@ expand_margin_bottom = 10.0
 
 [node name="room_3" type="Node2D" unique_id=1446630626 node_paths=PackedStringArray("doors", "event_label", "fake_door_label")]
 script = ExtResource("1_snx3q")
-doors = [NodePath("DoorRight"), NodePath("DoorLeft"), NodePath("DoorFront")]
+doors = [NodePath("DoorLeft"), NodePath("DoorFront"), NodePath("DoorRight")]
 event_label = NodePath("Label")
 fake_door_label = NodePath("FakeDoorLabel")
 fight_scene = ExtResource("2_bg4i0")
 treasure_room = ExtResource("3_3h1gi")
 
-[node name="Camera3Opt" type="Sprite2D" parent="." unique_id=997060928]
+[node name="bg_image" type="Sprite2D" parent="." unique_id=997060928]
 texture = ExtResource("1_niirm")
 centered = false
 

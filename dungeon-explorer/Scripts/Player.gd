@@ -1,8 +1,7 @@
 extends Entity
 class_name Player
 
-signal regenHP
-
+signal died
 var armor: Armor
 var weapon: Weapon
 var gold: int	
@@ -10,8 +9,14 @@ var isDefending: bool
 var turnsDefending: int
 
 func initialize():
+	self.statusEffectManager = StatusEffectManager.new()
 	maxHp = 100
 	hp = 100
+	armor = null
+	weapon = null
+	gold = 0
+	isDefending = false
+	turnsDefending = 0
 	
 func defend():
 	isDefending = true
@@ -29,6 +34,7 @@ func takeDamage(damage: int) -> int:
 	if armor:
 		damageTaken -= armor.defense
 	hp -= max(0,damageTaken)
+	print("Player took damage for: ",max(0,damageTaken), ". Remaining HP: ",hp)
 	if hp <= 0:
 		die()
 	return damageTaken
@@ -52,6 +58,12 @@ func onNextRoom():
 
 func addGold(goldWon: int):
 	gold+= goldWon
+	
+func getScore():
+	var score = gold
+	if weapon: score += weapon.goldValue
+	if armor: score += armor.goldValue
+	return score
 
 func die():
-	pass
+	died.emit()

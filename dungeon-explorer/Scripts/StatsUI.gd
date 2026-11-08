@@ -25,4 +25,4 @@ func _process(_delta: float) -> void:
 		if player.weapon:
 			weapon_label.text = "Weapon: %s (ATK: %d)" % [player.weapon.name, player.weapon.damage]
 		else:
-			weapon_label.text = "Weapon: None"
+			weapon_label.text = "Weapon: None (ATK: 1)"

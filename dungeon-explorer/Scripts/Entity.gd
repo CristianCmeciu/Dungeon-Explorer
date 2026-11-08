@@ -9,7 +9,9 @@ func _ready():
 	statusEffectManager = StatusEffectManager.new()
 	
 func applyEffect(effect: StatusEffect):
-	statusEffectManager.applyEffect(effect, self)
+	if effect != null:
+		print(name," got hit by a potion: ",effect.name)
+		statusEffectManager.applyEffect(effect, self)
 
 func onTurnEnd():
 	statusEffectManager.onTurnOrRoomEnd(self)

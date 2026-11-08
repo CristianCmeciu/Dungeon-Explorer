@@ -2,7 +2,6 @@ extends Node2D
 
 signal treasure_chosen
 
-# UI References
 @onready var item_node: Node = $Item
 @onready var item_description_label: Label = $Item/VBoxContainer/ItemDescriptionLabel
 @onready var take_item_btn: Button = $Item/VBoxContainer/TakeItemBtn
@@ -22,25 +21,22 @@ func initialise(p: Player):
 	player = p
 
 func _ready() -> void:
-	# Connect UI buttons
 	take_item_btn.pressed.connect(_on_take_item_pressed)
 	take_gold_btn.pressed.connect(_on_take_gold_pressed)
 	pass_btn.pressed.connect(_on_pass_pressed)
 	open_btn.pressed.connect(_on_open_pressed)
 
-	# Update the mock stats UI panel immediately
 	setup()
 
-func setup(my_event: String = "") -> void:
+func setup() -> void:
 	randomize()
-	var is_chest: bool = randf() < 0.5
+	var is_chest: bool = randf() < 0.25
 	
 	if is_chest:
 		_show_chest_ui()
 	else:
 		_show_loot_ui()
 
-# --- Room States ---
 
 func _show_chest_ui() -> void:
 	item_node.hide()
@@ -61,18 +57,26 @@ func _generate_item_loot() -> void:
 	current_armor = null
 	current_weapon = null
 	
-	var is_armor: bool = randf() < 0.5
+	var is_armor: bool = randf() < 0.35
 	
-	if is_armor and not Equipments.armors.is_empty():
+	if is_armor:
 		current_armor = Equipments.armors.pick_random()
 		current_gold_value = current_armor.goldValue
 		
-		item_description_label.text = "Loot: " + current_armor.name + " (DEF: " + str(current_armor.defense) + ")"
-		take_item_btn.text = "Take " + current_armor.name
+		if player.armor != null:
+			if current_armor.defense <= player.armor.defense:
+				item_description_label.text = "Loot: Gold"
+				take_item_btn.hide()
+			else: 
+				item_description_label.text = "Loot: " + current_armor.name + " (DEF: " + str(current_armor.defense) + ")"
+				take_item_btn.text = "Take " + current_armor.name
+		else: 
+			item_description_label.text = "Loot: " + current_armor.name + " (DEF: " + str(current_armor.defense) + ")"
+			take_item_btn.text = "Take " + current_armor.name
 		
-	elif not Equipments.weapons.is_empty():
+	else:
 		current_weapon = Equipments.weapons.pick_random()
-		current_gold_value = current_weapon.damage * 30
+		current_gold_value = current_weapon.goldValue
 		
 		item_description_label.text = "Loot: " + current_weapon.name + " (ATK: " + str(current_weapon.damage) + ")"
 		take_item_btn.text = "Take " + current_weapon.name
@@ -82,7 +86,6 @@ func _generate_item_loot() -> void:
 	take_item_btn.show()
 	take_gold_btn.show()
 
-# --- Button Actions ---
 
 func _on_open_pressed() -> void:
 	_show_loot_ui()
