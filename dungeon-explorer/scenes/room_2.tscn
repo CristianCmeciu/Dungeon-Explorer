@@ -20,7 +20,7 @@ expand_margin_bottom = 10.0
 
 [node name="room_2" type="Node2D" unique_id=1677610979 node_paths=PackedStringArray("doors", "event_label", "fake_door_label")]
 script = ExtResource("1_4et86")
-doors = [NodePath("DoorRight"), NodePath("DoorLeft")]
+doors = [NodePath("DoorLeft"), NodePath("DoorRight")]
 event_label = NodePath("Label")
 fake_door_label = NodePath("FakeDoorLabel")
 fight_scene = ExtResource("2_lsxps")
