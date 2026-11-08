@@ -38,7 +38,6 @@ func start_game():
 	time_label.show()
 	game_timer.start(20000.0)
 	player.initialize()
-	player.regenHP.connect(updateLabel)
 	generate_next_room("nimic")
 
 func generate_next_room(next_event: String):

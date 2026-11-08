@@ -3,12 +3,18 @@ extends Entity
 
 signal died
 var damage: int
+var timeStunned: int
+var goldValue: int
 
-func activateEnemy(enemyHp: int, enemyDamage: int = 0):
+func activateEnemy(enemyHp: int, enemyDamage: int, gold: int):
 	hp = enemyHp
 	damage = enemyDamage
+	goldValue = gold
 	
 func attack() -> int:
+	if timeStunned >0:
+		timeStunned-=1
+		return 0
 	return damage
 
 func takeDamage(damageTaken: int):

@@ -16,7 +16,7 @@ func onTurnOrRoomEnd(target: Node):
 	for effect in activeEffects:
 		effect.onTurnOrRoomEnd(target)
 		effect.duration -= 1
-		if effect.duration == 0:
+		if effect.duration <= 0:
 			activeEffects.remove_at(activeEffects.find(effect))
 
 func hasEffect(effectName: String) -> bool:

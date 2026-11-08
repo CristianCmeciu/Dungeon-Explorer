@@ -6,7 +6,7 @@ extends FightEvent
 @onready var chest_label: Label = $TreasureChest/VBoxContainer/Label
 @onready var pass_btn: Button = $TreasureChest/VBoxContainer/PassBtn
 @onready var open_btn: Button = $TreasureChest/VBoxContainer/OpenBtn
-
+var background: TextureRect
 
 signal passChestSignal
 
@@ -25,10 +25,14 @@ func initialise(attackBttn: Button, defendBttn: Button,combatMngr: CombatManager
 	pass_btn.show()
 	open_btn.show()
 
+func setBackground(bckgrd: TextureRect):
+	background = bckgrd
+
 func openChest():
-	mimic.activateEnemy(40,0)
-	startFight(mimic)
+	mimic.activateEnemy(40,0,0)
+	startFight(mimic,true)
 	chest_node.hide()
+	background.show()
 
 func passChest():
 	

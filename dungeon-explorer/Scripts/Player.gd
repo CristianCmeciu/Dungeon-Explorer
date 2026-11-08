@@ -1,8 +1,6 @@
 extends Entity
 class_name Player
 
-signal regenHP
-
 var armor: Armor
 var weapon: Weapon
 var gold: int	
@@ -29,6 +27,7 @@ func takeDamage(damage: int) -> int:
 	if armor:
 		damageTaken -= armor.defense
 	hp -= max(0,damageTaken)
+	print("Player took damage for: ",damageTaken, ". Remaining HP: ",hp)
 	if hp <= 0:
 		die()
 	return damageTaken

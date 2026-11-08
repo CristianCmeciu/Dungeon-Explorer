@@ -36,6 +36,20 @@ func setup(my_event: String):
 		currentEvent.exitFight.connect(fightWon)
 		currentEvent.updateLabel.connect(updateLabels)
 		
+	if my_event == "skeleton fight":
+		currentEvent = fight_scene.instantiate()
+		self.add_child(currentEvent)
+		currentEvent.generateEnemy(my_event,player)
+		currentEvent.exitFight.connect(fightWon)
+		currentEvent.updateLabel.connect(updateLabels)
+		
+	if my_event == "witch fight":
+		currentEvent = fight_scene.instantiate()
+		self.add_child(currentEvent)
+		currentEvent.generateEnemy(my_event,player)
+		currentEvent.exitFight.connect(fightWon)
+		currentEvent.updateLabel.connect(updateLabels)
+		
 	if my_event == "trap room":
 		room_died.emit()
 		return 
@@ -48,7 +62,7 @@ func setup(my_event: String):
 		
 	for door in doors:
 		var future_event = get_random_event()
-		future_event = "mimic fight"
+		future_event = "witch fight"
 		door.set_target_event(future_event)
 		door.clicked.connect(_on_door_clicked)
 		door.fake_clicked.connect(_on_fake_door_clicked)
