@@ -9,4 +9,8 @@ func _ready():
 	possibleEffects.append(Weakness.new())
 
 func throwPotion() -> StatusEffect:
+	if timeStunned >0:
+		timeStunned-=1
+		wasStunned = true
+		return
 	return possibleEffects[randi_range(0,2)]
