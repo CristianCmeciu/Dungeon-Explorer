@@ -8,11 +8,13 @@ func _ready():
 	create_weapons()
 	
 func create_armors():
+	create_armor("none", 0, 0)
 	create_armor("Leather Armor",1,100)
 	create_armor("Chainmail Armor",2,200)
 	create_armor("Plate Armor",3,300)
 	
 func create_weapons():
+	create_weapon("none", 0, 0)
 	create_weapon("Club",1,1)
 	create_weapon("Dagger",3)
 	create_weapon("Sword",8)

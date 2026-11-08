@@ -12,7 +12,22 @@ var turnsDefending: int
 func initialize():
 	maxHp = 100
 	hp = 100
+	armor = get_default_armor()
+	weapon = get_default_weapon()
 	
+func get_default_armor() -> Armor:
+	for a in Equipments.armors:
+		if a.name == "none":
+			return a
+	return null
+
+func get_default_weapon() -> Weapon:
+	for w in Equipments.weapons:
+		if w.name == "none":
+			return w
+	return null
+	
+
 func defend():
 	isDefending = true
 	turnsDefending = 3

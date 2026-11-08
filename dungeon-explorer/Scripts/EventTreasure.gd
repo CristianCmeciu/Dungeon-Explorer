@@ -1,6 +1,7 @@
 extends Node2D
 
 signal treasure_chosen
+signal updateLabel
 
 # UI References
 @onready var item_node: Node = $Item
@@ -13,13 +14,10 @@ signal treasure_chosen
 @onready var pass_btn: Button = $TreasureChest/VBoxContainer/PassBtn
 @onready var open_btn: Button = $TreasureChest/VBoxContainer/OpenBtn
 
-var player: Player
 var current_armor: Armor = null
 var current_weapon: Weapon = null
 var current_gold_value: int = 0
-
-func initialise(p: Player):
-	player = p
+var player: Player = null
 
 func _ready() -> void:
 	# Connect UI buttons
@@ -28,10 +26,12 @@ func _ready() -> void:
 	pass_btn.pressed.connect(_on_pass_pressed)
 	open_btn.pressed.connect(_on_open_pressed)
 
-	# Update the mock stats UI panel immediately
+# Called by room.gd right after currentEvent is instantiated
+func initialise(p: Player) -> void:
+	player = p
 	setup()
 
-func setup(my_event: String = "") -> void:
+func setup() -> void:
 	randomize()
 	var is_chest: bool = randf() < 0.5
 	
@@ -60,22 +60,40 @@ func _show_loot_ui() -> void:
 func _generate_item_loot() -> void:
 	current_armor = null
 	current_weapon = null
+	var player_armor = _get_equipped_armor()
+	var player_weapon = _get_equipped_weapon()
 	
 	var is_armor: bool = randf() < 0.5
 	
 	if is_armor and not Equipments.armors.is_empty():
-		current_armor = Equipments.armors.pick_random()
+		while true:
+			current_armor = Equipments.armors.pick_random()
+			if current_armor != player_armor and current_armor != Equipments.armors.get(0):
+				break
 		current_gold_value = current_armor.goldValue
 		
 		item_description_label.text = "Loot: " + current_armor.name + " (DEF: " + str(current_armor.defense) + ")"
-		take_item_btn.text = "Take " + current_armor.name
-		
+		if player_armor == null or player_armor.defense < current_armor.defense:
+			take_item_btn.text = "Take " + current_armor.name
+			take_item_btn.disabled = false
+		else:
+			take_item_btn.text = "Current armor is better"
+			take_item_btn.disabled = true
+			
 	elif not Equipments.weapons.is_empty():
-		current_weapon = Equipments.weapons.pick_random()
+		while true:
+			current_weapon = Equipments.weapons.pick_random()
+			if current_weapon != player_weapon and current_weapon != Equipments.weapons.get(0):
+				break
 		current_gold_value = current_weapon.damage * 30
-		
 		item_description_label.text = "Loot: " + current_weapon.name + " (ATK: " + str(current_weapon.damage) + ")"
-		take_item_btn.text = "Take " + current_weapon.name
+		
+		if player_weapon == null or player_weapon.damage < current_weapon.damage:
+			take_item_btn.text = "Take " + current_weapon.name
+			take_item_btn.disabled = false
+		else:
+			take_item_btn.text = "Current weapon is better"
+			take_item_btn.disabled = true
 
 	take_gold_btn.text = "Take " + str(current_gold_value) + " Gold"
 	
@@ -96,12 +114,26 @@ func _on_take_item_pressed() -> void:
 			player.equipArmor(current_armor)
 		elif current_weapon:
 			player.equipWeapon(current_weapon)
+		updateLabel.emit() # Updates Main HUD immediately
 	_finish_room()
 
 func _on_take_gold_pressed() -> void:
 	if player and current_gold_value > 0:
 		player.addGold(current_gold_value)
+		updateLabel.emit() # Updates Main HUD immediately
 	_finish_room()
 
 func _finish_room() -> void:
 	treasure_chosen.emit()
+
+# ---- Helpers ----
+
+func _get_equipped_armor() -> Armor:
+	if player != null and player.armor != null:
+		return player.armor
+	return Equipments.armors.get(0)
+	
+func _get_equipped_weapon() -> Weapon:
+	if player != null and player.weapon != null:
+		return player.weapon
+	return Equipments.weapons.get(0)
