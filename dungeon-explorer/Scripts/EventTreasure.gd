@@ -17,6 +17,7 @@ var current_armor: Armor = null
 var current_weapon: Weapon = null
 var current_gold_value: int = 0
 var player: Player = null
+var betterWeapons = {"Crossbow":["Bow","Dagger"], "Axe":["Club","Dagger"],"Sword":["Dagger"]}
 
 func _ready() -> void:
 	take_item_btn.pressed.connect(_on_take_item_pressed)
@@ -24,8 +25,8 @@ func _ready() -> void:
 	pass_btn.pressed.connect(_on_pass_pressed)
 	open_btn.pressed.connect(_on_open_pressed)
 
-# Called by room.gd right after currentEvent is instantiated
 func initialise(p: Player) -> void:
+	_ready()
 	player = p
 	setup()
 
@@ -60,56 +61,34 @@ func _generate_item_loot() -> void:
 	var player_armor = _get_equipped_armor()
 	var player_weapon = _get_equipped_weapon()
 	
-	var is_armor: bool = randf() < 0.35
+	var is_armor: bool = randf() < -1
 	
-	if is_armor and not Equipments.armors.is_empty():
-		while true:
-			current_armor = Equipments.armors.pick_random()
-			if current_armor != player_armor and current_armor != Equipments.armors.get(0):
-				break
-		current_gold_value = current_armor.goldValue
-		
-		item_description_label.text = "Loot: " + current_armor.name + " (DEF: " + str(current_armor.defense) + ")"
-		if player_armor == null or player_armor.defense < current_armor.defense:
-			take_item_btn.text = "Take " + current_armor.name
-			take_item_btn.disabled = false
-		else:
-			take_item_btn.text = "Current armor is better"
-			take_item_btn.disabled = true
-			
-	elif not Equipments.weapons.is_empty():
-		while true:
-			current_weapon = Equipments.weapons.pick_random()
-			if current_weapon != player_weapon and current_weapon != Equipments.weapons.get(0):
-				break
-		current_gold_value = current_weapon.damage * 30
 	if is_armor:
 		current_armor = Equipments.armors.pick_random()
 		current_gold_value = current_armor.goldValue
 		
-		if player.armor != null:
-			if current_armor.defense <= player.armor.defense:
-				item_description_label.text = "Loot: Gold"
-				take_item_btn.hide()
-			else: 
-				item_description_label.text = "Loot: " + current_armor.name + " (DEF: " + str(current_armor.defense) + ")"
-				take_item_btn.text = "Take " + current_armor.name
-		else: 
-			item_description_label.text = "Loot: " + current_armor.name + " (DEF: " + str(current_armor.defense) + ")"
+		item_description_label.text = "Loot: " + current_armor.name + " (DEF: " + str(current_armor.defense) + ")"
+		if player_armor == null or player_armor.defense <= current_armor.defense:
 			take_item_btn.text = "Take " + current_armor.name
-		
+			take_item_btn.disabled = false
+		else:
+			take_item_btn.text = "Current armor is better or similar"
+			take_item_btn.disabled = true
+			
 	else:
 		current_weapon = Equipments.weapons.pick_random()
 		current_gold_value = current_weapon.goldValue
 		
-		item_description_label.text = "Loot: " + current_weapon.name + " (ATK: " + str(current_weapon.damage) + ")"
-		
-		#if player_weapon == null or player_weapon.damage < current_weapon.damage:
-		take_item_btn.text = "Take " + current_weapon.name
-		take_item_btn.disabled = false
-		#else:
-		#	take_item_btn.text = "Current weapon is better"
-		#	take_item_btn.disabled = true
+		item_description_label.text = "Loot: " + current_weapon.name + " (DMG: " + str(current_weapon.damage) + ")"
+		if player_weapon == null or player_weapon.name not in betterWeapons:
+			take_item_btn.text = "Take " + current_weapon.name
+			take_item_btn.disabled = false
+		elif current_weapon.name in betterWeapons[player_weapon.name]:
+			take_item_btn.text = "Current weapon is better"
+			take_item_btn.disabled = true
+		else:
+			take_item_btn.text = "Take " + current_weapon.name
+			take_item_btn.disabled = false
 
 	take_gold_btn.text = "Take " + str(current_gold_value) + " Gold"
 	
@@ -124,23 +103,22 @@ func _on_pass_pressed() -> void:
 	_finish_room()
 
 func _on_take_item_pressed() -> void:
-	# Dezactivăm butoanele ca jucătorul să nu poată apăsa de două ori în timpul animației
 	take_item_btn.disabled = true
 	take_gold_btn.disabled = true
 	
 	if player:
 		if current_armor:
-			var old_def: int = _get_equipped_armor().defense
+			var old_def: int =  0 if _get_equipped_armor() == null else _get_equipped_armor().defense
 			var diff_def: int = current_armor.defense - old_def
 			
 			player.equipArmor(current_armor)
 			updateLabel.emit()
 			
 			var popup_text := _format_stat_diff(diff_def, "DEF")
-			await _show_floating_popup(popup_text, Color(0.3, 0.8, 1.0), 0.0) # Albastru deschis
+			_show_floating_popup(popup_text, Color(0.3, 0.8, 1.0), 0.0) # Albastru deschis
 			
 		elif current_weapon:
-			var old_atk: int = _get_equipped_weapon().damage
+			var old_atk: int = 0 if _get_equipped_weapon() == null else _get_equipped_weapon().damage
 			var diff_atk: int = current_weapon.damage - old_atk
 			
 			player.equipWeapon(current_weapon)
@@ -153,23 +131,23 @@ func _on_take_item_pressed() -> void:
 				if current_weapon.effect is Poison:
 					effect_text = "+ Bleed"
 					effect_color = Color(0.55, 0.12, 0.12) 
-				elif current_weapon.text == "Stun":
-					effect_text = "+ Stun"
-					effect_color = Color(0.65, 0.25, 0.9)
+			elif current_weapon.stunTime:
+				effect_text = "+ Stun"
+				effect_color = Color(0.65, 0.25, 0.9)
 			
 			if diff_atk != 0:
 				var atk_text := _format_stat_diff(diff_atk, "ATK")
 				var atk_color := Color(1.0, 0.35, 0.3) if diff_atk < 0 else Color(0.4, 1.0, 0.4)
 				
-				if effect_text != "":
-					_show_floating_popup(atk_text, atk_color, 0.0)
-					await get_tree().create_timer(0.18).timeout
-					await _show_floating_popup(effect_text, effect_color, 35.0)
-				else:
-					await _show_floating_popup(atk_text, atk_color, 0.0)
-			
-			elif effect_text != "":
-				await _show_floating_popup(effect_text, effect_color, 0.0)
+				#if effect_text != "":
+					#_show_floating_popup(atk_text, atk_color, 0.0)
+					##await get_tree().create_timer(0.18).timeout
+					##await _show_floating_popup(effect_text, effect_color, 35.0)
+				#else:
+					##await _show_floating_popup(atk_text, atk_color, 0.0)
+			#
+			#elif effect_text != "":
+				#await _show_floating_popup(effect_text, effect_color, 0.0)
 			
 	_finish_room()
 
@@ -194,12 +172,12 @@ func _finish_room() -> void:
 func _get_equipped_armor() -> Armor:
 	if player != null and player.armor != null:
 		return player.armor
-	return Equipments.armors.get(0)
+	return null
 	
 func _get_equipped_weapon() -> Weapon:
 	if player != null and player.weapon != null:
 		return player.weapon
-	return Equipments.weapons.get(0)
+	return null
 	
 # --- Floating Text ---
 
