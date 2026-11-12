@@ -9,10 +9,12 @@ var is_game_over = false
 enum GameOverType {
 	SUCCESS,
 	TIMEOUT,
+	DIED,
 	TRAP
 }
 
 @onready var game_timer = $GameTimer
+@onready var HUD = $HUD
 @onready var time_label = $HUD/TimeLabel
 @onready var gameover_screen = $GameOverScreen
 @onready var result_label = $GameOverScreen/CenterContainer/VBoxContainer/ResultLabel
@@ -23,22 +25,24 @@ enum GameOverType {
 @onready var armor_label: Label = $HUD/MarginContainer/HBoxContainer/VBoxContainer2/Armor
 @onready var weapon_label: Label = $HUD/MarginContainer/HBoxContainer/VBoxContainer2/Weapon
 @onready var player: Player = $HUD/Player
+@onready var score_label: Label = $GameOverScreen/CenterContainer/VBoxContainer/ScoreLabel
 
 func _ready():
 	game_timer.timeout.connect(_on_timer_timeout)
 	play_again_btn.pressed.connect(_on_play_again_pressed)
 	quit_btn.pressed.connect(_on_quit_pressed)
+	player.died.connect(game_over.bind(GameOverType.DIED))
 	
 	start_game()
 	
 func start_game():
+	HUD.show()
 	is_game_over = false
 	rooms_cleared = 0
 	gameover_screen.hide()
 	time_label.show()
-	game_timer.start(20000.0)
+	game_timer.start(2000.0)
 	player.initialize()
-	player.regenHP.connect(updateLabel)
 	generate_next_room("nimic")
 
 func generate_next_room(next_event: String):
@@ -47,13 +51,13 @@ func generate_next_room(next_event: String):
 	if current_room:
 		current_room.queue_free()
 		rooms_cleared += 1
-	if rooms_cleared >= 15:
+	if rooms_cleared >= 15000:
 		game_over(GameOverType.SUCCESS)
 		return
 		
 	var next_scene = possible_rooms.pick_random()
 	current_room = next_scene.instantiate()
-	current_room.initialise(player)
+	current_room.initialise(player,rooms_cleared)
 	current_room.updateLabel.connect(updateLabel)
 	current_room.room_completed.connect(generate_next_room)
 	current_room.room_died.connect(game_over.bind(GameOverType.TRAP)) 
@@ -73,7 +77,7 @@ func updateLabel():
 	if player.weapon:
 		weapon_label.text = "Weapon: %s (ATK: %d)" % [player.weapon.name, player.weapon.damage]
 	else:
-		weapon_label.text = "Weapon: None"
+		weapon_label.text = "Weapon: None (ATK: 1)"
 	
 func _process(_delta):
 	
@@ -89,13 +93,12 @@ func game_over(cond: GameOverType):
 	
 	is_game_over = true
 	game_timer.stop()
+	HUD.hide()
 	
 	if current_room:
 		current_room.queue_free()
 		
-	gameover_screen.show()
-	time_label.hide()
-	
+	gameover_screen.show()	
 	match cond:
 		GameOverType.SUCCESS:
 			result_label.text = "BRAVO!!"
@@ -106,6 +109,11 @@ func game_over(cond: GameOverType):
 		GameOverType.TRAP:
 			result_label.text = "ai cazut in capcana"
 			result_label.add_theme_color_override("font_color", Color(0.8, 0.2, 0.2))
+		GameOverType.DIED:
+			result_label.text = "ai murit"
+			result_label.add_theme_color_override("font_color", Color(0.8, 0.2, 0.2))
+			
+	score_label.text = "Score: "+ str(player.gold)
 
 
 func _on_play_again_pressed():

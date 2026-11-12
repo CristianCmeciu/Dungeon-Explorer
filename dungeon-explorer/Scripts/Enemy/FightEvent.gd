@@ -12,8 +12,8 @@ func initialise(attackBttn: Button, defendBttn: Button,combatMngr: CombatManager
 	combatManager = combatMngr
 	player = playerIn
 
-func startFight(enemy: Enemy):
+func startFight(enemy: Enemy,enemyAttacksFirst: bool = false):
 	attackbtn.show()
 	defendbtn.show()
-	combatManager.startCombat(player,enemy,true)
+	combatManager.startCombat(player,enemy,enemyAttacksFirst)
 	
