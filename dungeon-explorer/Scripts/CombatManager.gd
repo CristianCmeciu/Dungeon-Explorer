@@ -3,6 +3,7 @@ extends Node
 
 signal fightWon
 signal updateHP
+signal playerTookDamage(damage: int)
 
 var player: Player
 var enemy: Enemy
