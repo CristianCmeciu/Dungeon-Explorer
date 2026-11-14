@@ -27,6 +27,14 @@ var betterWeapons = {"Crossbow":["Bow","Dagger","Crossbow"],
 					 "Bow":["Bow"]
 }
 
+
+const FLOATING_TEXT = preload("res://Scenes/FX.tscn")
+
+func spawn_popup(msg: String, color: Color, pos: Vector2) -> Signal:
+	var popup: FloatingText = FLOATING_TEXT.instantiate()
+	get_tree().current_scene.add_child(popup)
+	return popup.setup(msg, color, pos)
+
 func _ready() -> void:
 	take_item_btn.pressed.connect(_on_take_item_pressed)
 	take_gold_btn.pressed.connect(_on_take_gold_pressed)
@@ -48,7 +56,6 @@ func setup() -> void:
 		_show_chest_ui()
 	else:
 		_show_loot_ui()
-
 
 func _show_chest_ui() -> void:
 	item_node.hide()
@@ -72,13 +79,16 @@ func _generate_item_loot() -> void:
 	var player_armor = _get_equipped_armor()
 	var player_weapon = _get_equipped_weapon()
 	
-	var is_armor: bool = randf() < 2
+
+	var is_armor: bool = randf() < 0.5 
 	
 	if is_armor:
-		current_armor = Equipments.armors.pick_random()
-		current_gold_value = current_armor.goldValue
 		
+		current_armor = Equipments.armors.pick_random()
+		
+		current_gold_value = current_armor.goldValue
 		item_description_label.text = "Loot: " + current_armor.name + " (DEF: " + str(current_armor.defense) + ")"
+
 		if player_armor == null or player_armor.defense < current_armor.defense:
 			take_item_btn.text = "Take " + current_armor.name
 			take_item_btn.disabled = false
@@ -88,8 +98,8 @@ func _generate_item_loot() -> void:
 			
 	else:
 		current_weapon = Equipments.weapons.pick_random()
+
 		current_gold_value = current_weapon.goldValue
-		
 		item_description_label.text = "Loot: " + current_weapon.name + " (DMG: " + str(current_weapon.damage) + ")"
 		if player_weapon == null:
 			take_item_btn.text = "Take " + current_weapon.name
@@ -102,12 +112,11 @@ func _generate_item_loot() -> void:
 			take_item_btn.disabled = false
 
 	take_gold_btn.text = "Take " + str(current_gold_value) + " Gold"
-	
 	take_item_btn.show()
 	take_gold_btn.show()
 
 func _process(_delta):
-	if chest_ui == true:
+	if chest_ui:
 		if Input.is_action_just_pressed("attack"):
 			_on_open_pressed()
 		elif Input.is_action_just_pressed("defend"):
@@ -129,16 +138,18 @@ func _on_take_item_pressed() -> void:
 	take_item_btn.disabled = true
 	take_gold_btn.disabled = true
 	
+	var base_pos := item_description_label.global_position + Vector2(item_description_label.size.x / 2.0, -20)
+	
 	if player:
 		if current_armor:
-			var old_def: int =  0 if _get_equipped_armor() == null else _get_equipped_armor().defense
+			var old_def: int = 0 if _get_equipped_armor() == null else _get_equipped_armor().defense
 			var diff_def: int = current_armor.defense - old_def
 			
 			player.equipArmor(current_armor)
 			updateLabel.emit()
 			
 			var popup_text := _format_stat_diff(diff_def, "DEF")
-			_show_floating_popup(popup_text, Color(0.3, 0.8, 1.0), 0.0) # Albastru deschis
+			spawn_popup(popup_text, Color(0.3, 0.8, 1.0), base_pos)
 			
 		elif current_weapon:
 			var old_atk: int = 0 if _get_equipped_weapon() == null else _get_equipped_weapon().damage
@@ -150,27 +161,24 @@ func _on_take_item_pressed() -> void:
 			var effect_text := ""
 			var effect_color := Color.WHITE
 			
-			if current_weapon.effect != null:
-				if current_weapon.effect is Poison:
-					effect_text = "+ Bleed"
-					effect_color = Color(0.55, 0.12, 0.12) 
-			elif current_weapon.stunTime:
+			if current_weapon.effect != null and current_weapon.effect is Poison:
+				effect_text = "+ Bleed"
+				effect_color = Color(0.55, 0.12, 0.12) 
+			elif current_weapon.stunTime > 0:
 				effect_text = "+ Stun"
-				effect_color = Color(0.65, 0.25, 0.9)
+				effect_color = Color(0.65, 0.25, 0.9) 
 			
 			if diff_atk != 0:
 				var atk_text := _format_stat_diff(diff_atk, "ATK")
 				var atk_color := Color(1.0, 0.35, 0.3) if diff_atk < 0 else Color(0.4, 1.0, 0.4)
 				
-				#if effect_text != "":
-					#_show_floating_popup(atk_text, atk_color, 0.0)
-					##await get_tree().create_timer(0.18).timeout
-					##await _show_floating_popup(effect_text, effect_color, 35.0)
-				#else:
-					##await _show_floating_popup(atk_text, atk_color, 0.0)
-			#
-			#elif effect_text != "":
-				#await _show_floating_popup(effect_text, effect_color, 0.0)
+				spawn_popup(atk_text, atk_color, base_pos)
+				
+				if effect_text != "":
+					spawn_popup(effect_text, effect_color, base_pos + Vector2(0, 35))
+					
+			elif effect_text != "":
+				spawn_popup(effect_text, effect_color, base_pos)
 			
 	_finish_room()
 
@@ -178,12 +186,14 @@ func _on_take_gold_pressed() -> void:
 	take_item_btn.disabled = true
 	take_gold_btn.disabled = true
 	
+	var base_pos := item_description_label.global_position + Vector2(item_description_label.size.x / 2.0, -20)
+	
 	if player and current_gold_value > 0:
 		player.addGold(current_gold_value)
 		updateLabel.emit()
 		
 		var popup_text := "+%d Gold" % current_gold_value
-		await _show_floating_popup(popup_text, Color(1.0, 0.85, 0.2), 0.0) # Auriu
+		spawn_popup(popup_text, Color(1.0, 0.85, 0.2), base_pos) # Auriu
 		
 	_finish_room()
 
@@ -201,40 +211,11 @@ func _get_equipped_weapon() -> Weapon:
 	if player != null and player.weapon != null:
 		return player.weapon
 	return null
-	
-# --- Floating Text ---
-
-func _show_floating_popup(text_to_show: String, text_color: Color, delay: float) -> void:
-	var popup := Label.new()
-	popup.text = text_to_show
-	popup.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	
-	popup.add_theme_color_override("font_color", text_color)
-	popup.add_theme_color_override("font_outline_color", Color.BLACK)
-	popup.add_theme_constant_override("outline_size", 4)
-	popup.add_theme_font_size_override("font_size", 28)
-	
-	add_child(popup)
-	
-	if item_description_label:
-		popup.global_position = item_description_label.global_position + Vector2(50, -30 + delay)
-	else:
-		popup.position = Vector2(500, 300 + delay)
-		
-	var tween := create_tween()
-	tween.set_parallel(true) 
-	tween.tween_property(popup, "position:y", popup.position.y - 60, 1.1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	tween.tween_property(popup, "modulate:a", 0.0, 1.1).set_ease(Tween.EASE_IN)
-	
-	await tween.finished
-	popup.queue_free()
-
-
 
 func _format_stat_diff(diff: int, stat_name: String) -> String:
 	if diff > 0:
 		return "+%d %s" % [diff, stat_name]
 	elif diff < 0:
-		return "%d %s" % [diff, stat_name] 
+		return "%d %s" % [diff, stat_name]
 	else:
 		return "0 %s" % stat_name
