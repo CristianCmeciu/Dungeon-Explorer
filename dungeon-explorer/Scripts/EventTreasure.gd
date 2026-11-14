@@ -16,6 +16,8 @@ signal updateLabel
 var current_armor: Armor = null
 var current_weapon: Weapon = null
 var current_gold_value: int = 0
+var is_chest: bool
+var chest_ui: bool = false
 var player: Player = null
 var betterWeapons = {"Crossbow":["Bow","Dagger"], "Axe":["Club","Dagger"],"Sword":["Dagger"]}
 
@@ -32,9 +34,10 @@ func initialise(p: Player) -> void:
 
 func setup() -> void:
 	randomize()
-	var is_chest: bool = randf() < 0.25
+	is_chest = randf() < 0.25
 	
 	if is_chest:
+		chest_ui = true
 		_show_chest_ui()
 	else:
 		_show_loot_ui()
@@ -51,6 +54,7 @@ func _show_chest_ui() -> void:
 	open_btn.show()
 
 func _show_loot_ui() -> void:
+	chest_ui = false
 	chest_node.hide()
 	item_node.show()
 	_generate_item_loot()
@@ -95,6 +99,17 @@ func _generate_item_loot() -> void:
 	take_item_btn.show()
 	take_gold_btn.show()
 
+func _process(_delta):
+	if chest_ui == true:
+		if Input.is_action_just_pressed("attack"):
+			_on_open_pressed()
+		elif Input.is_action_just_pressed("defend"):
+			_on_pass_pressed()
+	else:
+		if Input.is_action_just_pressed("attack"):
+			_on_take_item_pressed()
+		elif Input.is_action_just_pressed("defend"):
+			_on_take_gold_pressed()
 
 func _on_open_pressed() -> void:
 	_show_loot_ui()

@@ -79,7 +79,7 @@ func setup(my_event: String):
 		if my_event == "usa fache":
 			while future_event == "trap room":
 				future_event = get_random_event()
-		future_event = "treasure room"
+		future_event = "skeleton fight"
 		doors[i].set_target_event(future_event)
 		doors[i].clicked.connect(_on_door_clicked)
 		doors[i].fake_clicked.connect(_on_fake_door_clicked)
@@ -149,6 +149,35 @@ func _on_fake_door_clicked():
 func fightWon():
 	currentEvent.queue_free()
 	updateLabels()
-	
+
+func _process(_delta):
+	if doors.size()==3:
+		if Input.is_action_just_pressed("door_front"):
+			if doors[1].is_fake:
+				_on_fake_door_clicked()
+			else:
+				_on_door_clicked(doors[1].target_event)
+		elif Input.is_action_just_pressed("door_left"):
+			if doors[0].is_fake:
+				_on_fake_door_clicked()
+			else:
+				_on_door_clicked(doors[0].target_event)
+		elif Input.is_action_just_pressed("door_right"):
+			if doors[2].is_fake:
+				_on_fake_door_clicked()
+			else:
+				_on_door_clicked(doors[2].target_event)
+	else:
+		if Input.is_action_just_pressed("door_left"):
+			if doors[0].is_fake:
+				_on_fake_door_clicked()
+			else:
+				_on_door_clicked(doors[0].target_event)
+		elif Input.is_action_just_pressed("door_right"):
+			if doors[1].is_fake:
+				_on_fake_door_clicked()
+			else:
+				_on_door_clicked(doors[1].target_event)
+
 func updateLabels():
 	updateLabel.emit()

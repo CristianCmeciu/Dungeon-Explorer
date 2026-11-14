@@ -16,6 +16,12 @@ func startCombat(p: Player, e: Entity, enemyAttacksFirst: bool = false):
 	if enemyAttacksFirst:
 		enemyTurn()
 
+func _process(_delta):
+	if Input.is_action_just_pressed("attack"):
+		playerAttack()
+	elif Input.is_action_just_pressed("defend"):
+		playerDefend()
+
 func playerDefend():
 	player.defend()
 	enemyTurn()

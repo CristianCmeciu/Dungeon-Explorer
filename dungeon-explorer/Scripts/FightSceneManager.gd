@@ -35,6 +35,7 @@ func generateEnemy(event: String, _player: Player = null):
 		add_child(fightEvent)
 		fightEvent.initialise(attackbtn,defendbtn,combatManager,player)
 		fightEvent.ranFromWitch.connect(fightWon)
+		
 func fightWon():
 	exitFight.emit()
 
