@@ -7,7 +7,7 @@ signal updateLabel
 @onready var item_description_label: Label = $Item/VBoxContainer/ItemDescriptionLabel
 @onready var take_item_btn: Button = $Item/VBoxContainer/TakeItemBtn
 @onready var take_gold_btn: Button = $Item/VBoxContainer/TakeGoldBtn
-
+@onready var chest_sfx: AudioStreamPlayer = $ChestSFX
 @onready var chest_node: Node = $TreasureChest
 @onready var chest_label: Label = $TreasureChest/VBoxContainer/Label
 @onready var pass_btn: Button = $TreasureChest/VBoxContainer/PassBtn
@@ -19,7 +19,13 @@ var current_gold_value: int = 0
 var is_chest: bool
 var chest_ui: bool = false
 var player: Player = null
-var betterWeapons = {"Crossbow":["Bow","Dagger"], "Axe":["Club","Dagger"],"Sword":["Dagger"]}
+var betterWeapons = {"Crossbow":["Bow","Dagger","Crossbow"], 
+					 "Axe":["Club","Dagger","Axe"],
+					 "Sword":["Dagger","Sword"], 
+					 "Club":["Club"],
+					 "Dagger":["Dagger"],
+					 "Bow":["Bow"]
+}
 
 func _ready() -> void:
 	take_item_btn.pressed.connect(_on_take_item_pressed)
@@ -28,6 +34,7 @@ func _ready() -> void:
 	open_btn.pressed.connect(_on_open_pressed)
 
 func initialise(p: Player) -> void:
+	
 	_ready()
 	player = p
 	setup()
@@ -65,14 +72,14 @@ func _generate_item_loot() -> void:
 	var player_armor = _get_equipped_armor()
 	var player_weapon = _get_equipped_weapon()
 	
-	var is_armor: bool = randf() < -1
+	var is_armor: bool = randf() < 2
 	
 	if is_armor:
 		current_armor = Equipments.armors.pick_random()
 		current_gold_value = current_armor.goldValue
 		
 		item_description_label.text = "Loot: " + current_armor.name + " (DEF: " + str(current_armor.defense) + ")"
-		if player_armor == null or player_armor.defense <= current_armor.defense:
+		if player_armor == null or player_armor.defense < current_armor.defense:
 			take_item_btn.text = "Take " + current_armor.name
 			take_item_btn.disabled = false
 		else:
@@ -84,7 +91,7 @@ func _generate_item_loot() -> void:
 		current_gold_value = current_weapon.goldValue
 		
 		item_description_label.text = "Loot: " + current_weapon.name + " (DMG: " + str(current_weapon.damage) + ")"
-		if player_weapon == null or player_weapon.name not in betterWeapons:
+		if player_weapon == null:
 			take_item_btn.text = "Take " + current_weapon.name
 			take_item_btn.disabled = false
 		elif current_weapon.name in betterWeapons[player_weapon.name]:
@@ -106,12 +113,13 @@ func _process(_delta):
 		elif Input.is_action_just_pressed("defend"):
 			_on_pass_pressed()
 	else:
-		if Input.is_action_just_pressed("attack"):
+		if Input.is_action_just_pressed("attack") and take_item_btn.disabled == false:
 			_on_take_item_pressed()
 		elif Input.is_action_just_pressed("defend"):
 			_on_take_gold_pressed()
 
 func _on_open_pressed() -> void:
+	chest_sfx.play()
 	_show_loot_ui()
 
 func _on_pass_pressed() -> void:

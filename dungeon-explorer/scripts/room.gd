@@ -13,7 +13,7 @@ signal updateLabel
 
 
 var player: Player
-
+var blind: bool
 var currentEvent: Node2D
 var rooms: int
 
@@ -29,8 +29,6 @@ func initialise(p: Player, rooms_cleared: int):
 	player.onNextRoom()
 
 func setup(my_event: String):
-	
-	var blind = player.statusEffectManager.hasEffect("Blindness")
 	
 	if event_label:
 		event_label.text = "Event: " + my_event
@@ -79,7 +77,7 @@ func setup(my_event: String):
 		if my_event == "usa fache":
 			while future_event == "trap room":
 				future_event = get_random_event()
-		future_event = "skeleton fight"
+		future_event = "mimic fight"
 		doors[i].set_target_event(future_event)
 		doors[i].clicked.connect(_on_door_clicked)
 		doors[i].fake_clicked.connect(_on_fake_door_clicked)
@@ -90,14 +88,6 @@ func setup(my_event: String):
 	if my_event == "usa fache":
 		setup_fake_doors()
 	
-	if blind:
-		bg_image.hide()
-		if doors.size() == 3:
-			doors[1].hide()
-	else:
-		bg_image.show()
-		if doors.size() == 3:
-			doors[1].show()
 	updateLabels()
 
 func setup_fake_doors():
@@ -133,11 +123,11 @@ func get_random_bun() -> String:
 	return events[index]
 
 func _on_door_clicked(event_passed_from_door: String):
-	
+	if is_instance_valid(currentEvent):
+		return
 	room_completed.emit(event_passed_from_door)
 
 func _on_fake_door_clicked():
-	
 	if fake_door_label:
 		fake_door_label.show()
 		
@@ -148,9 +138,24 @@ func _on_fake_door_clicked():
 		
 func fightWon():
 	currentEvent.queue_free()
+	currentEvent = null
 	updateLabels()
 
 func _process(_delta):
+	blind = player.statusEffectManager.hasEffect("Blindness")
+	
+	if blind:
+		bg_image.hide()
+		if doors.size() == 3:
+			doors[1].hide()
+	else:
+		bg_image.show()
+		if doors.size() == 3:
+			doors[1].show()
+			
+	if is_instance_valid(currentEvent):
+		return
+
 	if doors.size()==3:
 		if Input.is_action_just_pressed("door_front"):
 			if doors[1].is_fake:
