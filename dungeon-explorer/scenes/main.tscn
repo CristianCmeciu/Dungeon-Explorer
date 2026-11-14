@@ -110,3 +110,4 @@ text = "QUIT"
 stream = ExtResource("5_tbgi4")
 volume_db = -2.528
 autoplay = true
+parameters/looping = true

@@ -77,8 +77,7 @@ func setup(my_event: String):
 		if my_event == "usa fache":
 			while future_event == "trap room":
 				future_event = get_random_event()
-
-		#future_event = "skeleton fight"
+		future_event = "mimic fight"
 		doors[i].set_target_event(future_event)
 		doors[i].clicked.connect(_on_door_clicked)
 		doors[i].fake_clicked.connect(_on_fake_door_clicked)

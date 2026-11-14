@@ -29,6 +29,7 @@ func setBackground(bckgrd: TextureRect):
 	background = bckgrd
 
 func _process(_delta):
+	
 	if Input.is_action_just_pressed("attack"):
 		openChest()
 	elif Input.is_action_just_pressed("defend"):
