@@ -15,14 +15,22 @@ func _ready():
 	mouse_exited.connect(_on_mouse_exited)
 	input_event.connect(_on_input_event)
 
-func set_target_event(event_name: String):
+func set_target_event(event_name: String,has_minion: bool):
 	target_event = event_name
-	
-	if event_name == "treasure room":
-		highlight.color = Color(1.0, 0.8, 0.0, 0.4)
-	elif event_name in ["witch fight", "trap room", "mimic fight", "skeleton fight"]:
-		highlight.color = Color(1.0, 0.0, 0.0, 0.4)
+	if has_minion:
+		if event_name == "treasure room":
+			highlight.color = Color(1.0, 0.8, 0.0, 0.4)
+		elif event_name in ["witch fight", "trap room", "mimic fight", "skeleton fight"]:
+			highlight.color = Color(1.0, 0.0, 0.0, 0.4)
+		else:
+			highlight.color = Color(1.0, 1.0, 1.0, 0.4)
 	else:
+		#if event_name == "treasure room":
+			#highlight.color = Color(0, 1, 0, 0.4)
+		#elif event_name in ["witch fight", "trap room", "mimic fight", "skeleton fight"]:
+			#highlight.color = Color(1.0, 0.0, 1, 0.4)
+		#else:
+			#highlight.color = Color(1.0, 1.0, 1.0, 0.4)
 		highlight.color = Color(1.0, 1.0, 1.0, 0.4)
 
 func _on_mouse_entered():

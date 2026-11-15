@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://crcyhcrven5u5"]
+
+[ext_resource type="Script" uid="uid://b2g8xaptnhqb" path="res://scripts/MinionScene.gd" id="1_epe4i"]
+
+[sub_resource type="Gradient" id="Gradient_2i5d4"]
+offsets = PackedFloat32Array(0.19953051, 0.34976527, 0.52347416, 0.7394366)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0.56122446, 0.56122446, 0.56122446, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qsuaf"]
+gradient = SubResource("Gradient_2i5d4")
+fill_to = Vector2(0.67064846, 0.6501706)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_s1fef"]
+
+[node name="MinionScene" type="Node2D" unique_id=1487421832]
+script = ExtResource("1_epe4i")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2060414229]
+offset_left = 601.0
+offset_top = -2.0
+offset_right = 1301.0
+offset_bottom = 1077.0
+texture = SubResource("GradientTexture2D_qsuaf")
+
+[node name="TakeButton" type="Button" parent="." unique_id=958303031]
+offset_left = 900.0
+offset_top = 700.0
+offset_right = 1000.0
+offset_bottom = 800.0
+text = "TAKE"
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=829420100]
+offset_left = 863.0
+offset_top = 299.0
+offset_right = 1053.0
+offset_bottom = 468.0
+texture = SubResource("CanvasTexture_s1fef")
+
+[connection signal="pressed" from="TakeButton" to="." method="_on_take_button_pressed"]

@@ -9,30 +9,39 @@ signal updateLabel
 @export var fake_door_label: Label
 @export var fight_scene: PackedScene
 @export var treasure_room: PackedScene
+@export var minion_scene: PackedScene
 @onready var bg_image = $bg_image
 
 
+var my_minion: Equipments.Minion
 var player: Player
 var blind: bool
 var currentEvent: Node2D
 var rooms: int
-
-var thresholds = [15, 35, 60, 70, 75, 80, 90, 100]
-#var thresholds = [50,50,50,50,100,100,100,100]
+var minions_happened: bool
+var thresholds = [20, 35, 60, 70, 75, 80, 90, 100]
+#var thresholds = [50,100,100,100,100,100,100,100]
 var events = [
 	"nimic", "minion room", "treasure room", "usa fache", 
 	"witch fight", "trap room", "mimic fight", "skeleton fight"
 ]
 
-func initialise(p: Player, rooms_cleared: int):
+func initialise(p: Player, rooms_cleared: int,m: bool):
 	player = p
 	rooms = rooms_cleared
+	minions_happened = m
 	player.onNextRoom()
 
-func setup(my_event: String):
+func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAGE):
 	
 	if event_label:
-		event_label.text = "Event: " + my_event
+		event_label.text = "Event: " + my_event + "  " + str(rooms)
+	
+	if my_event == "minion room" && !blind:
+		currentEvent = minion_scene.instantiate()
+		self.add_child(currentEvent)
+		currentEvent.initialise(minion,player)
+		currentEvent.updateLabel.connect(updateLabels)
 		
 	if my_event == "mimic fight" && !blind:
 		currentEvent = fight_scene.instantiate()
@@ -66,20 +75,34 @@ func setup(my_event: String):
 		currentEvent.treasure_chosen.connect(fightWon)
 	
 	var random_bun = 4
-	if rooms<=5:
+	if rooms<=3:
 		random_bun = randi() % doors.size()
 	
 	for i in range(doors.size()):
 		var future_event = ""
-		if i == random_bun:
-			future_event = get_random_bun()
-		else:
-			future_event = get_random_event()
-		if my_event == "usa fache":
-			while future_event == "trap room":
+		if minions_happened:
+			
+			if i == random_bun:
+				future_event = get_random_bun()
+			else:
 				future_event = get_random_event()
-		future_event = "treasure room"
-		doors[i].set_target_event(future_event)
+				
+			while future_event == "minion room":
+				if i == random_bun:
+					future_event = get_random_bun()
+				else:
+					future_event = get_random_event()
+		else:
+			if i == random_bun:
+				future_event = get_random_bun()
+			else:
+				future_event = get_random_event()
+		
+		if my_event == "usa fache":
+			while future_event == "trap room" or (future_event == "minion room" and minions_happened):
+				future_event = get_random_event()
+		#future_event = "minion room"
+		doors[i].set_target_event(future_event,true if Equipments.Minion.FORESIGHT in player.owned_minions else false)
 		doors[i].clicked.connect(_on_door_clicked)
 		doors[i].fake_clicked.connect(_on_fake_door_clicked)
 	

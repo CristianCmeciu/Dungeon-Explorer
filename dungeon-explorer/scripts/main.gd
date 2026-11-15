@@ -2,6 +2,7 @@ extends Node2D
 
 @export var possible_rooms: Array[PackedScene]
 var current_room: Node2D
+var possible_minions: Array[Equipments.Minion]
 
 var rooms_cleared = 0
 var is_game_over = false
@@ -32,17 +33,22 @@ func _ready():
 	play_again_btn.pressed.connect(_on_play_again_pressed)
 	quit_btn.pressed.connect(_on_quit_pressed)
 	player.died.connect(game_over.bind(GameOverType.DIED))
-	
 	start_game()
 	
 func start_game():
+	possible_minions.append(Equipments.Minion.DAMAGE)
+	possible_minions.append(Equipments.Minion.PROTECTION)
+	possible_minions.append(Equipments.Minion.POTION)
+	possible_minions.append(Equipments.Minion.STUN)
+	possible_minions.append(Equipments.Minion.FORESIGHT)
+	possible_minions.shuffle()
 	HUD.show()
 	AudioManager.play_sound("bg_sound")
 	is_game_over = false
 	rooms_cleared = 0
 	gameover_screen.hide()
 	time_label.show()
-	game_timer.start(2000.0)
+	game_timer.start(20.0)
 	player.initialize()
 	generate_next_room("nimic")
 
@@ -52,19 +58,29 @@ func generate_next_room(next_event: String):
 	if current_room:
 		current_room.queue_free()
 		rooms_cleared += 1
-	if rooms_cleared >= 15000:
+	if rooms_cleared >= 12:
 		game_over(GameOverType.SUCCESS)
 		return
 		
 	var next_scene = possible_rooms.pick_random()
 	current_room = next_scene.instantiate()
-	current_room.initialise(player,rooms_cleared)
+	
+	if next_event=="minion room":
+		current_room.initialise(player,rooms_cleared, true if possible_minions.size()-1 == 0 else false)
+	else:
+		current_room.initialise(player,rooms_cleared,possible_minions.is_empty())
+		
 	current_room.updateLabel.connect(updateLabel)
 	current_room.room_completed.connect(generate_next_room)
 	current_room.room_died.connect(game_over.bind(GameOverType.TRAP)) 
 	add_child(current_room)
 	
-	current_room.setup(next_event)
+	if next_event=="minion room":
+		current_room.setup(next_event,possible_minions[0])
+		possible_minions.pop_front()
+	else: 
+		current_room.setup(next_event)
+
 	
 func updateLabel():
 	hp_label.text = "HP: %d / %d" % [player.hp, player.maxHp]
@@ -84,9 +100,14 @@ func _process(_delta):
 	
 	if not is_game_over:
 		time_label.text = "Time left: %.1f" % game_timer.time_left
+	else:
+		if Input.is_action_just_pressed("attack"):
+			start_game()
+		if Input.is_action_just_pressed("defend"):
+			get_tree().quit()
 		
+
 func _on_timer_timeout():
-	
 	if not is_game_over:
 		game_over(GameOverType.TIMEOUT)
 		

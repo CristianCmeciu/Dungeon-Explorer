@@ -7,6 +7,7 @@ var weapon: Weapon
 var gold: int	
 var isDefending: bool
 var turnsDefending: int
+var owned_minions: Array[Equipments.Minion]
 
 func initialize():
 	self.statusEffectManager = StatusEffectManager.new()
@@ -17,6 +18,7 @@ func initialize():
 	gold = 0
 	isDefending = false
 	turnsDefending = 0
+	owned_minions.clear()
 	
 func get_default_armor() -> Armor:
 	for a in Equipments.armors:
@@ -29,7 +31,6 @@ func get_default_weapon() -> Weapon:
 		if w.name == "none":
 			return w
 	return null
-	
 
 func defend():
 	isDefending = true
@@ -46,6 +47,8 @@ func takeDamage(damage: int) -> int:
 			isDefending = false
 	if armor:
 		damageTaken -= armor.defense
+	if Equipments.Minion.PROTECTION in owned_minions:
+		damageTaken -=1
 	hp -= max(0,damageTaken)
 	print("Player took damage for: ",max(0,damageTaken), ". Remaining HP: ",hp)
 	if hp <= 0:
@@ -53,9 +56,12 @@ func takeDamage(damage: int) -> int:
 	return damageTaken
 	
 func attack() -> int:
+	var val: int = 1
 	if weapon:
-		return statusEffectManager.modifyDamage(weapon.damage)
-	return statusEffectManager.modifyDamage(1)
+		val = weapon.damage
+	if Equipments.Minion.DAMAGE in owned_minions:
+		val +=2
+	return statusEffectManager.modifyDamage(val)
 
 func equipArmor(newArmor: Armor):
 	print("equipped armor: ",newArmor.name)
@@ -77,6 +83,9 @@ func getScore():
 	if weapon: score += weapon.goldValue
 	if armor: score += armor.goldValue
 	return score
+	
+func addMinion(minion: Equipments.Minion):
+	owned_minions.append(minion)
 
 func die():
 	died.emit()

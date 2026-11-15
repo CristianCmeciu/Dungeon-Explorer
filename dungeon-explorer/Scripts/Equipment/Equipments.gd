@@ -2,6 +2,7 @@ extends Node
 
 var armors: Array[Armor] = []
 var weapons: Array[Weapon] = []
+enum Minion{DAMAGE,PROTECTION,POTION,STUN,FORESIGHT}
 
 func _ready():
 	create_armors()

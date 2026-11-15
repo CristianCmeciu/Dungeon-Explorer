@@ -5,6 +5,7 @@ signal fightWon
 signal updateHP
 signal playerTookDamage(damage: int)
 
+var potion_blocked: bool = false
 var fight_begin: bool = false
 var player: Player
 var enemy: Enemy
@@ -37,7 +38,10 @@ func playerAttack():
 		endCombat()
 		return
 	if(player.weapon != null):
-		enemy.applyStun(player.weapon.stunTime)
+		if Equipments.Minion.STUN in player.owned_minions:
+			enemy.applyStun(player.weapon.stunTime + 1)
+		else:
+			enemy.applyStun(player.weapon.stunTime)
 		if(player.weapon.effect != null):
 			var effect = player.weapon.effect
 			enemy.applyEffect(effect)
@@ -45,8 +49,11 @@ func playerAttack():
 	
 func enemyTurn():
 	if enemy is Witch:
-		var effect = enemy.throwPotion()
-		player.applyEffect(effect)
+		if Equipments.Minion.POTION in player.owned_minions and !potion_blocked:
+			potion_blocked = true
+		else:
+			var effect = enemy.throwPotion()
+			player.applyEffect(effect)
 	else:
 		player.takeDamage(enemy.attack())
 	updateHP.emit()
@@ -64,6 +71,7 @@ func enemyTurn():
 		
 
 func endCombat():
+	potion_blocked = false
 	if player.hp >= 0:
 		print("Player won")
 		player.addGold(enemy.goldValue)
