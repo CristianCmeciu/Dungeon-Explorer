@@ -7,11 +7,12 @@ signal updateLabel
 @onready var item_description_label: Label = $Item/VBoxContainer/ItemDescriptionLabel
 @onready var take_item_btn: Button = $Item/VBoxContainer/TakeItemBtn
 @onready var take_gold_btn: Button = $Item/VBoxContainer/TakeGoldBtn
-@onready var chest_sfx: AudioStreamPlayer = $ChestSFX
 @onready var chest_node: Node = $TreasureChest
 @onready var chest_label: Label = $TreasureChest/VBoxContainer/Label
 @onready var pass_btn: Button = $TreasureChest/VBoxContainer/PassBtn
 @onready var open_btn: Button = $TreasureChest/VBoxContainer/OpenBtn
+
+
 
 var current_armor: Armor = null
 var current_weapon: Weapon = null
@@ -49,7 +50,7 @@ func initialise(p: Player) -> void:
 
 func setup() -> void:
 	randomize()
-	is_chest = randf() < 0.25
+	is_chest = randf() < 2
 	
 	if is_chest:
 		chest_ui = true
@@ -128,7 +129,7 @@ func _process(_delta):
 			_on_take_gold_pressed()
 
 func _on_open_pressed() -> void:
-	chest_sfx.play()
+	AudioManager.play_sound("chest_sfx")
 	_show_loot_ui()
 
 func _on_pass_pressed() -> void:
@@ -150,6 +151,9 @@ func _on_take_item_pressed() -> void:
 			
 			var popup_text := _format_stat_diff(diff_def, "DEF")
 			spawn_popup(popup_text, Color(0.3, 0.8, 1.0), base_pos)
+			AudioManager.play_sound("armor_equip")
+			
+			
 			
 		elif current_weapon:
 			var old_atk: int = 0 if _get_equipped_weapon() == null else _get_equipped_weapon().damage
@@ -173,6 +177,7 @@ func _on_take_item_pressed() -> void:
 				var atk_color := Color(1.0, 0.35, 0.3) if diff_atk < 0 else Color(0.4, 1.0, 0.4)
 				
 				spawn_popup(atk_text, atk_color, base_pos)
+				AudioManager.play_sound("weapon_equip")
 				
 				if effect_text != "":
 					spawn_popup(effect_text, effect_color, base_pos + Vector2(0, 35))
@@ -193,7 +198,8 @@ func _on_take_gold_pressed() -> void:
 		updateLabel.emit()
 		
 		var popup_text := "+%d Gold" % current_gold_value
-		spawn_popup(popup_text, Color(1.0, 0.85, 0.2), base_pos) # Auriu
+		spawn_popup(popup_text, Color(1.0, 0.85, 0.2), base_pos)
+		AudioManager.play_sound("gold_take")
 		
 	_finish_room()
 

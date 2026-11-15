@@ -19,6 +19,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 
 Equipments="*uid://buxvx7vpbgrns"
 StatsUi="*uid://bq5ptni1p7hb6"
+AudioManager="*uid://vi55vh18tj2m"
 
 [display]
 

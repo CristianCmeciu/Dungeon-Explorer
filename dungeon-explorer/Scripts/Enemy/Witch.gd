@@ -9,8 +9,7 @@ func throwPotion() -> StatusEffect:
 		timeStunned-=1
 		wasStunned = true
 		return
-	#var rand = randi_range(0,2)
-	var rand = 1
+	var rand = randi_range(0,2)
 	match rand:
 		0:
 			return Poison.new(5)

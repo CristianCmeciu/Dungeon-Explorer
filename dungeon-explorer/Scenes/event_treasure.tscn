@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://5046f4o8jwle"]
 
 [ext_resource type="Script" uid="uid://ciuip15w3yuud" path="res://scripts/EventTreasure.gd" id="1_ydfjn"]
-[ext_resource type="AudioStream" uid="uid://b5luwfk81f8cj" path="res://assets/chest_open.mp3" id="2_xkrw0"]
 
 [node name="EventTreasure" type="Node2D" unique_id=1731451470]
 script = ExtResource("1_ydfjn")
@@ -49,6 +48,3 @@ layout_mode = 2
 
 [node name="PassBtn" type="Button" parent="TreasureChest/VBoxContainer" unique_id=1718236294]
 layout_mode = 2
-
-[node name="ChestSFX" type="AudioStreamPlayer" parent="." unique_id=1393506790]
-stream = ExtResource("2_xkrw0")

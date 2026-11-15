@@ -37,6 +37,7 @@ func _ready():
 	
 func start_game():
 	HUD.show()
+	AudioManager.play_sound("bg_sound")
 	is_game_over = false
 	rooms_cleared = 0
 	gameover_screen.hide()

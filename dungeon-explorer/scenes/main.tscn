@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://ctllidl2x1poj" path="res://scenes/room_2.tscn" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://1q4dhvxj2yiq" path="res://scenes/room_3.tscn" id="3_lquwl"]
 [ext_resource type="Script" uid="uid://bb1nx4dygfpq" path="res://scripts/Player.gd" id="4_jjvhh"]
-[ext_resource type="AudioStream" uid="uid://bhn1cpwfdlomr" path="res://assets/dungeon_bg.mp3" id="5_tbgi4"]
 
 [node name="main" type="Node2D" unique_id=291351431]
 script = ExtResource("1_h2yge")
@@ -105,9 +104,3 @@ text = "PLAY AGAIN"
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
 text = "QUIT"
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=132633251]
-stream = ExtResource("5_tbgi4")
-volume_db = -2.528
-autoplay = true
-parameters/looping = true
