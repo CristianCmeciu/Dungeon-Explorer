@@ -14,3 +14,4 @@ func throwPotion() -> StatusEffect:
 		wasStunned = true
 		return
 	return possibleEffects[randi_range(0,2)]
+	#return possibleEffects[1]

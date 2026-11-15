@@ -5,6 +5,7 @@ signal fightWon
 signal updateHP
 signal playerTookDamage(damage: int)
 
+var fight_begin: bool = false
 var player: Player
 var enemy: Enemy
 var enemyFirst: bool
@@ -13,10 +14,13 @@ func startCombat(p: Player, e: Entity, enemyAttacksFirst: bool = false):
 	player = p
 	enemy = e
 	enemyFirst = enemyAttacksFirst
+	fight_begin = true
 	if enemyAttacksFirst:
 		enemyTurn()
 
 func _process(_delta):
+	if !fight_begin: 
+		return
 	if Input.is_action_just_pressed("attack"):
 		playerAttack()
 	elif Input.is_action_just_pressed("defend"):

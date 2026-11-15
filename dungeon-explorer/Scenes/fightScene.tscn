@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://boxsy56s3xvts"]
 
-[ext_resource type="Script" uid="uid://m2rmljjfbmj8" path="res://Scripts/FightSceneManager.gd" id="1_uvvmo"]
-[ext_resource type="PackedScene" uid="uid://b7ift8gj1o4dk" path="res://Scenes/FightEvents/mimicFight.tscn" id="2_57ar5"]
-[ext_resource type="Script" uid="uid://ct45ykfk27brl" path="res://Scripts/CombatManager.gd" id="3_57ar5"]
-[ext_resource type="PackedScene" uid="uid://80sp22ncppvd" path="res://Scenes/FightEvents/skeletonFight.tscn" id="3_yk4my"]
-[ext_resource type="PackedScene" uid="uid://dda6il5nwuepa" path="res://Scenes/FightEvents/witchFight.tscn" id="4_57ar5"]
+[ext_resource type="Script" uid="uid://m2rmljjfbmj8" path="res://scripts/FightSceneManager.gd" id="1_uvvmo"]
+[ext_resource type="PackedScene" uid="uid://b7ift8gj1o4dk" path="res://scenes/FightEvents/mimicFight.tscn" id="2_57ar5"]
+[ext_resource type="Script" uid="uid://ct45ykfk27brl" path="res://scripts/CombatManager.gd" id="3_57ar5"]
+[ext_resource type="PackedScene" uid="uid://80sp22ncppvd" path="res://scenes/FightEvents/skeletonFight.tscn" id="3_yk4my"]
+[ext_resource type="PackedScene" uid="uid://dda6il5nwuepa" path="res://scenes/FightEvents/witchFight.tscn" id="4_57ar5"]
 
 [sub_resource type="Gradient" id="Gradient_sbtiq"]
 offsets = PackedFloat32Array(0, 0.99759614, 1)

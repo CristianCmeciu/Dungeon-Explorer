@@ -7,6 +7,7 @@ extends FightEvent
 @onready var pass_btn: Button = $TreasureChest/VBoxContainer/PassBtn
 @onready var open_btn: Button = $TreasureChest/VBoxContainer/OpenBtn
 var background: TextureRect
+var fight: bool = false
 
 signal passChestSignal
 
@@ -29,6 +30,8 @@ func setBackground(bckgrd: TextureRect):
 	background = bckgrd
 
 func _process(_delta):
+	if fight:
+		return
 	
 	if Input.is_action_just_pressed("attack"):
 		openChest()
@@ -38,6 +41,7 @@ func _process(_delta):
 
 func openChest():
 	mimic.activateEnemy(40,0,0)
+	fight = true
 	startFight(mimic,true)
 	chest_node.hide()
 	background.show()
