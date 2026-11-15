@@ -1,17 +1,22 @@
 extends Enemy
 class_name Witch
-var possibleEffects: Array[StatusEffect]
 
 func _ready():
 	statusEffectManager = StatusEffectManager.new()
-	possibleEffects.append(Poison.new(5))
-	possibleEffects.append(Blindness.new())
-	possibleEffects.append(Weakness.new())
 
 func throwPotion() -> StatusEffect:
 	if timeStunned >0:
 		timeStunned-=1
 		wasStunned = true
 		return
-	return possibleEffects[randi_range(0,2)]
+	#var rand = randi_range(0,2)
+	var rand = 1
+	match rand:
+		0:
+			return Poison.new(5)
+		1:
+			return Blindness.new()
+		_:
+			return Weakness.new()
+
 	#return possibleEffects[1]
