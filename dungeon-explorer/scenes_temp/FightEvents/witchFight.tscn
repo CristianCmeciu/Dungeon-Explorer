@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dda6il5nwuepa"]
 
-[ext_resource type="Script" uid="uid://dc4d0bgkp7kkq" path="res://Scripts/Enemy/Witch.gd" id="1_3yhqd"]
 [ext_resource type="Script" uid="uid://dnsrya2uhyneo" path="res://Scripts/Enemy/WitchEvent.gd" id="1_5cdhi"]
+[ext_resource type="Script" uid="uid://dc4d0bgkp7kkq" path="res://Scripts/Enemy/Witch.gd" id="2_fah02"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_e58r8"]
 
@@ -9,7 +9,7 @@
 script = ExtResource("1_5cdhi")
 
 [node name="Witch" type="Node" parent="." unique_id=1675106177]
-script = ExtResource("1_3yhqd")
+script = ExtResource("2_fah02")
 metadata/_custom_type_script = "uid://dc4d0bgkp7kkq"
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=654396725]

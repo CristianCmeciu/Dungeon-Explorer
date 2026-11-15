@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dwgpqjod27nkx"]
 
-[ext_resource type="Script" uid="uid://dny4ihbvfgt0x" path="res://treasure_room.gd" id="1_6iqwr"]
+[ext_resource type="Script" uid="uid://dny4ihbvfgt0x" path="res://Scripts/treasure_room.gd" id="1_6iqwr"]
 
 [node name="TreasureRoom" type="Control" unique_id=1182535009]
 layout_mode = 3

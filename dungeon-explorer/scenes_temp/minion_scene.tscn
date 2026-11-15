@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://crcyhcrven5u5"]
 
-[ext_resource type="Script" uid="uid://b2g8xaptnhqb" path="res://scripts/MinionScene.gd" id="1_epe4i"]
+[ext_resource type="Script" uid="uid://b2g8xaptnhqb" path="res://Scripts/MinionScene.gd" id="1_b662p"]
 
 [sub_resource type="Gradient" id="Gradient_2i5d4"]
 offsets = PackedFloat32Array(0.19953051, 0.34976527, 0.52347416, 0.7394366)
@@ -13,7 +13,7 @@ fill_to = Vector2(0.67064846, 0.6501706)
 [sub_resource type="CanvasTexture" id="CanvasTexture_s1fef"]
 
 [node name="MinionScene" type="Node2D" unique_id=1487421832]
-script = ExtResource("1_epe4i")
+script = ExtResource("1_b662p")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=2060414229]
 offset_left = 601.0

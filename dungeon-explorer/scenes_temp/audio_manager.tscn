@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://vi55vh18tj2m"]
+
+[ext_resource type="Script" uid="uid://bvf4cn3ybnjl1" path="res://Scripts/AudioManager.gd" id="1_mjqhu"]
+[ext_resource type="AudioStream" uid="uid://bhn1cpwfdlomr" path="res://Assets/dungeon_bg.mp3" id="2_5kf6k"]
+[ext_resource type="AudioStream" uid="uid://b5luwfk81f8cj" path="res://Assets/chest_open.mp3" id="3_tnn7g"]
+[ext_resource type="AudioStream" uid="uid://cryfdvtbmlalq" path="res://Assets/armor_equip.mp3" id="4_lwpe1"]
+[ext_resource type="AudioStream" uid="uid://dbadwhm30diw6" path="res://Assets/weapon_equip.mp3" id="5_jmilc"]
+[ext_resource type="AudioStream" uid="uid://ddsr6pwdekdgf" path="res://Assets/gold_take.mp3" id="6_5nrbi"]
+
+[node name="AudioManager" type="Node2D" unique_id=2789132]
+script = ExtResource("1_mjqhu")
+
+[node name="bg_sound" type="AudioStreamPlayer" parent="." unique_id=1681656942]
+stream = ExtResource("2_5kf6k")
+volume_db = -2.528
+autoplay = true
+parameters/looping = true
+
+[node name="ChestSFX" type="AudioStreamPlayer" parent="." unique_id=1079266663]
+stream = ExtResource("3_tnn7g")
+
+[node name="ArmorEquip" type="AudioStreamPlayer" parent="." unique_id=1404800220]
+stream = ExtResource("4_lwpe1")
+
+[node name="WeaponEquip" type="AudioStreamPlayer" parent="." unique_id=1684370841]
+stream = ExtResource("5_jmilc")
+
+[node name="GoldTake" type="AudioStreamPlayer" parent="." unique_id=1648685637]
+stream = ExtResource("6_5nrbi")

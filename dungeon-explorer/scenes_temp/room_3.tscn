@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://1q4dhvxj2yiq"]
 
-[ext_resource type="Texture2D" uid="uid://chvmqooaffefq" path="res://assets/camera_3opt.png" id="1_niirm"]
-[ext_resource type="Script" uid="uid://cnemwhv1fab1y" path="res://scripts/room.gd" id="1_snx3q"]
-[ext_resource type="PackedScene" uid="uid://boxsy56s3xvts" path="res://scenes/fightScene.tscn" id="2_bg4i0"]
-[ext_resource type="Script" uid="uid://bjb10f70fulpx" path="res://scripts/door.gd" id="2_snx3q"]
-[ext_resource type="PackedScene" uid="uid://5046f4o8jwle" path="res://scenes/event_treasure.tscn" id="3_3h1gi"]
-[ext_resource type="PackedScene" uid="uid://crcyhcrven5u5" path="res://scenes/minion_scene.tscn" id="4_yvqia"]
+[ext_resource type="Script" uid="uid://cnemwhv1fab1y" path="res://Scripts/room.gd" id="1_3aelw"]
+[ext_resource type="PackedScene" uid="uid://boxsy56s3xvts" path="res://Scenes/fightScene.tscn" id="2_rxq7n"]
+[ext_resource type="PackedScene" uid="uid://5046f4o8jwle" path="res://Scenes/event_treasure.tscn" id="3_e4veq"]
+[ext_resource type="PackedScene" uid="uid://crcyhcrven5u5" path="res://Scenes/minion_scene.tscn" id="4_ykb7v"]
+[ext_resource type="Texture2D" uid="uid://chvmqooaffefq" path="res://Assets/camera_3opt.png" id="5_duync"]
+[ext_resource type="Script" uid="uid://bjb10f70fulpx" path="res://Scripts/door.gd" id="6_8xtj1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_snx3q"]
 bg_color = Color(0.16862746, 0.6, 0.6, 0.42745098)
@@ -20,16 +20,16 @@ expand_margin_right = 10.0
 expand_margin_bottom = 10.0
 
 [node name="room_3" type="Node2D" unique_id=1446630626 node_paths=PackedStringArray("doors", "event_label", "fake_door_label")]
-script = ExtResource("1_snx3q")
+script = ExtResource("1_3aelw")
 doors = [NodePath("DoorLeft"), NodePath("DoorFront"), NodePath("DoorRight")]
 event_label = NodePath("Label")
 fake_door_label = NodePath("FakeDoorLabel")
-fight_scene = ExtResource("2_bg4i0")
-treasure_room = ExtResource("3_3h1gi")
-minion_scene = ExtResource("4_yvqia")
+fight_scene = ExtResource("2_rxq7n")
+treasure_room = ExtResource("3_e4veq")
+minion_scene = ExtResource("4_ykb7v")
 
 [node name="bg_image" type="Sprite2D" parent="." unique_id=997060928]
-texture = ExtResource("1_niirm")
+texture = ExtResource("5_duync")
 centered = false
 
 [node name="Label" type="Label" parent="." unique_id=111143548]
@@ -53,7 +53,7 @@ text = "FAKE DOOR"
 
 [node name="DoorRight" type="Area2D" parent="." unique_id=56211967]
 position = Vector2(1479, 361)
-script = ExtResource("2_snx3q")
+script = ExtResource("6_8xtj1")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DoorRight" unique_id=733906642]
 polygon = PackedVector2Array(0, 0, 197, 81, 177, 539, -2, 407, -1, 0)
@@ -64,7 +64,7 @@ polygon = PackedVector2Array(0, 0, 197, 81, 177, 539, -2, 407, -1, 0)
 
 [node name="DoorLeft" type="Area2D" parent="." unique_id=1839322675]
 position = Vector2(224, 396)
-script = ExtResource("2_snx3q")
+script = ExtResource("6_8xtj1")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DoorLeft" unique_id=1661699608]
 polygon = PackedVector2Array(164, -86, 0, -1, 20, 540, 182, 428)
@@ -75,7 +75,7 @@ polygon = PackedVector2Array(164, -86, 0, -1, 20, 540, 182, 428)
 
 [node name="DoorFront" type="Area2D" parent="." unique_id=543586494]
 position = Vector2(865, 270)
-script = ExtResource("2_snx3q")
+script = ExtResource("6_8xtj1")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DoorFront" unique_id=106829744]
 polygon = PackedVector2Array(0, 0, 210, 0, 210, 404, 1, 404)

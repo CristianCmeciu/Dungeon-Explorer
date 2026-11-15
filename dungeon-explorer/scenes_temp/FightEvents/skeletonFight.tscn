@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://80sp22ncppvd"]
 
 [ext_resource type="Script" uid="uid://dl4hwxhyao2de" path="res://Scripts/Enemy/SkeletonEvent.gd" id="1_akepy"]
-[ext_resource type="Script" uid="uid://c68px6uwfxlwp" path="res://Scripts/Enemy/Skeleton.gd" id="1_hbi3q"]
+[ext_resource type="Script" uid="uid://c68px6uwfxlwp" path="res://Scripts/Enemy/Skeleton.gd" id="2_v8ar3"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_bt0fc"]
 
@@ -9,7 +9,7 @@
 script = ExtResource("1_akepy")
 
 [node name="Skeleton" type="Node" parent="." unique_id=1489628359]
-script = ExtResource("1_hbi3q")
+script = ExtResource("2_v8ar3")
 metadata/_custom_type_script = "uid://c68px6uwfxlwp"
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=98457607]
