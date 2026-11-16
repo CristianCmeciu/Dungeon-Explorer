@@ -7,22 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://d3ovfafu7l0fa" path="res://Assets/camera_2opt.png" id="5_4qow7"]
 [ext_resource type="Script" uid="uid://bjb10f70fulpx" path="res://Scripts/door.gd" id="6_ghlka"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_khhxn"]
-bg_color = Color(0.16862746, 0.6, 0.6, 0.42745098)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0, 0, 0, 1)
-expand_margin_left = 10.0
-expand_margin_top = 10.0
-expand_margin_right = 10.0
-expand_margin_bottom = 10.0
-
-[node name="room_2" type="Node2D" unique_id=1677610979 node_paths=PackedStringArray("doors", "event_label", "fake_door_label")]
+[node name="room_2" type="Node2D" unique_id=1677610979 node_paths=PackedStringArray("doors", "fake_door_label")]
 script = ExtResource("1_6vblq")
 doors = [NodePath("DoorLeft"), NodePath("DoorRight")]
-event_label = NodePath("Label")
 fake_door_label = NodePath("FakeDoorLabel")
 fight_scene = ExtResource("2_udpsw")
 treasure_room = ExtResource("3_88q72")
@@ -31,16 +18,6 @@ minion_scene = ExtResource("4_shwdd")
 [node name="bg_image" type="Sprite2D" parent="." unique_id=1813972507]
 texture = ExtResource("5_4qow7")
 centered = false
-
-[node name="Label" type="Label" parent="." unique_id=1556193400]
-offset_left = 25.0
-offset_top = 15.0
-offset_right = 375.0
-offset_bottom = 111.0
-size_flags_horizontal = 3
-size_flags_vertical = 6
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxFlat_khhxn")
 
 [node name="FakeDoorLabel" type="Label" parent="." unique_id=624991337]
 offset_left = 271.0

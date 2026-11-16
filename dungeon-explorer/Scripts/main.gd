@@ -16,17 +16,28 @@ enum GameOverType {
 
 @onready var game_timer = $GameTimer
 @onready var HUD = $HUD
-@onready var time_label = $HUD/TimeLabel
 @onready var gameover_screen = $GameOverScreen
 @onready var result_label = $GameOverScreen/CenterContainer/VBoxContainer/ResultLabel
 @onready var play_again_btn = $GameOverScreen/CenterContainer/VBoxContainer/PlayAgainButton
 @onready var quit_btn = $GameOverScreen/CenterContainer/VBoxContainer/QuitButton
-@onready var hp_label: Label = $HUD/MarginContainer/HBoxContainer/VBoxContainer/Hp
-@onready var gold_label: Label = $HUD/MarginContainer/HBoxContainer/VBoxContainer/Gold
-@onready var armor_label: Label = $HUD/MarginContainer/HBoxContainer/VBoxContainer2/Armor
-@onready var weapon_label: Label = $HUD/MarginContainer/HBoxContainer/VBoxContainer2/Weapon
 @onready var player: Player = $HUD/Player
 @onready var score_label: Label = $GameOverScreen/CenterContainer/VBoxContainer/ScoreLabel
+@onready var hp_left: ColorRect = $"HUD/PlayerUI/HP+Time/HPBar/HPMax/HPLeft"
+@onready var time_left: ColorRect = $"HUD/PlayerUI/HP+Time/TimeBar/TimeMax/TimeLeft"
+@onready var blindness_left: ColorRect = $"HUD/PlayerUI/Potions+Stats/Potions/Blindness/BlindnessMax/BlindnessLeft"
+@onready var poison_left: ColorRect = $"HUD/PlayerUI/Potions+Stats/Potions/Poison/PoisonMax/PoisonLeft"
+@onready var weakness_left: ColorRect = $"HUD/PlayerUI/Potions+Stats/Potions/Weakness/WeaknessMax/WeaknessLeft"
+@onready var gold_label: Label = $"HUD/PlayerUI/Potions+Stats/Stats/Gold/GoldLabel"
+@onready var weapon_label: Label = $"HUD/PlayerUI/Potions+Stats/Stats/Weapon/WeaponLabel"
+@onready var armor_label: Label = $"HUD/PlayerUI/Potions+Stats/Stats/Armor/ArmorLabel"
+@onready var minion_foresight: TextureRect = $HUD/MinionForesight
+@onready var minion_stun: TextureRect = $HUD/MinionStun
+@onready var minion_attack: TextureRect = $HUD/MinionAttack
+@onready var minion_defend: TextureRect = $HUD/MinionDefend
+@onready var minion_potion: TextureRect = $HUD/MinionPotion
+
+
+
 
 func _ready():
 	game_timer.timeout.connect(_on_timer_timeout)
@@ -42,12 +53,22 @@ func start_game():
 	possible_minions.append(Equipments.Minion.STUN)
 	possible_minions.append(Equipments.Minion.FORESIGHT)
 	possible_minions.shuffle()
+	minion_attack.hide()
+	minion_defend.hide()
+	minion_foresight.hide()
+	minion_potion.hide()
+	minion_stun.hide()
+	hp_left.size.x = hp_left.custom_maximum_size.x
+	time_left.size.x = time_left.custom_maximum_size.x
+	blindness_left.size.x = 0
+	weakness_left.size.x = 0
+	poison_left.size.x = 0
+	
 	HUD.show()
 	AudioManager.play_sound("bg_sound")
 	is_game_over = false
 	rooms_cleared = 0
 	gameover_screen.hide()
-	time_label.show()
 	game_timer.start(20.0)
 	player.initialize()
 	generate_next_room("nimic")
@@ -83,23 +104,58 @@ func generate_next_room(next_event: String):
 
 	
 func updateLabel():
-	hp_label.text = "HP: %d / %d" % [player.hp, player.maxHp]
-	gold_label.text = "Gold: %d" % player.gold
+	
+	hp_left.size.x = (hp_left.custom_maximum_size.x / 100) * player.hp
+	gold_label.text = str(player.gold) + " gold"
 		
 	if player.armor:
-		armor_label.text = "Armor: %s (DEF: %d)" % [player.armor.name, player.armor.defense]
+		if Equipments.Minion.PROTECTION in player.owned_minions:
+			armor_label.text = "+" + str(player.armor.defense + 1) + " DEF"
+		else:
+			armor_label.text = "+" + str(player.armor.defense) + " DEF"
 	else:
-		armor_label.text = "Armor: None"
+		armor_label.text = "+0 DEF"
 		
 	if player.weapon:
-		weapon_label.text = "Weapon: %s (ATK: %d)" % [player.weapon.name, player.weapon.damage]
+		if Equipments.Minion.DAMAGE in player.owned_minions:
+			weapon_label.text = "+" + str(player.weapon.damage + 2) + " DMG"
+		else:
+			weapon_label.text = "+" + str(player.weapon.damage) + " DMG"
+		if player.weapon.stunTime:
+			weapon_label.text += "\n"
+			if Equipments.Minion.STUN in player.owned_minions:
+				weapon_label.text +="2r Stun"
+			else:
+				weapon_label.text += "1r Stun"
+		elif Equipments.Minion.STUN in player.owned_minions:
+			weapon_label.text += "\n 1r Stun"
+		if player.weapon.effect:
+			weapon_label.text += "\n Bleed"
 	else:
-		weapon_label.text = "Weapon: None (ATK: 1)"
+		weapon_label.text = "+1 dmg"
+		
+	if Equipments.Minion.POTION in player.owned_minions:
+		minion_potion.show()
+	if Equipments.Minion.FORESIGHT in player.owned_minions:
+		minion_foresight.show()
+	if Equipments.Minion.DAMAGE in player.owned_minions:
+		minion_attack.show()
+	if Equipments.Minion.PROTECTION in player.owned_minions:
+		minion_defend.show()
+	if Equipments.Minion.STUN in player.owned_minions:
+		minion_stun.show()
+		
+	if player.statusEffectManager.hasEffect("Poison"):
+		poison_left.size.x = (poison_left.custom_maximum_size.x / 3) * player.statusEffectManager.getRoundsLeft("Poison")
+	if player.statusEffectManager.hasEffect("Weakness"):
+		weakness_left.size.x = (weakness_left.custom_maximum_size.x / 3) * player.statusEffectManager.getRoundsLeft("Weakness")
+	if player.statusEffectManager.hasEffect("Blindness"):
+		blindness_left.size.x = (blindness_left.custom_maximum_size.x / 3) * player.statusEffectManager.getRoundsLeft("Blindness")
 	
 func _process(_delta):
 	
 	if not is_game_over:
-		time_label.text = "Time left: %.1f" % game_timer.time_left
+		time_left.size.x = (time_left.custom_maximum_size.x / 20) * game_timer.time_left
 	else:
 		if Input.is_action_just_pressed("attack"):
 			start_game()

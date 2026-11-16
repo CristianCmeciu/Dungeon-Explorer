@@ -5,7 +5,6 @@ signal room_died
 signal updateLabel
 
 @export var doors: Array[Area2D]
-@export var event_label: Label
 @export var fake_door_label: Label
 @export var fight_scene: PackedScene
 @export var treasure_room: PackedScene
@@ -33,9 +32,6 @@ func initialise(p: Player, rooms_cleared: int,m: bool):
 	player.onNextRoom()
 
 func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAGE):
-	
-	if event_label:
-		event_label.text = "Event: " + my_event + "  " + str(rooms)
 	
 	if my_event == "minion room" && !blind:
 		currentEvent = minion_scene.instantiate()

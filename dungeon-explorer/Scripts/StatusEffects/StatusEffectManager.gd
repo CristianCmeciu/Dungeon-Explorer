@@ -12,6 +12,12 @@ func applyEffect(effect: StatusEffect, target: Node):
 	activeEffects.append(effect)
 	effect.onApply(target)
 
+func getRoundsLeft(e : String) -> int:
+	for effect in activeEffects:
+		if effect.name == e:
+			return effect.duration
+	return 0
+
 func onTurnOrRoomEnd(target: Node):
 	for effect in activeEffects:
 		effect.onTurnOrRoomEnd(target)
