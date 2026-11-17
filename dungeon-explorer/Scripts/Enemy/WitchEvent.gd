@@ -14,7 +14,7 @@ func initialise(attackBttn: Button, defendBttn: Button,combatMngr: CombatManager
 	hpLeft = hpRect
 	attackBttn.hide()
 	defendBttn.hide()
-	witch.activateEnemy(15,0,0)
+	witch.activateEnemy(15,0,250)
 	startFight(witch,label,hpLeft,true)
 
 func retaliate():

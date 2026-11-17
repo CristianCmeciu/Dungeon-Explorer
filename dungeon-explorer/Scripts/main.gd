@@ -181,6 +181,7 @@ func game_over(cond: GameOverType):
 	
 	is_game_over = true
 	gameover_timer.start()
+	var timeleft = game_timer.time_left
 	game_timer.stop()
 	HUD.hide()
 	
@@ -202,7 +203,18 @@ func game_over(cond: GameOverType):
 			result_label.text = "ai murit"
 			result_label.add_theme_color_override("font_color", Color(0.8, 0.2, 0.2))
 			
-	score_label.text = "Score: "+ str(player.gold)
+	var formula = player.gold
+	if player.armor:
+		formula += player.armor.goldValue 
+	if player.weapon: 
+		formula += player.weapon.goldValue
+	if rooms_cleared >=12:
+		formula += 1000 * timeleft
+	
+	formula += 50 * rooms_cleared 
+	formula += 200 * player.owned_minions.size()
+			
+	score_label.text = "Score: "+ str(int(formula))
 
 
 func _on_play_again_pressed():

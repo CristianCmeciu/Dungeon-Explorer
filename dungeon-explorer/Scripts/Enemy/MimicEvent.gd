@@ -38,7 +38,7 @@ func _process(_delta):
 
 func openChest():
 	text.text = "The chest turned out to be a mimic!"
-	mimic.activateEnemy(40,0,0)
+	mimic.activateEnemy(40,0,300)
 	fight = true
 	startFight(mimic,text,hpLeft,true)
 	canvasLayer.hide()

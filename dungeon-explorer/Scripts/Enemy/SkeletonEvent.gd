@@ -9,7 +9,7 @@ func initialise(attackBttn: Button, defendBttn: Button,combatMngr: CombatManager
 	combatManager = combatMngr
 	player = playerIn
 	if (hasSword):
-		skeleton.activateEnemy(20,8,0)
+		skeleton.activateEnemy(20,8,200)
 	else:
-		skeleton.activateEnemy(20,3,0)
+		skeleton.activateEnemy(20,3,100)
 	startFight(skeleton,label,hpRect)
