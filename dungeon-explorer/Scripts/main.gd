@@ -14,6 +14,8 @@ enum GameOverType {
 	TRAP
 }
 
+var gameover_timer: Timer 
+
 @onready var game_timer = $GameTimer
 @onready var HUD = $HUD
 @onready var gameover_screen = $GameOverScreen
@@ -44,6 +46,10 @@ func _ready():
 	play_again_btn.pressed.connect(_on_play_again_pressed)
 	quit_btn.pressed.connect(_on_quit_pressed)
 	player.died.connect(game_over.bind(GameOverType.DIED))
+	gameover_timer = Timer.new()
+	gameover_timer.wait_time = 2.0
+	gameover_timer.one_shot = true
+	add_child(gameover_timer)
 	start_game()
 	
 func start_game():
@@ -69,7 +75,7 @@ func start_game():
 	is_game_over = false
 	rooms_cleared = 0
 	gameover_screen.hide()
-	game_timer.start(20.0)
+	game_timer.start(20000.0)
 	player.initialize()
 	generate_next_room("nimic")
 
@@ -79,7 +85,7 @@ func generate_next_room(next_event: String):
 	if current_room:
 		current_room.queue_free()
 		rooms_cleared += 1
-	if rooms_cleared >= 12:
+	if rooms_cleared >= 12000:
 		game_over(GameOverType.SUCCESS)
 		return
 		
@@ -157,10 +163,11 @@ func _process(_delta):
 	if not is_game_over:
 		time_left.size.x = (time_left.custom_maximum_size.x / 20) * game_timer.time_left
 	else:
-		if Input.is_action_just_pressed("attack"):
-			start_game()
-		if Input.is_action_just_pressed("defend"):
-			get_tree().quit()
+		if gameover_timer.is_stopped():
+			if Input.is_action_just_pressed("attack"):
+				start_game()
+			if Input.is_action_just_pressed("defend"):
+				get_tree().quit()
 		
 
 func _on_timer_timeout():
@@ -169,7 +176,11 @@ func _on_timer_timeout():
 		
 func game_over(cond: GameOverType):
 	
+	if is_game_over:
+		return
+	
 	is_game_over = true
+	gameover_timer.start()
 	game_timer.stop()
 	HUD.hide()
 	

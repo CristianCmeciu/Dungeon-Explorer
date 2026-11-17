@@ -9,6 +9,7 @@ var wasStunned: bool = false
 
 func activateEnemy(enemyHp: int, enemyDamage: int, gold: int):
 	hp = enemyHp
+	maxHp = enemyHp
 	damage = enemyDamage
 	goldValue = gold
 	timeStunned = 0

@@ -1,22 +1,21 @@
 extends FightEvent
 
-@onready var texture: TextureRect = $TextureRect
 @onready var witch: Witch = $Witch
-@onready var witchMenu: Control = $WitchMenu
+@onready var witchMenu: CanvasLayer = $CanvasLayer
 
 signal ranFromWitch
 var fight: bool = false
-
-func initialise(attackBttn: Button, defendBttn: Button,combatMngr: CombatManager,playerIn: Player):
+func initialise(attackBttn: Button, defendBttn: Button,combatMngr: CombatManager,playerIn: Player,label: Label,hpRect:ColorRect):
 	attackbtn = attackBttn
 	defendbtn = defendBttn
 	combatManager = combatMngr
 	player = playerIn
+	text = label
+	hpLeft = hpRect
 	attackBttn.hide()
 	defendBttn.hide()
-	texture.global_position = get_viewport().get_visible_rect().size/2
 	witch.activateEnemy(15,0,0)
-	startFight(witch,true)
+	startFight(witch,label,hpLeft,true)
 
 func retaliate():
 	fight = true

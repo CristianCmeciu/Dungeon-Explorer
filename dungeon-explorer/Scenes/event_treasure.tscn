@@ -1,50 +1,122 @@
 [gd_scene format=3 uid="uid://5046f4o8jwle"]
 
 [ext_resource type="Script" uid="uid://ciuip15w3yuud" path="res://Scripts/EventTreasure.gd" id="1_ydfjn"]
+[ext_resource type="Texture2D" uid="uid://tmn74cf21w1q" path="res://Assets/butonel.png" id="2_sfmbh"]
+
+[sub_resource type="Gradient" id="Gradient_sfmbh"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0ycli"]
+gradient = SubResource("Gradient_sfmbh")
+height = 480
 
 [node name="EventTreasure" type="Node2D" unique_id=1731451470]
 script = ExtResource("1_ydfjn")
 
-[node name="Item" type="Control" parent="." unique_id=1827582517]
-layout_mode = 3
-anchors_preset = 0
+[node name="BGOverlay" type="ColorRect" parent="." unique_id=1856958356]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 offset_right = 1920.0
 offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.078431375, 0, 0.11764706, 0.5882353)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Item" unique_id=355945578]
-layout_mode = 0
-offset_left = 960.0
-offset_top = 540.0
-offset_right = 1600.0
-offset_bottom = 900.0
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1015839146]
 
-[node name="ItemDescriptionLabel" type="Label" parent="Item/VBoxContainer" unique_id=1683180967]
-layout_mode = 2
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=1755184724]
+offset_left = 640.0
+offset_right = 1284.0
+offset_bottom = 620.0
+color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 
-[node name="TakeItemBtn" type="Button" parent="Item/VBoxContainer" unique_id=1162367794]
-layout_mode = 2
-
-[node name="TakeGoldBtn" type="Button" parent="Item/VBoxContainer" unique_id=2072747722]
-layout_mode = 2
-
-[node name="TreasureChest" type="Control" parent="." unique_id=377917992]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 1920.0
+[node name="TreasureOverlay" type="VBoxContainer" parent="CanvasLayer" unique_id=200277097]
+offset_left = 640.0
+offset_right = 1284.0
 offset_bottom = 1080.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TreasureChest" unique_id=1627800791]
+[node name="EnemyTexture" type="TextureRect" parent="CanvasLayer/TreasureOverlay" unique_id=1502540124]
+custom_minimum_size = Vector2(644, 480)
+custom_maximum_size = Vector2(644, 480)
+layout_mode = 2
+texture = SubResource("GradientTexture2D_0ycli")
+
+[node name="Label" type="Label" parent="CanvasLayer/TreasureOverlay" unique_id=2049789307]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="CanvasLayer/TreasureOverlay" unique_id=217819265]
+layout_mode = 2
+
+[node name="OpenBtn" type="Button" parent="CanvasLayer/TreasureOverlay/Buttons" unique_id=1792276677]
+custom_minimum_size = Vector2(320, 450)
+custom_maximum_size = Vector2(320, 450)
+layout_mode = 2
+icon_alignment = 1
+expand_icon = true
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/TreasureOverlay/Buttons/OpenBtn" unique_id=319545964]
+modulate = Color(1, 0.3254902, 0.2627451, 1)
 layout_mode = 0
-offset_left = 960.0
-offset_top = 540.0
-offset_right = 1600.0
-offset_bottom = 900.0
+offset_right = 320.0
+offset_bottom = 450.0
+texture = ExtResource("2_sfmbh")
+expand_mode = 1
 
-[node name="Label" type="Label" parent="TreasureChest/VBoxContainer" unique_id=1170485602]
-layout_mode = 2
+[node name="Label" type="Label" parent="CanvasLayer/TreasureOverlay/Buttons/OpenBtn" unique_id=93991208]
+custom_minimum_size = Vector2(320, 450)
+custom_maximum_size = Vector2(320, 450)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -11.5
+offset_right = 25.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "Open"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
-[node name="OpenBtn" type="Button" parent="TreasureChest/VBoxContainer" unique_id=724730469]
+[node name="PassBtn" type="Button" parent="CanvasLayer/TreasureOverlay/Buttons" unique_id=1853518415]
+custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 
-[node name="PassBtn" type="Button" parent="TreasureChest/VBoxContainer" unique_id=1718236294]
-layout_mode = 2
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/TreasureOverlay/Buttons/PassBtn" unique_id=2105359715]
+modulate = Color(0.21960784, 0.44705883, 1, 1)
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 450.0
+texture = ExtResource("2_sfmbh")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/TreasureOverlay/Buttons/PassBtn" unique_id=1811724814]
+custom_minimum_size = Vector2(320, 450)
+custom_maximum_size = Vector2(320, 450)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -99.5
+offset_top = -44.0
+offset_right = 99.5
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "Ignore"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3

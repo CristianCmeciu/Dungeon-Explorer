@@ -3,15 +3,12 @@ extends Node2D
 signal treasure_chosen
 signal updateLabel
 
-@onready var item_node: Node = $Item
-@onready var item_description_label: Label = $Item/VBoxContainer/ItemDescriptionLabel
-@onready var take_item_btn: Button = $Item/VBoxContainer/TakeItemBtn
-@onready var take_gold_btn: Button = $Item/VBoxContainer/TakeGoldBtn
-@onready var chest_node: Node = $TreasureChest
-@onready var chest_label: Label = $TreasureChest/VBoxContainer/Label
-@onready var pass_btn: Button = $TreasureChest/VBoxContainer/PassBtn
-@onready var open_btn: Button = $TreasureChest/VBoxContainer/OpenBtn
-
+@onready var chest_label: Label = $CanvasLayer/TreasureOverlay/Label
+@onready var pass_btn: Button = $CanvasLayer/TreasureOverlay/Buttons/PassBtn
+@onready var open_btn: Button = $CanvasLayer/TreasureOverlay/Buttons/OpenBtn
+@onready var open_btn_text: Label = $CanvasLayer/TreasureOverlay/Buttons/OpenBtn/Label
+@onready var pass_btn_text: Label = $CanvasLayer/TreasureOverlay/Buttons/PassBtn/Label
+@onready var open_btn_texture: TextureRect = $CanvasLayer/TreasureOverlay/Buttons/OpenBtn/TextureRect
 
 
 var current_armor: Armor = null
@@ -37,8 +34,6 @@ func spawn_popup(msg: String, color: Color, pos: Vector2) -> Signal:
 	return popup.setup(msg, color, pos)
 
 func _ready() -> void:
-	take_item_btn.pressed.connect(_on_take_item_pressed)
-	take_gold_btn.pressed.connect(_on_take_gold_pressed)
 	pass_btn.pressed.connect(_on_pass_pressed)
 	open_btn.pressed.connect(_on_open_pressed)
 
@@ -54,24 +49,26 @@ func setup() -> void:
 	
 	if is_chest:
 		chest_ui = true
+		pass_btn.pressed.connect(_on_pass_pressed)
+		open_btn.pressed.connect(_on_open_pressed)
 		_show_chest_ui()
 	else:
+		pass_btn.pressed.connect(_on_take_gold_pressed)
+		open_btn.pressed.connect(_on_take_item_pressed)
 		_show_loot_ui()
 
 func _show_chest_ui() -> void:
-	item_node.hide()
-	chest_node.show()
 	chest_label.text = "You found a Treasure Chest!"
 	
-	pass_btn.text = "Don't open Chest"
-	open_btn.text = "Open Chest"
 	pass_btn.show()
 	open_btn.show()
 
 func _show_loot_ui() -> void:
 	chest_ui = false
-	chest_node.hide()
-	item_node.show()
+	open_btn.pressed.disconnect(_on_open_pressed)
+	pass_btn.pressed.disconnect(_on_pass_pressed)
+	pass_btn.pressed.connect(_on_take_gold_pressed)
+	open_btn.pressed.connect(_on_take_item_pressed)
 	_generate_item_loot()
 
 func _generate_item_loot() -> void:
@@ -88,33 +85,33 @@ func _generate_item_loot() -> void:
 		current_armor = Equipments.armors.pick_random()
 		
 		current_gold_value = current_armor.goldValue
-		item_description_label.text = "Loot: " + current_armor.name + " (DEF: " + str(current_armor.defense) + ")"
+		chest_label.text = "Loot: " + current_armor.name + " (DEF: " + str(current_armor.defense) + ")"
 
 		if player_armor == null or player_armor.defense < current_armor.defense:
-			take_item_btn.text = "Take " + current_armor.name
-			take_item_btn.disabled = false
+			open_btn_text.text = "Take " + current_armor.name
+			open_btn.disabled = false
 		else:
-			take_item_btn.text = "Current armor is better or similar"
-			take_item_btn.disabled = true
+			open_btn_text.text = "Current armor is better or similar"
+			open_btn.disabled = true
+			open_btn_texture.modulate -= Color(1,1,1,0)
 			
 	else:
 		current_weapon = Equipments.weapons.pick_random()
 
 		current_gold_value = current_weapon.goldValue
-		item_description_label.text = "Loot: " + current_weapon.name + " (DMG: " + str(current_weapon.damage) + ")"
+		chest_label.text = "Loot: " + current_weapon.name + " (DMG: " + str(current_weapon.damage) + ")"
 		if player_weapon == null:
-			take_item_btn.text = "Take " + current_weapon.name
-			take_item_btn.disabled = false
+			open_btn_text.text = "Take " + current_weapon.name
+			open_btn.disabled = false
 		elif current_weapon.name in betterWeapons[player_weapon.name]:
-			take_item_btn.text = "Current weapon is better"
-			take_item_btn.disabled = true
+			open_btn_text.text = "Current weapon is better"
+			open_btn_texture.modulate -= Color(1,1,1,0)
+			open_btn.disabled = true
 		else:
-			take_item_btn.text = "Take " + current_weapon.name
-			take_item_btn.disabled = false
+			open_btn_text.text = "Take " + current_weapon.name
+			open_btn.disabled = false
 
-	take_gold_btn.text = "Take " + str(current_gold_value) + " Gold"
-	take_item_btn.show()
-	take_gold_btn.show()
+	pass_btn_text.text = "Take " + str(current_gold_value) + " Gold"
 
 func _process(_delta):
 	if chest_ui:
@@ -123,7 +120,7 @@ func _process(_delta):
 		elif Input.is_action_just_pressed("defend"):
 			_on_pass_pressed()
 	else:
-		if Input.is_action_just_pressed("attack") and take_item_btn.disabled == false:
+		if Input.is_action_just_pressed("attack") and open_btn.disabled == false:
 			_on_take_item_pressed()
 		elif Input.is_action_just_pressed("defend"):
 			_on_take_gold_pressed()
@@ -136,10 +133,8 @@ func _on_pass_pressed() -> void:
 	_finish_room()
 
 func _on_take_item_pressed() -> void:
-	take_item_btn.disabled = true
-	take_gold_btn.disabled = true
 	
-	var base_pos := item_description_label.global_position + Vector2(item_description_label.size.x / 2.0, -20)
+	var base_pos := chest_label.global_position + Vector2(chest_label.size.x / 2.0, -20)
 	
 	if player:
 		if current_armor:
@@ -188,10 +183,9 @@ func _on_take_item_pressed() -> void:
 	_finish_room()
 
 func _on_take_gold_pressed() -> void:
-	take_item_btn.disabled = true
-	take_gold_btn.disabled = true
+	open_btn.disabled = true
 	
-	var base_pos := item_description_label.global_position + Vector2(item_description_label.size.x / 2.0, -20)
+	var base_pos := chest_label.global_position + Vector2(chest_label.size.x / 2.0, -20)
 	
 	if player and current_gold_value > 0:
 		player.addGold(current_gold_value)

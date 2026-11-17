@@ -83,16 +83,17 @@ theme_override_font_sizes/font_size = 48
 text = "QUIT"
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1162756784]
+layer = 2
 
 [node name="Player" type="Node" parent="HUD" unique_id=1635015]
 script = ExtResource("4_6bp64")
 metadata/_custom_type_script = "uid://bb1nx4dygfpq"
 
 [node name="ColorRect" type="ColorRect" parent="HUD" unique_id=1028711056]
-offset_left = 1304.0
+offset_left = 1293.0
 offset_top = 137.0
 offset_right = 1876.0
-offset_bottom = 406.0
+offset_bottom = 434.0
 color = Color(0.8509804, 0.8509804, 0.8509804, 0.39215687)
 
 [node name="PlayerUI" type="VBoxContainer" parent="HUD" unique_id=264455872]
@@ -284,7 +285,7 @@ custom_minimum_size = Vector2(175, 58)
 custom_maximum_size = Vector2(175, -1)
 layout_mode = 2
 theme_override_font_sizes/font_size = 42
-text = "1000 gold"
+text = "999 gold"
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -297,12 +298,13 @@ texture = SubResource("GradientTexture2D_s1fef")
 stretch_mode = 3
 
 [node name="WeaponLabel" type="Label" parent="HUD/PlayerUI/Potions+Stats/Stats/Weapon" unique_id=965127334]
-custom_minimum_size = Vector2(175, 58)
-custom_maximum_size = Vector2(175, -1)
+custom_minimum_size = Vector2(185, 58)
+custom_maximum_size = Vector2(185, -1)
 layout_mode = 2
 theme_override_font_sizes/font_size = 42
-text = "+3 dmg
-stun"
+text = "+10 DMG
+stun
+bleed"
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -324,36 +326,36 @@ horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="MinionForesight" type="TextureRect" parent="HUD" unique_id=767619617]
-offset_left = 506.0
+offset_left = 435.0
 offset_top = 750.0
-offset_right = 681.0
+offset_right = 610.0
 offset_bottom = 904.0
 texture = SubResource("GradientTexture2D_wb4oo")
 
 [node name="MinionStun" type="TextureRect" parent="HUD" unique_id=672013429]
-offset_left = 440.0
+offset_left = 369.0
 offset_top = 876.0
-offset_right = 615.0
+offset_right = 544.0
 offset_bottom = 1030.0
 texture = SubResource("GradientTexture2D_wb4oo")
 
 [node name="MinionAttack" type="TextureRect" parent="HUD" unique_id=1598754614]
-offset_left = 580.0
+offset_left = 509.0
 offset_top = 876.0
-offset_right = 755.0
+offset_right = 684.0
 offset_bottom = 1030.0
 texture = SubResource("GradientTexture2D_wb4oo")
 
 [node name="MinionDefend" type="TextureRect" parent="HUD" unique_id=342959412]
-offset_left = 1165.0
+offset_left = 1234.0
 offset_top = 875.0
-offset_right = 1340.0
+offset_right = 1409.0
 offset_bottom = 1029.0
 texture = SubResource("GradientTexture2D_wb4oo")
 
 [node name="MinionPotion" type="TextureRect" parent="HUD" unique_id=1939582357]
-offset_left = 1323.0
+offset_left = 1392.0
 offset_top = 875.0
-offset_right = 1498.0
+offset_right = 1567.0
 offset_bottom = 1029.0
 texture = SubResource("GradientTexture2D_wb4oo")

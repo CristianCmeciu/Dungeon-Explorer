@@ -3,8 +3,6 @@
 [ext_resource type="Script" uid="uid://dl4hwxhyao2de" path="res://Scripts/Enemy/SkeletonEvent.gd" id="1_akepy"]
 [ext_resource type="Script" uid="uid://c68px6uwfxlwp" path="res://Scripts/Enemy/Skeleton.gd" id="2_v8ar3"]
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_bt0fc"]
-
 [node name="SkeletonFight" type="Node2D" unique_id=1931383502]
 script = ExtResource("1_akepy")
 
@@ -12,19 +10,12 @@ script = ExtResource("1_akepy")
 script = ExtResource("2_v8ar3")
 metadata/_custom_type_script = "uid://c68px6uwfxlwp"
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=98457607]
-modulate = Color(0.5834499, 0.58344984, 0.58345, 1)
-self_modulate = Color(0.7313316, 0.7313315, 0.73133147, 1)
-offset_right = 64.0
-offset_bottom = 128.0
-texture = SubResource("CanvasTexture_bt0fc")
-
-[node name="Sword" type="TextureRect" parent="." unique_id=463491973]
-visible = false
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Dagger" type="TextureRect" parent="." unique_id=192915757]
-visible = false
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="BGOverlay" type="ColorRect" parent="." unique_id=687066831]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.078431375, 0, 0.11764706, 0.5882353)

@@ -7,16 +7,22 @@ signal fake_clicked
 var target_event: String = ""
 var is_fake: bool = false 
 var is_disabled: bool = false
-
+var hasMinion: bool = false
+var wasClicked: bool = false
 
 func _ready():
 	highlight.hide()
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 	input_event.connect(_on_input_event)
+	
+func applyMinion(hasForesight: bool):
+	hasMinion = hasForesight
 
 func set_target_event(event_name: String,has_minion: bool):
+	hasMinion = has_minion
 	target_event = event_name
+	wasClicked = false
 	if has_minion:
 		if event_name == "treasure room":
 			highlight.color = Color(1.0, 0.8, 0.0, 0.4)
@@ -38,14 +44,22 @@ func _on_mouse_entered():
 		highlight.show()
 
 func _on_mouse_exited():
+	if !hasMinion:
+		highlight.hide()
+		
+func pressed():
+	is_disabled = true
+	wasClicked = true
 	highlight.hide()
+	fake_clicked.emit()
 
 func _on_input_event(_viewport, event, _shape_idx):
 	if is_disabled:
 		return
 	
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		if is_fake:
+		if is_fake and !wasClicked:
+			wasClicked = true
 			is_disabled = true
 			highlight.hide()
 			fake_clicked.emit()

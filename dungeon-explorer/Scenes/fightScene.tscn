@@ -5,14 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://80sp22ncppvd" path="res://Scenes/FightEvents/skeletonFight.tscn" id="3_7aek1"]
 [ext_resource type="PackedScene" uid="uid://dda6il5nwuepa" path="res://Scenes/FightEvents/witchFight.tscn" id="4_jag4a"]
 [ext_resource type="Script" uid="uid://ct45ykfk27brl" path="res://Scripts/CombatManager.gd" id="5_83aax"]
+[ext_resource type="Texture2D" uid="uid://tmn74cf21w1q" path="res://Assets/butonel.png" id="6_gn0l3"]
 
-[sub_resource type="Gradient" id="Gradient_sbtiq"]
-offsets = PackedFloat32Array(0, 0.99759614, 1)
-colors = PackedColorArray(0, 0, 0, 1, 0.7620192, 0.7620192, 0.7620192, 1, 1, 1, 1, 1)
+[sub_resource type="Gradient" id="Gradient_gn0l3"]
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_1knuh"]
-gradient = SubResource("Gradient_sbtiq")
-fill_from = Vector2(0, 0.3420139)
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_57ar5"]
+gradient = SubResource("Gradient_gn0l3")
+height = 480
 
 [node name="FightScene" type="Node2D" unique_id=1413953936]
 script = ExtResource("1_57ar5")
@@ -20,29 +19,130 @@ mimicFight = ExtResource("2_gn0l3")
 skeletonFight = ExtResource("3_7aek1")
 witchFight = ExtResource("4_jag4a")
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1250600806]
-offset_right = 1920.0
-offset_bottom = 1080.0
-texture = SubResource("GradientTexture2D_1knuh")
-
 [node name="CombatManager" type="Node" parent="." unique_id=147825681]
 script = ExtResource("5_83aax")
 metadata/_custom_type_script = "uid://ct45ykfk27brl"
 
-[node name="AttackBtn" type="Button" parent="." unique_id=307643817]
-offset_left = 1315.0
-offset_top = 664.0
-offset_right = 1443.0
-offset_bottom = 728.0
-text = "Attack"
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=21114763]
 
-[node name="DefendBtn" type="Button" parent="." unique_id=1649714283]
-offset_left = 1328.0
-offset_top = 577.0
-offset_right = 1448.0
-offset_bottom = 630.0
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=623249406]
+offset_left = 640.0
+offset_right = 1284.0
+offset_bottom = 620.0
+color = Color(0.2509804, 0.2509804, 0.2509804, 1)
+
+[node name="FightOverlay" type="VBoxContainer" parent="CanvasLayer" unique_id=262319753]
+offset_left = 640.0
+offset_right = 1280.0
+offset_bottom = 1080.0
+
+[node name="EnemyTexture" type="TextureRect" parent="CanvasLayer/FightOverlay" unique_id=1983324471]
+custom_minimum_size = Vector2(644, 480)
+custom_maximum_size = Vector2(644, 480)
+layout_mode = 2
+texture = SubResource("GradientTexture2D_57ar5")
+
+[node name="HPMax" type="ColorRect" parent="CanvasLayer/FightOverlay/EnemyTexture" unique_id=1267488494]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -247.0
+offset_top = 25.0
+offset_right = 397.0
+offset_bottom = 25.0
+grow_horizontal = 2
+color = Color(1, 1, 1, 0)
+
+[node name="HPBG" type="ColorRect" parent="CanvasLayer/FightOverlay/EnemyTexture/HPMax" unique_id=180651054]
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 50.0
+color = Color(0, 0, 0, 1)
+
+[node name="HPLeft" type="ColorRect" parent="CanvasLayer/FightOverlay/EnemyTexture/HPMax" unique_id=552032108]
+custom_maximum_size = Vector2(498, -1)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 499.0
+offset_bottom = 49.0
+color = Color(1, 0, 0, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/FightOverlay" unique_id=1248293855]
+custom_minimum_size = Vector2(644, 140)
+layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Defend"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
-[connection signal="pressed" from="AttackBtn" to="CombatManager" method="playerAttack"]
-[connection signal="pressed" from="DefendBtn" to="CombatManager" method="playerDefend"]
+[node name="Buttons" type="HBoxContainer" parent="CanvasLayer/FightOverlay" unique_id=1939493747]
+layout_mode = 2
+
+[node name="AttackBtn" type="Button" parent="CanvasLayer/FightOverlay/Buttons" unique_id=307643817]
+custom_minimum_size = Vector2(320, 450)
+custom_maximum_size = Vector2(320, 450)
+layout_mode = 2
+icon_alignment = 1
+expand_icon = true
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/FightOverlay/Buttons/AttackBtn" unique_id=606639822]
+modulate = Color(1, 0.3254902, 0.2627451, 1)
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 450.0
+texture = ExtResource("6_gn0l3")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/FightOverlay/Buttons/AttackBtn" unique_id=1394196248]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -11.5
+offset_right = 25.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "Attack"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DefendBtn" type="Button" parent="CanvasLayer/FightOverlay/Buttons" unique_id=1649714283]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/FightOverlay/Buttons/DefendBtn" unique_id=347615161]
+modulate = Color(0.21962553, 0.4457081, 1, 1)
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 450.0
+texture = ExtResource("6_gn0l3")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/FightOverlay/Buttons/DefendBtn" unique_id=320776053]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -99.5
+offset_top = -44.0
+offset_right = 99.5
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "Defend"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="CanvasLayer/FightOverlay/Buttons/AttackBtn" to="CombatManager" method="playerAttack"]
+[connection signal="pressed" from="CanvasLayer/FightOverlay/Buttons/DefendBtn" to="CombatManager" method="playerDefend"]

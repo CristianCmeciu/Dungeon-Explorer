@@ -19,7 +19,7 @@ var currentEvent: Node2D
 var rooms: int
 var minions_happened: bool
 var thresholds = [20, 35, 60, 70, 75, 80, 90, 100]
-#var thresholds = [50,100,100,100,100,100,100,100]
+#var thresholds = [1,1,50,50,100,100,100,100]
 var events = [
 	"nimic", "minion room", "treasure room", "usa fache", 
 	"witch fight", "trap room", "mimic fight", "skeleton fight"
@@ -32,14 +32,17 @@ func initialise(p: Player, rooms_cleared: int,m: bool):
 	player.onNextRoom()
 
 func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAGE):
-	
-	if my_event == "minion room" && !blind:
+	blind = player.statusEffectManager.hasEffect("Blindness")
+	if Equipments.Minion.FORESIGHT in player.owned_minions:
+		apply_foresight()
+	if my_event == "minion room" and !blind:
 		currentEvent = minion_scene.instantiate()
 		self.add_child(currentEvent)
 		currentEvent.initialise(minion,player)
 		currentEvent.updateLabel.connect(updateLabels)
+		currentEvent.foresight.connect(apply_foresight)
 		
-	if my_event == "mimic fight" && !blind:
+	if my_event == "mimic fight" and !blind:
 		currentEvent = fight_scene.instantiate()
 		self.add_child(currentEvent)
 		currentEvent.generateEnemy(my_event,player)
@@ -64,7 +67,7 @@ func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAG
 		room_died.emit()
 		return 
 		
-	if my_event == "treasure room" && !blind:
+	if my_event == "treasure room" and !blind: 
 		currentEvent = treasure_room.instantiate()
 		currentEvent.initialise(player)
 		self.add_child(currentEvent)
@@ -97,7 +100,7 @@ func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAG
 		if my_event == "usa fache":
 			while future_event == "trap room" or (future_event == "minion room" and minions_happened):
 				future_event = get_random_event()
-		#future_event = "minion room"
+		future_event = "usa fache"
 		doors[i].set_target_event(future_event,true if Equipments.Minion.FORESIGHT in player.owned_minions else false)
 		doors[i].clicked.connect(_on_door_clicked)
 		doors[i].fake_clicked.connect(_on_fake_door_clicked)
@@ -109,6 +112,12 @@ func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAG
 		setup_fake_doors()
 	
 	updateLabels()
+
+func apply_foresight():
+	print("test")
+	for door in doors:
+		door.applyMinion(true)
+		door.get_child(1).show()
 
 func setup_fake_doors():
 	
@@ -179,28 +188,38 @@ func _process(_delta):
 	if doors.size()==3:
 		if Input.is_action_just_pressed("door_front"):
 			if doors[1].is_fake:
-				_on_fake_door_clicked()
+				if !doors[1].wasClicked:
+					doors[1].pressed()
+					_on_fake_door_clicked()
 			else:
 				_on_door_clicked(doors[1].target_event)
 		elif Input.is_action_just_pressed("door_left"):
 			if doors[0].is_fake:
-				_on_fake_door_clicked()
+				if !doors[1].wasClicked:
+					doors[0].pressed()
+					_on_fake_door_clicked()
 			else:
 				_on_door_clicked(doors[0].target_event)
 		elif Input.is_action_just_pressed("door_right"):
 			if doors[2].is_fake:
-				_on_fake_door_clicked()
+				if !doors[1].wasClicked:
+					doors[2].pressed()
+					_on_fake_door_clicked()
 			else:
 				_on_door_clicked(doors[2].target_event)
 	else:
 		if Input.is_action_just_pressed("door_left"):
 			if doors[0].is_fake:
-				_on_fake_door_clicked()
+				if !doors[1].wasClicked:
+					doors[0].pressed()
+					_on_fake_door_clicked()
 			else:
 				_on_door_clicked(doors[0].target_event)
 		elif Input.is_action_just_pressed("door_right"):
 			if doors[1].is_fake:
-				_on_fake_door_clicked()
+				if !doors[1].wasClicked:
+					doors[1].pressed()
+					_on_fake_door_clicked()
 			else:
 				_on_door_clicked(doors[1].target_event)
 

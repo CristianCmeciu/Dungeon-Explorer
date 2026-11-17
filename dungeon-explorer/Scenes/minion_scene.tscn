@@ -1,39 +1,86 @@
 [gd_scene format=3 uid="uid://crcyhcrven5u5"]
 
 [ext_resource type="Script" uid="uid://b2g8xaptnhqb" path="res://Scripts/MinionScene.gd" id="1_b662p"]
+[ext_resource type="Texture2D" uid="uid://tmn74cf21w1q" path="res://Assets/butonel.png" id="2_67nok"]
 
-[sub_resource type="Gradient" id="Gradient_2i5d4"]
-offsets = PackedFloat32Array(0.19953051, 0.34976527, 0.52347416, 0.7394366)
-colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0.56122446, 0.56122446, 0.56122446, 1)
+[sub_resource type="Gradient" id="Gradient_4n3rp"]
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_qsuaf"]
-gradient = SubResource("Gradient_2i5d4")
-fill_to = Vector2(0.67064846, 0.6501706)
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_s1fef"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6nyii"]
+gradient = SubResource("Gradient_4n3rp")
+height = 480
 
 [node name="MinionScene" type="Node2D" unique_id=1487421832]
 script = ExtResource("1_b662p")
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=2060414229]
-offset_left = 601.0
-offset_top = -2.0
-offset_right = 1301.0
-offset_bottom = 1077.0
-texture = SubResource("GradientTexture2D_qsuaf")
+[node name="BGOverlay" type="ColorRect" parent="." unique_id=186095300]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.078431375, 0, 0.11764706, 0.5882353)
 
-[node name="TakeButton" type="Button" parent="." unique_id=958303031]
-offset_left = 900.0
-offset_top = 700.0
-offset_right = 1000.0
-offset_bottom = 800.0
-text = "TAKE"
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=411302436]
 
-[node name="TextureRect2" type="TextureRect" parent="." unique_id=829420100]
-offset_left = 863.0
-offset_top = 299.0
-offset_right = 1053.0
-offset_bottom = 468.0
-texture = SubResource("CanvasTexture_s1fef")
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=163795134]
+offset_left = 640.0
+offset_right = 1284.0
+offset_bottom = 620.0
+color = Color(0.2509804, 0.2509804, 0.2509804, 1)
 
-[connection signal="pressed" from="TakeButton" to="." method="_on_take_button_pressed"]
+[node name="MinionOverlay" type="VBoxContainer" parent="CanvasLayer" unique_id=1977946678]
+offset_left = 640.0
+offset_right = 1284.0
+offset_bottom = 1080.0
+
+[node name="MinionTexture" type="TextureRect" parent="CanvasLayer/MinionOverlay" unique_id=1597804353]
+custom_minimum_size = Vector2(644, 480)
+custom_maximum_size = Vector2(644, 480)
+layout_mode = 2
+texture = SubResource("GradientTexture2D_6nyii")
+
+[node name="Label" type="Label" parent="CanvasLayer/MinionOverlay" unique_id=1177749458]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="CanvasLayer/MinionOverlay" unique_id=1352473332]
+layout_mode = 2
+
+[node name="SaveBtn" type="Button" parent="CanvasLayer/MinionOverlay/Buttons" unique_id=779336788]
+custom_minimum_size = Vector2(644, 450)
+custom_maximum_size = Vector2(644, 450)
+layout_mode = 2
+icon_alignment = 1
+expand_icon = true
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MinionOverlay/Buttons/SaveBtn" unique_id=1407341894]
+layout_mode = 0
+offset_right = 644.0
+offset_bottom = 450.0
+texture = ExtResource("2_67nok")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/MinionOverlay/Buttons/SaveBtn" unique_id=775873308]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -11.5
+offset_right = 25.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 64
+text = "Save It"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="CanvasLayer/MinionOverlay/Buttons/SaveBtn" to="." method="_on_take_button_pressed"]

@@ -10,11 +10,15 @@ var fight_begin: bool = false
 var player: Player
 var enemy: Enemy
 var enemyFirst: bool
+var text: Label
+var hpLeft: ColorRect
 
-func startCombat(p: Player, e: Entity, enemyAttacksFirst: bool = false):
+func startCombat(p: Player, e: Entity,label:Label,hpRect: ColorRect, enemyAttacksFirst: bool = false):
 	player = p
 	enemy = e
 	enemyFirst = enemyAttacksFirst
+	text = label
+	hpLeft = hpRect
 	fight_begin = true
 	if enemyAttacksFirst:
 		enemyTurn()
@@ -28,12 +32,15 @@ func _process(_delta):
 		playerDefend()
 
 func playerDefend():
+	text.text = "You defend yourself! +1 DEF for 3 turns!"
 	player.defend()
 	enemyTurn()
 
 func playerAttack():
 	enemy.takeDamage(player.attack())
+	hpLeft.size.x = (hpLeft.custom_maximum_size.x / enemy.maxHp) * enemy.hp
 	print("Enemy got hit ",player.attack(),". Remaining hp: ",enemy.hp)
+	text.text = "You hit the enemy!"
 	if enemy.hp <= 0:
 		endCombat()
 		return
@@ -48,13 +55,17 @@ func playerAttack():
 	enemyTurn()
 	
 func enemyTurn():
+	
 	if enemy is Witch:
+		var effect = enemy.throwPotion()
 		if Equipments.Minion.POTION in player.owned_minions and !potion_blocked:
+			text.text += "\n" + enemy.name + " splashed you with " + effect.name + ", but the minion protected you!"
 			potion_blocked = true
 		else:
-			var effect = enemy.throwPotion()
+			text.text += "\n" + enemy.name + " splashed you with " + effect.name + "!"
 			player.applyEffect(effect)
 	else:
+		text.text += "\n" + enemy.name + " hit you!"
 		player.takeDamage(enemy.attack())
 	updateHP.emit()
 	if player.hp <= 0:
