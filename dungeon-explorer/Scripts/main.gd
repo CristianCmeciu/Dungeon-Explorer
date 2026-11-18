@@ -71,11 +71,11 @@ func start_game():
 	poison_left.size.x = 0
 	
 	HUD.show()
-	AudioManager.play_sound("bg_sound")
+	AudioManager.play_sound(AudioManager.SoundType.BACKGROUND)
 	is_game_over = false
 	rooms_cleared = 0
 	gameover_screen.hide()
-	game_timer.start(20000.0)
+	game_timer.start(20.0)
 	player.initialize()
 	generate_next_room("nimic")
 
@@ -85,10 +85,12 @@ func generate_next_room(next_event: String):
 	if current_room:
 		current_room.queue_free()
 		rooms_cleared += 1
-	if rooms_cleared >= 12000:
+	if rooms_cleared >= 12:
 		game_over(GameOverType.SUCCESS)
 		return
 		
+	AudioManager.stop_sound(AudioManager.SoundType.MINION_CRY)
+	
 	var next_scene = possible_rooms.pick_random()
 	current_room = next_scene.instantiate()
 	
@@ -195,12 +197,15 @@ func game_over(cond: GameOverType):
 			result_label.add_theme_color_override("font_color", Color(0.2, 0.8, 0.2))
 		GameOverType.TIMEOUT:
 			result_label.text = "vaide capu tau"
+			AudioManager.play_sound(AudioManager.SoundType.DUNGEON_COLLAPSE)
 			result_label.add_theme_color_override("font_color", Color(0.8, 0.2, 0.2))
 		GameOverType.TRAP:
 			result_label.text = "ai cazut in capcana"
+			AudioManager.play_sound(AudioManager.SoundType.TRAP_DEATH)
 			result_label.add_theme_color_override("font_color", Color(0.8, 0.2, 0.2))
 		GameOverType.DIED:
 			result_label.text = "ai murit"
+			AudioManager.play_sound(AudioManager.SoundType.FIGHT_DEATH)
 			result_label.add_theme_color_override("font_color", Color(0.8, 0.2, 0.2))
 			
 	var formula = player.gold

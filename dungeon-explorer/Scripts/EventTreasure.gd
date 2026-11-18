@@ -126,7 +126,7 @@ func _process(_delta):
 			_on_take_gold_pressed()
 
 func _on_open_pressed() -> void:
-	AudioManager.play_sound("chest_sfx")
+	AudioManager.play_sound(AudioManager.SoundType.OPEN_CHEST)
 	_show_loot_ui()
 
 func _on_pass_pressed() -> void:
@@ -146,7 +146,7 @@ func _on_take_item_pressed() -> void:
 			
 			var popup_text := _format_stat_diff(diff_def, "DEF")
 			spawn_popup(popup_text, Color(0.3, 0.8, 1.0), base_pos)
-			AudioManager.play_sound("armor_equip")
+			AudioManager.play_sound(AudioManager.SoundType.EQUIP_ARMOR)
 			
 			
 			
@@ -172,7 +172,7 @@ func _on_take_item_pressed() -> void:
 				var atk_color := Color(1.0, 0.35, 0.3) if diff_atk < 0 else Color(0.4, 1.0, 0.4)
 				
 				spawn_popup(atk_text, atk_color, base_pos)
-				AudioManager.play_sound("weapon_equip")
+				AudioManager.play_sound(AudioManager.SoundType.EQUIP_WEAPON)
 				
 				if effect_text != "":
 					spawn_popup(effect_text, effect_color, base_pos + Vector2(0, 35))
@@ -193,7 +193,7 @@ func _on_take_gold_pressed() -> void:
 		
 		var popup_text := "+%d Gold" % current_gold_value
 		spawn_popup(popup_text, Color(1.0, 0.85, 0.2), base_pos)
-		AudioManager.play_sound("gold_take")
+		AudioManager.play_sound(AudioManager.SoundType.TAKE_GOLD)
 		
 	_finish_room()
 

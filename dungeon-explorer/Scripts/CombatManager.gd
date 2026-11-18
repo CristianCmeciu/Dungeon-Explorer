@@ -3,7 +3,6 @@ extends Node
 
 signal fightWon
 signal updateHP
-signal playerTookDamage(damage: int)
 
 var potion_blocked: bool = false
 var fight_begin: bool = false
@@ -33,11 +32,13 @@ func _process(_delta):
 
 func playerDefend():
 	text.text = "You defend yourself! +1 DEF for 3 turns!"
+	AudioManager.play_sound(AudioManager.SoundType.PLAYER_DEFEND)
 	player.defend()
 	enemyTurn()
 
 func playerAttack():
 	enemy.takeDamage(player.attack())
+	AudioManager.play_sound(AudioManager.SoundType.ATTACK_PLAYER)
 	hpLeft.size.x = (hpLeft.custom_maximum_size.x / enemy.maxHp) * enemy.hp
 	print("Enemy got hit ",player.attack(),". Remaining hp: ",enemy.hp)
 	text.text = "You hit the enemy!"
@@ -59,12 +60,19 @@ func enemyTurn():
 	if enemy is Witch:
 		var effect = enemy.throwPotion()
 		if Equipments.Minion.POTION in player.owned_minions and !potion_blocked:
+			AudioManager.play_sound(AudioManager.SoundType.MINION_PROTECT)
 			text.text += "\n" + enemy.name + " splashed you with " + effect.name + ", but the minion protected you!"
 			potion_blocked = true
 		else:
+			AudioManager.play_sound(AudioManager.SoundType.POTION_THROW)
 			text.text += "\n" + enemy.name + " splashed you with " + effect.name + "!"
 			player.applyEffect(effect)
 	else:
+		match enemy:
+			Mimic:
+				AudioManager.play_sound(AudioManager.SoundType.MIMIC_ATTACK)
+			Skeleton:
+				AudioManager.play_sound(AudioManager.SoundType.SKELETON_ATTACK)
 		text.text += "\n" + enemy.name + " hit you!"
 		player.takeDamage(enemy.attack())
 	updateHP.emit()
@@ -83,9 +91,16 @@ func enemyTurn():
 
 func endCombat():
 	potion_blocked = false
-	if player.hp >= 0:
+	if player.hp > 0:
 		print("Player won")
 		player.addGold(enemy.goldValue)
+		match enemy:
+			Mimic:
+				AudioManager.play_sound(AudioManager.SoundType.MIMIC_DEATH)
+			Witch:
+				AudioManager.play_sound(AudioManager.SoundType.WITCH_DEATH)
+			Skeleton:
+				AudioManager.play_sound(AudioManager.SoundType.SKELETON_DEATH)
 		fightWon.emit()
 	else:
 		print("Player not won")

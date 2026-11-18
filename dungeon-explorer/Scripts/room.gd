@@ -35,6 +35,8 @@ func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAG
 	blind = player.statusEffectManager.hasEffect("Blindness")
 	if Equipments.Minion.FORESIGHT in player.owned_minions:
 		apply_foresight()
+	if my_event == "minion room":
+		AudioManager.play_sound(AudioManager.SoundType.MINION_CRY)
 	if my_event == "minion room" and !blind:
 		currentEvent = minion_scene.instantiate()
 		self.add_child(currentEvent)
@@ -100,7 +102,7 @@ func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAG
 		if my_event == "usa fache":
 			while future_event == "trap room" or (future_event == "minion room" and minions_happened):
 				future_event = get_random_event()
-		#future_event = "usa fache"
+		#future_event = "witch fight"
 		doors[i].set_target_event(future_event,true if Equipments.Minion.FORESIGHT in player.owned_minions else false)
 		doors[i].clicked.connect(_on_door_clicked)
 		doors[i].fake_clicked.connect(_on_fake_door_clicked)
@@ -159,6 +161,7 @@ func _on_door_clicked(event_passed_from_door: String):
 func _on_fake_door_clicked():
 	if fake_door_label:
 		fake_door_label.show()
+		AudioManager.play_sound(AudioManager.SoundType.USA_FACHE)
 		
 		var tween = create_tween()
 		tween.tween_interval(0.2)
@@ -195,14 +198,14 @@ func _process(_delta):
 				_on_door_clicked(doors[1].target_event)
 		elif Input.is_action_just_pressed("door_left"):
 			if doors[0].is_fake:
-				if !doors[1].wasClicked:
+				if !doors[0].wasClicked:
 					doors[0].pressed()
 					_on_fake_door_clicked()
 			else:
 				_on_door_clicked(doors[0].target_event)
 		elif Input.is_action_just_pressed("door_right"):
 			if doors[2].is_fake:
-				if !doors[1].wasClicked:
+				if !doors[2].wasClicked:
 					doors[2].pressed()
 					_on_fake_door_clicked()
 			else:
@@ -210,7 +213,7 @@ func _process(_delta):
 	else:
 		if Input.is_action_just_pressed("door_left"):
 			if doors[0].is_fake:
-				if !doors[1].wasClicked:
+				if !doors[0].wasClicked:
 					doors[0].pressed()
 					_on_fake_door_clicked()
 			else:

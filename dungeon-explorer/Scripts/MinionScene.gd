@@ -34,6 +34,8 @@ func _process(_delta):
 		_on_take_button_pressed()
 
 func _on_take_button_pressed():
+	AudioManager.stop_sound(AudioManager.SoundType.MINION_CRY)
+	AudioManager.play_sound(AudioManager.SoundType.MINION_HAPPY)
 	if minion == Equipments.Minion.FORESIGHT:
 		foresight.emit()
 	player.addMinion(minion)

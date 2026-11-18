@@ -6,9 +6,36 @@
 [ext_resource type="AudioStream" uid="uid://cryfdvtbmlalq" path="res://Assets/armor_equip.mp3" id="4_lwpe1"]
 [ext_resource type="AudioStream" uid="uid://dbadwhm30diw6" path="res://Assets/weapon_equip.mp3" id="5_jmilc"]
 [ext_resource type="AudioStream" uid="uid://ddsr6pwdekdgf" path="res://Assets/gold_take.mp3" id="6_5nrbi"]
+[ext_resource type="AudioStream" uid="uid://de104gnrob70q" path="res://Assets/mob_death.mp3" id="7_5kf6k"]
+[ext_resource type="AudioStream" uid="uid://pce7ndxod7te" path="res://Assets/trap_room_die.mp3" id="8_tnn7g"]
+[ext_resource type="AudioStream" uid="uid://bp3cfafci7l2q" path="res://Assets/fight_die.mp3" id="9_lwpe1"]
+[ext_resource type="AudioStream" uid="uid://b0i8ykivr5qlp" path="res://Assets/attack_player_1.mp3" id="10_5nrbi"]
+[ext_resource type="AudioStream" uid="uid://4a818rli5knr" path="res://Assets/attack_player_2.mp3" id="11_pn88s"]
+[ext_resource type="AudioStream" uid="uid://dow12v4he8l0b" path="res://Assets/dungeon_collapse.mp3" id="12_pn88s"]
+[ext_resource type="AudioStream" uid="uid://5l6jcmpcrhfl" path="res://Assets/defend.mp3" id="13_fasow"]
+[ext_resource type="AudioStream" uid="uid://ceut558ywyvdv" path="res://Assets/glass kill.mp3" id="14_1bal0"]
+[ext_resource type="AudioStream" uid="uid://dhskpctubqysw" path="res://Assets/minion_protecc.mp3" id="15_vhwx7"]
+[ext_resource type="AudioStream" uid="uid://cr5yo4oosjhwi" path="res://Assets/mimic_attack.mp3" id="16_bkjj7"]
+[ext_resource type="AudioStream" uid="uid://vosll6mxw5ky" path="res://Assets/usa_faache.ogg" id="17_dv115"]
+[ext_resource type="AudioStream" uid="uid://kfuirfjk0l5q" path="res://Assets/skeleton_attack.mp3" id="18_tesok"]
+[ext_resource type="AudioStream" uid="uid://dinv755ng0w00" path="res://Assets/witch_death.mp3" id="19_s7ae5"]
+[ext_resource type="AudioStream" uid="uid://bpxbdgdnrra6u" path="res://Assets/minion_cry.mp3" id="20_w4e61"]
+[ext_resource type="AudioStream" uid="uid://by2dgf11dnrfp" path="res://Assets/skeleton_death.mp3" id="21_uebr4"]
+[ext_resource type="AudioStream" uid="uid://c1ylvjf4ask6c" path="res://Assets/minion_happy.mp3" id="22_ype7x"]
 
-[node name="AudioManager" type="Node2D" unique_id=2789132]
+[node name="AudioManager" type="Node2D" unique_id=2789132 node_paths=PackedStringArray("dungeon_collapse", "defend", "potion_throw", "minion_protect", "mimic_attack", "usa_fache", "skeleton_attack", "witch_death", "minion_cry", "skeleton_death", "minion_happy")]
 script = ExtResource("1_mjqhu")
+dungeon_collapse = NodePath("DungeonCollapse")
+defend = NodePath("Defend")
+potion_throw = NodePath("PotionThrow")
+minion_protect = NodePath("MinionProtect")
+mimic_attack = NodePath("MimicAttack")
+usa_fache = NodePath("UsaFache")
+skeleton_attack = NodePath("SkeletonAttack")
+witch_death = NodePath("WitchDeath")
+minion_cry = NodePath("MinionCry")
+skeleton_death = NodePath("SkeletonDeath")
+minion_happy = NodePath("MinionHappy")
 
 [node name="bg_sound" type="AudioStreamPlayer" parent="." unique_id=1681656942]
 stream = ExtResource("2_5kf6k")
@@ -27,3 +54,56 @@ stream = ExtResource("5_jmilc")
 
 [node name="GoldTake" type="AudioStreamPlayer" parent="." unique_id=1648685637]
 stream = ExtResource("6_5nrbi")
+
+[node name="MobDeath" type="AudioStreamPlayer" parent="." unique_id=939410332]
+stream = ExtResource("7_5kf6k")
+volume_db = -5.0
+
+[node name="TrapDeath" type="AudioStreamPlayer" parent="." unique_id=483795939]
+stream = ExtResource("8_tnn7g")
+volume_db = -5.0
+
+[node name="FightDeath" type="AudioStreamPlayer" parent="." unique_id=376790258]
+stream = ExtResource("9_lwpe1")
+
+[node name="AttackPlayer1" type="AudioStreamPlayer" parent="." unique_id=1174341152]
+stream = ExtResource("10_5nrbi")
+
+[node name="AttackPlayer2" type="AudioStreamPlayer" parent="." unique_id=1737291143]
+stream = ExtResource("11_pn88s")
+
+[node name="DungeonCollapse" type="AudioStreamPlayer" parent="." unique_id=1827512787]
+stream = ExtResource("12_pn88s")
+volume_db = 3.5
+
+[node name="Defend" type="AudioStreamPlayer" parent="." unique_id=1871383557]
+stream = ExtResource("13_fasow")
+
+[node name="PotionThrow" type="AudioStreamPlayer" parent="." unique_id=1768739673]
+stream = ExtResource("14_1bal0")
+
+[node name="MinionProtect" type="AudioStreamPlayer" parent="." unique_id=115962527]
+stream = ExtResource("15_vhwx7")
+
+[node name="MimicAttack" type="AudioStreamPlayer" parent="." unique_id=339523509]
+stream = ExtResource("16_bkjj7")
+volume_db = 1.5
+
+[node name="UsaFache" type="AudioStreamPlayer" parent="." unique_id=220414791]
+stream = ExtResource("17_dv115")
+
+[node name="SkeletonAttack" type="AudioStreamPlayer" parent="." unique_id=2063063724]
+stream = ExtResource("18_tesok")
+
+[node name="WitchDeath" type="AudioStreamPlayer" parent="." unique_id=1370491622]
+stream = ExtResource("19_s7ae5")
+
+[node name="MinionCry" type="AudioStreamPlayer" parent="." unique_id=2093127940]
+stream = ExtResource("20_w4e61")
+parameters/looping = true
+
+[node name="SkeletonDeath" type="AudioStreamPlayer" parent="." unique_id=1250891294]
+stream = ExtResource("21_uebr4")
+
+[node name="MinionHappy" type="AudioStreamPlayer" parent="." unique_id=1054012664]
+stream = ExtResource("22_ype7x")
