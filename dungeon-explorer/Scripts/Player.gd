@@ -53,7 +53,7 @@ func takeDamage(damage: int) -> int:
 	print("Player took damage for: ",max(0,damageTaken), ". Remaining HP: ",hp)
 	if hp <= 0:
 		die()
-	return damageTaken
+	return max(0,damageTaken)
 	
 func attack() -> int:
 	var val: int = 1

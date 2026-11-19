@@ -5,6 +5,13 @@
 [ext_resource type="PackedScene" uid="uid://1q4dhvxj2yiq" path="res://Scenes/room_3.tscn" id="3_21xkr"]
 [ext_resource type="Script" uid="uid://bb1nx4dygfpq" path="res://Scripts/Player.gd" id="4_6bp64"]
 
+[sub_resource type="Gradient" id="Gradient_6bp64"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_e58r8"]
+gradient = SubResource("Gradient_6bp64")
+width = 1500
+height = 600
+
 [sub_resource type="Gradient" id="Gradient_jjvhh"]
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_qsuaf"]
@@ -52,33 +59,46 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0.5882353)
 
 [node name="CenterContainer" type="CenterContainer" parent="GameOverScreen" unique_id=1470993377]
-offset_left = 800.0
-offset_top = 400.0
-offset_right = 1087.0
-offset_bottom = 625.0
+offset_left = 110.0
+offset_top = 100.0
+offset_right = 1810.0
+offset_bottom = 1000.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GameOverScreen/CenterContainer" unique_id=1719656818]
 layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=588091402]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_e58r8")
 
 [node name="ResultLabel" type="Label" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=2031443078]
+custom_maximum_size = Vector2(400, -1)
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 48
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ScoreLabel" type="Label" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=1609257108]
+custom_maximum_size = Vector2(400, -1)
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 48
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="PlayAgainButton" type="Button" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=1872762619]
+custom_maximum_size = Vector2(400, -1)
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 48
 text = "PLAY AGAIN"
 
 [node name="QuitButton" type="Button" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=689147699]
+custom_maximum_size = Vector2(400, -1)
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 48
 text = "QUIT"
 

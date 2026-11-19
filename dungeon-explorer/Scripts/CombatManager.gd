@@ -11,6 +11,15 @@ var enemy: Enemy
 var enemyFirst: bool
 var text: Label
 var hpLeft: ColorRect
+var dmgTookPosition = Vector2(450,120)
+var dmgGivenPosition = Vector2(980,90)
+
+const FLOATING_TEXT = preload("res://Scenes/FX.tscn")
+
+func spawn_popup(msg: String, color: Color, pos: Vector2) -> Signal:
+	var popup: FloatingText = FLOATING_TEXT.instantiate()
+	get_tree().current_scene.add_child(popup)
+	return popup.setup(msg, color, pos)
 
 func startCombat(p: Player, e: Entity,label:Label,hpRect: ColorRect, enemyAttacksFirst: bool = false):
 	player = p
@@ -42,21 +51,29 @@ func playerAttack():
 	hpLeft.size.x = (hpLeft.custom_maximum_size.x / enemy.maxHp) * enemy.hp
 	print("Enemy got hit ",player.attack(),". Remaining hp: ",enemy.hp)
 	text.text = "You hit the enemy!"
+	var dmgText = " -" + str(player.attack()) + " HP"
+	if (player.attack() == 0):
+		dmgText = "Too weak!"
+	spawn_popup(dmgText,Color.RED,dmgGivenPosition)
 	if enemy.hp <= 0:
 		endCombat()
 		return
 	if(player.weapon != null):
 		if Equipments.Minion.STUN in player.owned_minions:
 			enemy.applyStun(player.weapon.stunTime + 1)
+			if(player.weapon.stunTime and enemy.timeStunned == 2):
+				spawn_popup("Stunned!",Color(0.7,0.7,0.7),dmgGivenPosition + Vector2(0,70))
 		else:
 			enemy.applyStun(player.weapon.stunTime)
+			if (player.weapon.stunTime and enemy.timeStunned == 1):
+				spawn_popup("Stunned!",Color(0.7,0.7,0.7),dmgGivenPosition + Vector2(0,70))
+		# and enemy is not Skeleton
 		if(player.weapon.effect != null):
 			var effect = player.weapon.effect
 			enemy.applyEffect(effect)
 	enemyTurn()
 	
 func enemyTurn():
-	
 	if enemy is Witch:
 		var effect = enemy.throwPotion()
 		if Equipments.Minion.POTION in player.owned_minions and !potion_blocked:
@@ -67,6 +84,8 @@ func enemyTurn():
 			AudioManager.play_sound(AudioManager.SoundType.POTION_THROW)
 			text.text += "\n" + enemy.name + " splashed you with " + effect.name + "!"
 			player.applyEffect(effect)
+			if (effect.name=="Poison"):
+				spawn_popup("- " + str(effect.initialDamage) + " HP",Color.GREEN,dmgTookPosition)	
 	else:
 		match enemy:
 			Mimic:
@@ -74,16 +93,28 @@ func enemyTurn():
 			Skeleton:
 				AudioManager.play_sound(AudioManager.SoundType.SKELETON_ATTACK)
 		text.text += "\n" + enemy.name + " hit you!"
-		player.takeDamage(enemy.attack())
+		var damage = player.takeDamage(enemy.attack())
+		var damageText = "-" + str(damage) + " HP"
+		if damage <= 0:
+			damageText = "Blocked!"
+		spawn_popup(damageText,Color(1.0, 0.2, 0.2),dmgTookPosition)
 	updateHP.emit()
 	if player.hp <= 0:
 		endCombat()
 		return
 	if !enemyFirst:
+		var prevHP = player.hp
 		player.onTurnEnd()
+		var currentHP = player.hp
+		if(player.statusEffectManager.hasEffect("Poison") and currentHP != prevHP):
+			spawn_popup(str(currentHP-prevHP) + " HP",Color.GREEN,dmgTookPosition + Vector2(0,35))
 	else:
 		enemyFirst = false
+	var prevEnemyHP = enemy.hp
 	enemy.onTurnEnd()
+	var currentEnemyHP = enemy.hp
+	if(enemy.statusEffectManager.hasEffect("Poison") and currentEnemyHP != prevEnemyHP):
+		spawn_popup(str(currentEnemyHP-prevEnemyHP) + " HP",Color.RED,dmgGivenPosition + Vector2(0,35))
 	if player.hp <= 0 or enemy.hp <= 0:
 		endCombat()
 		return

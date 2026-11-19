@@ -33,19 +33,14 @@ func spawn_popup(msg: String, color: Color, pos: Vector2) -> Signal:
 	get_tree().current_scene.add_child(popup)
 	return popup.setup(msg, color, pos)
 
-func _ready() -> void:
-	pass_btn.pressed.connect(_on_pass_pressed)
-	open_btn.pressed.connect(_on_open_pressed)
 
 func initialise(p: Player) -> void:
-	
-	_ready()
 	player = p
 	setup()
 
 func setup() -> void:
 	randomize()
-	is_chest = randf() < 2
+	is_chest = randf() < 0.5
 	
 	if is_chest:
 		chest_ui = true

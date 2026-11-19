@@ -19,7 +19,7 @@ var currentEvent: Node2D
 var rooms: int
 var minions_happened: bool
 var thresholds = [20, 35, 60, 70, 75, 80, 90, 100]
-#var thresholds = [1,1,50,50,100,100,100,100]
+#var thresholds = [10,20,40,70,75,75,90,100]
 var events = [
 	"nimic", "minion room", "treasure room", "usa fache", 
 	"witch fight", "trap room", "mimic fight", "skeleton fight"
@@ -71,8 +71,8 @@ func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAG
 		
 	if my_event == "treasure room" and !blind: 
 		currentEvent = treasure_room.instantiate()
-		currentEvent.initialise(player)
 		self.add_child(currentEvent)
+		currentEvent.initialise(player)
 		currentEvent.treasure_chosen.connect(fightWon)
 	
 	var random_bun = 4
@@ -119,26 +119,28 @@ func apply_foresight():
 	print("test")
 	for door in doors:
 		door.applyMinion(true)
-		door.get_child(1).show()
+		#door.get_child(1).show()
+
 
 func setup_fake_doors():
 	
 	if doors.size() == 2:
 		var fake_index = randi() % 2
 		doors[fake_index].is_fake = true
-		
+		doors[fake_index].set_mist_fake()
 	elif doors.size() == 3:
 		var num_fakes = randi() % 2
 		
 		if num_fakes:
 			doors[1].is_fake = true
+			doors[1].set_mist_fake()
 			var other_fake = 0 if randi() % 2 else 2
 			doors[other_fake].is_fake = true
-			
+			doors[other_fake].set_mist_fake()
 		else:
 			var fake_index = randi() % 3
 			doors[fake_index].is_fake = true
-			
+			doors[fake_index].set_mist_fake()
 func get_random_event() -> String:
 	
 	var roll = randi_range(1, 100)
