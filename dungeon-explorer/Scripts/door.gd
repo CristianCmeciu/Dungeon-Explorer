@@ -90,11 +90,10 @@ func _setup_procedural_mist() -> void:
 	mist_particles.amount = 35
 	mist_particles.lifetime = 2.2
 	mist_particles.preprocess = 1.0 # Starts already active so there's no initial delay
-	mist_particles.z_index = 5 # Renders in front of the door sprite
+	mist_particles.z_index = 5
 	
 	mist_particles.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	
-	# 1. Create a soft circular texture via code (no external asset needed)
 	var grad_tex := GradientTexture2D.new()
 	grad_tex.width = 64
 	grad_tex.height = 64
@@ -103,28 +102,24 @@ func _setup_procedural_mist() -> void:
 	grad_tex.fill_to = Vector2(0.5, 0.0) # Radius reaches the edge
 	
 	var tex_grad := Gradient.new()
-	tex_grad.set_color(0, Color(1, 1, 1, 0.45)) # Soft center
-	tex_grad.set_color(1, Color(1, 1, 1, 0.0))  # Transparent edge
+	tex_grad.set_color(0, Color(1, 1, 1, 0.45)) 
+	tex_grad.set_color(1, Color(1, 1, 1, 0.0)) 
 	grad_tex.gradient = tex_grad
 	mist_particles.texture = grad_tex
 	
-	# 2. Configure particle behavior
 	var mat := ParticleProcessMaterial.new()
 	mat.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
-	mat.emission_box_extents = Vector3(25.0, 5.0, 0.0) # Width of the door base/frame
+	mat.emission_box_extents = Vector3(25.0, 5.0, 0.0) 
 	
-	# Gentle upward and outward drift
 	mat.direction = Vector3(0, -1, 0)
 	mat.spread = 35.0
 	mat.initial_velocity_min = 12.0
 	mat.initial_velocity_max = 28.0
 	mat.gravity = Vector3(0, -5, 0)
 	
-	# Scale expansion as mist dissipates
 	mat.scale_min = 0.8
 	mat.scale_max = 1.6
 	
-	# Fade in and out smoothly over lifetime
 	var alpha_curve := Gradient.new()
 	alpha_curve.add_point(0.0, Color(1, 1, 1, 0.0))
 	alpha_curve.add_point(0.25, Color(1, 1, 1, 1.0))
@@ -135,7 +130,6 @@ func _setup_procedural_mist() -> void:
 	mat.color_ramp = alpha_tex
 	
 	mist_particles.process_material = mat
-	# Position at the bottom threshold of the door (adjust Y offset to match your door sprite)
 	mist_particles.position = Vector2(90, 310)
 	add_child(mist_particles)
 

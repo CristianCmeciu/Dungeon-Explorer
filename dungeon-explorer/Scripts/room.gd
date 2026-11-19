@@ -11,7 +11,6 @@ signal updateLabel
 @export var minion_scene: PackedScene
 @onready var bg_image = $bg_image
 
-
 var my_minion: Equipments.Minion
 var player: Player
 var blind: bool
@@ -81,28 +80,22 @@ func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAG
 	
 	for i in range(doors.size()):
 		var future_event = ""
-		if minions_happened:
+		if i == random_bun:
+			future_event = get_random_bun()
+		else:
+			future_event = get_random_event()
 			
-			if i == random_bun:
-				future_event = get_random_bun()
-			else:
-				future_event = get_random_event()
-				
+		if minions_happened:
 			while future_event == "minion room":
 				if i == random_bun:
 					future_event = get_random_bun()
 				else:
 					future_event = get_random_event()
-		else:
-			if i == random_bun:
-				future_event = get_random_bun()
-			else:
-				future_event = get_random_event()
 		
 		if my_event == "usa fache":
 			while future_event == "trap room" or (future_event == "minion room" and minions_happened):
 				future_event = get_random_event()
-		#future_event = "witch fight"
+		#future_event = "minion room"
 		doors[i].set_target_event(future_event,true if Equipments.Minion.FORESIGHT in player.owned_minions else false)
 		doors[i].clicked.connect(_on_door_clicked)
 		doors[i].fake_clicked.connect(_on_fake_door_clicked)

@@ -53,6 +53,7 @@ func _ready():
 	start_game()
 	
 func start_game():
+	possible_minions.clear()
 	possible_minions.append(Equipments.Minion.DAMAGE)
 	possible_minions.append(Equipments.Minion.PROTECTION)
 	possible_minions.append(Equipments.Minion.POTION)

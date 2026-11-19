@@ -75,12 +75,14 @@ func playerAttack():
 	
 func enemyTurn():
 	if enemy is Witch:
-		var effect = enemy.throwPotion()
+		var effect = enemy.throwPotion()	
 		if Equipments.Minion.POTION in player.owned_minions and !potion_blocked:
 			AudioManager.play_sound(AudioManager.SoundType.MINION_PROTECT)
 			text.text += "\n" + enemy.name + " splashed you with " + effect.name + ", but the minion protected you!"
 			potion_blocked = true
 		else:
+			if enemy.wasStunned:
+				return
 			AudioManager.play_sound(AudioManager.SoundType.POTION_THROW)
 			text.text += "\n" + enemy.name + " splashed you with " + effect.name + "!"
 			player.applyEffect(effect)
