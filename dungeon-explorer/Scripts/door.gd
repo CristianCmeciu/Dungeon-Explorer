@@ -9,6 +9,7 @@ var is_fake: bool = false
 var is_disabled: bool = false
 var hasMinion: bool = false
 var wasClicked: bool = false
+var mist_particles: GPUParticles2D
 
 func _ready():
 	highlight.hide()
@@ -62,9 +63,6 @@ func set_target_event(event_name: String,has_minion: bool):
 		#else:
 			#highlight.color = Color(1.0, 1.0, 1.0, 0.4)
 		highlight.color = Color(1.0, 1.0, 1.0, 0.4)
-
-
-var mist_particles: GPUParticles2D
 
 
 # Call this from room.gd when setting up doors!

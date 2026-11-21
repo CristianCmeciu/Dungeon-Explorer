@@ -78,16 +78,16 @@ func enemyTurn():
 		var effect = enemy.throwPotion()	
 		if Equipments.Minion.POTION in player.owned_minions and !potion_blocked:
 			AudioManager.play_sound(AudioManager.SoundType.MINION_PROTECT)
-			text.text += "\n" + enemy.name + " splashed you with " + effect.name + ", but the minion protected you!"
+			text.text += "\nThe cultist" + " splashed you with " + effect.name + ", but the minion protected you!"
 			potion_blocked = true
-		else:
-			if enemy.wasStunned:
-				return
+		elif effect:
 			AudioManager.play_sound(AudioManager.SoundType.POTION_THROW)
-			text.text += "\n" + enemy.name + " splashed you with " + effect.name + "!"
+			text.text += "\nThe cultist" + " splashed you with " + effect.name + "!"
 			player.applyEffect(effect)
 			if (effect.name=="Poison"):
 				spawn_popup("- " + str(effect.initialDamage) + " HP",Color.GREEN,dmgTookPosition)	
+		else:
+			text.text += "\nThe cultist is stunned!!"
 	else:
 		match enemy:
 			Mimic:
@@ -109,7 +109,7 @@ func enemyTurn():
 		player.onTurnEnd()
 		var currentHP = player.hp
 		if(player.statusEffectManager.hasEffect("Poison") and currentHP != prevHP):
-			spawn_popup(str(currentHP-prevHP) + " HP",Color.GREEN,dmgTookPosition + Vector2(0,35))
+			spawn_popup(str(currentHP-prevHP) + " HP",Color("3a7330"),dmgTookPosition + Vector2(0,35))
 	else:
 		enemyFirst = false
 	var prevEnemyHP = enemy.hp

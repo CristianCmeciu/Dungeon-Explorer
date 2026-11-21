@@ -2,6 +2,7 @@ extends Entity
 class_name Player
 
 signal died
+signal player_healed
 var armor: Armor
 var weapon: Weapon
 var gold: int	
@@ -71,9 +72,12 @@ func equipWeapon(newWeapon: Weapon):
 	weapon = newWeapon
 
 func onNextRoom():
+	var hp_copy = hp
 	hp = min(hp + 5, maxHp)
 	statusEffectManager.onTurnOrRoomEnd(self)
 	isDefending = false
+	if hp != hp_copy:
+		player_healed.emit(hp-hp_copy)
 
 func addGold(goldWon: int):
 	gold+= goldWon

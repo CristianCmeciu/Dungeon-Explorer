@@ -7,7 +7,7 @@ var player: Player
 @onready var combatManager: CombatManager = $CombatManager
 @onready var attackbtn: Button = $CanvasLayer/FightOverlay/Buttons/AttackBtn
 @onready var defendbtn: Button = $CanvasLayer/FightOverlay/Buttons/DefendBtn
-@onready var enemyTexture: TextureRect = $CanvasLayer/FightOverlay/EnemyTexture
+@onready var enemyTexture: TextureRect = $CanvasLayer/FightOverlay/EnemyTexture/EnemyImage
 @onready var textLabel: Label = $CanvasLayer/FightOverlay/Label
 @onready var hpLeft: ColorRect = $CanvasLayer/FightOverlay/EnemyTexture/HPMax/HPLeft
 @export var mimicFight: PackedScene
@@ -31,10 +31,16 @@ func generateEnemy(event: String, _player: Player = null):
 		textLabel.text = "You have encountered a skeleton!"
 		add_child(fightEvent)
 		fightEvent.initialise(attackbtn,defendbtn,combatManager,player,textLabel,hpLeft)
+		if fightEvent.hasSword:
+			enemyTexture.texture = load("res://Assets/skeleton_sword_1.0.png")
+		else:
+			enemyTexture.texture = load("res://Assets/skeleton_dagger_1.0.png")
+	
 	if event == "witch fight":
 		var fightEvent = witchFight.instantiate()
 		textLabel.text = "You have encountered a witch!"
 		add_child(fightEvent)
+		enemyTexture.texture = load("res://Assets/cultist_1.0.png")
 		fightEvent.initialise(attackbtn,defendbtn,combatManager,player,textLabel,hpLeft)
 		fightEvent.ranFromWitch.connect(fightWon)
 		

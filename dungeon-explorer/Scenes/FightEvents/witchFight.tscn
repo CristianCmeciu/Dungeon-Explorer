@@ -2,13 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dnsrya2uhyneo" path="res://Scripts/Enemy/WitchEvent.gd" id="1_5cdhi"]
 [ext_resource type="Script" uid="uid://dc4d0bgkp7kkq" path="res://Scripts/Enemy/Witch.gd" id="2_fah02"]
+[ext_resource type="Texture2D" uid="uid://dlxiqjafebrbm" path="res://Assets/cultist_1.0.png" id="3_24tyk"]
 [ext_resource type="Texture2D" uid="uid://tmn74cf21w1q" path="res://Assets/butonel.png" id="3_fah02"]
-
-[sub_resource type="Gradient" id="Gradient_24tyk"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_8ogqx"]
-gradient = SubResource("Gradient_24tyk")
-height = 480
 
 [node name="WitchFight" type="Node2D" unique_id=1576949472]
 script = ExtResource("1_5cdhi")
@@ -34,7 +29,8 @@ offset_bottom = 1080.0
 custom_minimum_size = Vector2(644, 480)
 custom_maximum_size = Vector2(644, 480)
 layout_mode = 2
-texture = SubResource("GradientTexture2D_8ogqx")
+texture = ExtResource("3_24tyk")
+expand_mode = 3
 
 [node name="Label" type="Label" parent="CanvasLayer/FightOverlay" unique_id=1859397939]
 custom_minimum_size = Vector2(644, 140)

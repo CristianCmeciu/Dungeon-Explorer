@@ -8,6 +8,7 @@ func initialise(attackBttn: Button, defendBttn: Button,combatMngr: CombatManager
 	defendbtn = defendBttn
 	combatManager = combatMngr
 	player = playerIn
+	hasSword = randi() % 4 < 1
 	if (hasSword):
 		skeleton.activateEnemy(20,8,200)
 	else:

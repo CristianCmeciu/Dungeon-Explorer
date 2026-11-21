@@ -11,6 +11,7 @@ signal updateLabel
 @export var minion_scene: PackedScene
 @onready var bg_image = $bg_image
 
+const FLOATING_TEXT = preload("res://Scenes/FX.tscn")
 var my_minion: Equipments.Minion
 var player: Player
 var blind: bool
@@ -28,12 +29,22 @@ func initialise(p: Player, rooms_cleared: int,m: bool):
 	player = p
 	rooms = rooms_cleared
 	minions_happened = m
+	player.player_healed.connect(popup_wrapper)
 	player.onNextRoom()
+
+func popup_wrapper(hp: int):
+	spawn_popup("+"+str(hp)+"HP", Color.GREEN, Vector2(450,120))
+	
+func spawn_popup(msg: String, color: Color, pos: Vector2) -> Signal:
+	var popup: FloatingText = FLOATING_TEXT.instantiate()
+	get_tree().current_scene.add_child(popup)
+	return popup.setup(msg, color, pos)
 
 func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAGE):
 	blind = player.statusEffectManager.hasEffect("Blindness")
-	if Equipments.Minion.FORESIGHT in player.owned_minions:
+	if Equipments.Minion.FORESIGHT in player.owned_minions and !blind:
 		apply_foresight()
+	
 	if my_event == "minion room":
 		AudioManager.play_sound(AudioManager.SoundType.MINION_CRY)
 	if my_event == "minion room" and !blind:
@@ -95,7 +106,7 @@ func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAG
 		if my_event == "usa fache":
 			while future_event == "trap room" or (future_event == "minion room" and minions_happened):
 				future_event = get_random_event()
-		#future_event = "minion room"
+		future_event = "minion room"
 		doors[i].set_target_event(future_event,true if Equipments.Minion.FORESIGHT in player.owned_minions else false)
 		doors[i].clicked.connect(_on_door_clicked)
 		doors[i].fake_clicked.connect(_on_fake_door_clicked)
@@ -151,6 +162,7 @@ func get_random_bun() -> String:
 func _on_door_clicked(event_passed_from_door: String):
 	if is_instance_valid(currentEvent):
 		return
+	AudioManager.play_sound(AudioManager.SoundType.NEXT_ROOM)
 	room_completed.emit(event_passed_from_door)
 
 func _on_fake_door_clicked():

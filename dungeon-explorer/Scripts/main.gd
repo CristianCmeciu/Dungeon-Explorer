@@ -37,7 +37,14 @@ var gameover_timer: Timer
 @onready var minion_attack: TextureRect = $HUD/MinionAttack
 @onready var minion_defend: TextureRect = $HUD/MinionDefend
 @onready var minion_potion: TextureRect = $HUD/MinionPotion
+@onready var gold_icon: TextureRect = $"HUD/PlayerUI/Potions+Stats/Stats/Gold/GoldIcon"
+@onready var weapon_icon: TextureRect = $"HUD/PlayerUI/Potions+Stats/Stats/Weapon/WeaponIcon"
+@onready var armor_icon: TextureRect = $"HUD/PlayerUI/Potions+Stats/Stats/Armor/ArmorIcon"
 
+var minion_avatars = ["res://Assets/minion_1_1.0.png",
+					"res://Assets/minion_2_1.0.png",
+					"res://Assets/minion_3_1.0.png",
+					"res://Assets/minion_4_1.0.png"]
 
 
 
@@ -51,7 +58,9 @@ func _ready():
 	gameover_timer.one_shot = true
 	add_child(gameover_timer)
 	start_game()
-	
+
+
+
 func start_game():
 	possible_minions.clear()
 	possible_minions.append(Equipments.Minion.DAMAGE)
@@ -76,7 +85,7 @@ func start_game():
 	is_game_over = false
 	rooms_cleared = 0
 	gameover_screen.hide()
-	game_timer.start(20000.0)
+	game_timer.start(20.0)
 	player.initialize()
 	generate_next_room("nimic")
 
@@ -86,7 +95,7 @@ func generate_next_room(next_event: String):
 	if current_room:
 		current_room.queue_free()
 		rooms_cleared += 1
-	if rooms_cleared >= 12000:
+	if rooms_cleared >= 15:
 		game_over(GameOverType.SUCCESS)
 		return
 		
@@ -94,6 +103,7 @@ func generate_next_room(next_event: String):
 	
 	var next_scene = possible_rooms.pick_random()
 	current_room = next_scene.instantiate()
+	add_child(current_room)
 	
 	if next_event=="minion room":
 		current_room.initialise(player,rooms_cleared, true if possible_minions.size()-1 == 0 else false)
@@ -103,7 +113,7 @@ func generate_next_room(next_event: String):
 	current_room.updateLabel.connect(updateLabel)
 	current_room.room_completed.connect(generate_next_room)
 	current_room.room_died.connect(game_over.bind(GameOverType.TRAP)) 
-	add_child(current_room)
+
 	
 	if next_event=="minion room":
 		current_room.setup(next_event,possible_minions[0])
@@ -118,14 +128,32 @@ func updateLabel():
 	gold_label.text = str(player.gold) + " gold"
 		
 	if player.armor:
+		match player.armor.defense:
+			1:
+				armor_icon.texture = load("res://Assets/armor_leather_1.0.png")
+			2:
+				armor_icon.texture = load("res://Assets/armor_chainmail_1.0.png")
+			3:
+				armor_icon.texture = load("res://Assets/armor_plate_1.0.png")
+		
 		if Equipments.Minion.PROTECTION in player.owned_minions:
 			armor_label.text = "+" + str(player.armor.defense + 1) + " DEF"
 		else:
 			armor_label.text = "+" + str(player.armor.defense) + " DEF"
+			
 	else:
 		armor_label.text = "+0 DEF"
+		armor_icon.texture = load("res://Assets/nimic.png")
+
 		
 	if player.weapon:
+		
+		match player.weapon.name:
+			"Sword":
+				weapon_icon.texture = load("res://Assets/sword_1.0.png")
+			"Dagger":
+				weapon_icon.texture = load("res://Assets/dagger_1.0.png")
+		
 		if Equipments.Minion.DAMAGE in player.owned_minions:
 			weapon_label.text = "+" + str(player.weapon.damage + 2) + " DMG"
 		else:
@@ -141,18 +169,29 @@ func updateLabel():
 		if player.weapon.effect:
 			weapon_label.text += "\n Bleed"
 	else:
+		weapon_icon.texture = load("res://Assets/nimic.png")
 		weapon_label.text = "+1 dmg"
-		
+	
 	if Equipments.Minion.POTION in player.owned_minions:
 		minion_potion.show()
+		minion_potion.modulate = Color.GREEN_YELLOW
+		minion_potion.texture = load(minion_avatars[randi()%4])
 	if Equipments.Minion.FORESIGHT in player.owned_minions:
 		minion_foresight.show()
+		minion_foresight.modulate = Color.DEEP_PINK
+		minion_foresight.texture = load(minion_avatars[randi()%4])
 	if Equipments.Minion.DAMAGE in player.owned_minions:
 		minion_attack.show()
+		minion_attack.modulate = Color.INDIAN_RED
+		minion_attack.texture = load(minion_avatars[randi()%4])
 	if Equipments.Minion.PROTECTION in player.owned_minions:
 		minion_defend.show()
+		minion_defend.modulate = Color.DARK_CYAN
+		minion_defend.texture = load(minion_avatars[randi()%4])
 	if Equipments.Minion.STUN in player.owned_minions:
 		minion_stun.show()
+		minion_stun.modulate = Color.SLATE_GRAY
+		minion_stun.texture = load(minion_avatars[randi()%4])
 		
 	if player.statusEffectManager.hasEffect("Poison"):
 		poison_left.size.x = (poison_left.custom_maximum_size.x / 3) * player.statusEffectManager.getRoundsLeft("Poison")
@@ -213,9 +252,9 @@ func game_over(cond: GameOverType):
 	if player.armor:
 		formula += player.armor.goldValue 
 	if player.weapon: 
-		formula += player.weapon.goldValue
-	if rooms_cleared >=12:
-		formula += 1000 * timeleft
+		formula += player.weapon.goldValue 
+	if rooms_cleared >=15:
+		formula += 10 * timeleft
 	
 	formula += 50 * rooms_cleared 
 	formula += 200 * player.owned_minions.size()

@@ -7,12 +7,6 @@
 [ext_resource type="Script" uid="uid://ct45ykfk27brl" path="res://Scripts/CombatManager.gd" id="5_83aax"]
 [ext_resource type="Texture2D" uid="uid://tmn74cf21w1q" path="res://Assets/butonel.png" id="6_gn0l3"]
 
-[sub_resource type="Gradient" id="Gradient_gn0l3"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_57ar5"]
-gradient = SubResource("Gradient_gn0l3")
-height = 480
-
 [node name="FightScene" type="Node2D" unique_id=1413953936]
 script = ExtResource("1_57ar5")
 mimicFight = ExtResource("2_gn0l3")
@@ -40,7 +34,16 @@ offset_bottom = 1080.0
 custom_minimum_size = Vector2(644, 480)
 custom_maximum_size = Vector2(644, 480)
 layout_mode = 2
-texture = SubResource("GradientTexture2D_57ar5")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="EnemyImage" type="TextureRect" parent="CanvasLayer/FightOverlay/EnemyTexture" unique_id=2121419356]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 91.0
+offset_right = 570.0
+offset_bottom = 480.0
+stretch_mode = 5
 
 [node name="HPMax" type="ColorRect" parent="CanvasLayer/FightOverlay/EnemyTexture" unique_id=1267488494]
 layout_mode = 1

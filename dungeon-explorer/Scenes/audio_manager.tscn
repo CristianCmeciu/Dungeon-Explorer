@@ -22,8 +22,9 @@
 [ext_resource type="AudioStream" uid="uid://bpxbdgdnrra6u" path="res://Assets/minion_cry.mp3" id="20_w4e61"]
 [ext_resource type="AudioStream" uid="uid://by2dgf11dnrfp" path="res://Assets/skeleton_death.mp3" id="21_uebr4"]
 [ext_resource type="AudioStream" uid="uid://c1ylvjf4ask6c" path="res://Assets/minion_happy.mp3" id="22_ype7x"]
+[ext_resource type="AudioStream" uid="uid://c4c78gh6nhjgk" path="res://Assets/next_room.mp3" id="23_7oln7"]
 
-[node name="AudioManager" type="Node2D" unique_id=2789132 node_paths=PackedStringArray("dungeon_collapse", "defend", "potion_throw", "minion_protect", "mimic_attack", "usa_fache", "skeleton_attack", "witch_death", "minion_cry", "skeleton_death", "minion_happy")]
+[node name="AudioManager" type="Node2D" unique_id=2789132 node_paths=PackedStringArray("dungeon_collapse", "defend", "potion_throw", "minion_protect", "mimic_attack", "usa_fache", "skeleton_attack", "witch_death", "minion_cry", "skeleton_death", "minion_happy", "next_room")]
 script = ExtResource("1_mjqhu")
 dungeon_collapse = NodePath("DungeonCollapse")
 defend = NodePath("Defend")
@@ -36,6 +37,7 @@ witch_death = NodePath("WitchDeath")
 minion_cry = NodePath("MinionCry")
 skeleton_death = NodePath("SkeletonDeath")
 minion_happy = NodePath("MinionHappy")
+next_room = NodePath("NextRoom")
 
 [node name="bg_sound" type="AudioStreamPlayer" parent="." unique_id=1681656942]
 stream = ExtResource("2_5kf6k")
@@ -107,3 +109,7 @@ stream = ExtResource("21_uebr4")
 
 [node name="MinionHappy" type="AudioStreamPlayer" parent="." unique_id=1054012664]
 stream = ExtResource("22_ype7x")
+
+[node name="NextRoom" type="AudioStreamPlayer" parent="." unique_id=892336851]
+stream = ExtResource("23_7oln7")
+volume_db = 5.306
