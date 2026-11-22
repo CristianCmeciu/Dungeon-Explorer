@@ -25,6 +25,7 @@ func generateEnemy(event: String, _player: Player = null):
 		var fightEvent = mimicFight.instantiate()
 		fightEvent.passChestSignal.connect(fightWon)
 		add_child(fightEvent)
+		enemyTexture.texture = load("res://Assets/mimic_1.0.png")
 		fightEvent.initialise(attackbtn,defendbtn,combatManager,player,textLabel,hpLeft)
 	if event == "skeleton fight":
 		var fightEvent = skeletonFight.instantiate()

@@ -9,7 +9,7 @@ signal updateLabel
 @onready var open_btn_text: Label = $CanvasLayer/TreasureOverlay/Buttons/OpenBtn/Label
 @onready var pass_btn_text: Label = $CanvasLayer/TreasureOverlay/Buttons/PassBtn/Label
 @onready var open_btn_texture: TextureRect = $CanvasLayer/TreasureOverlay/Buttons/OpenBtn/TextureRect
-
+@onready var chest_texture: TextureRect = $CanvasLayer/TreasureOverlay/EnemyTexture
 
 var current_armor: Armor = null
 var current_weapon: Weapon = null
@@ -54,7 +54,7 @@ func setup() -> void:
 
 func _show_chest_ui() -> void:
 	chest_label.text = "You found a Treasure Chest!"
-	
+	chest_texture.texture = load("res://Assets/chest_closed_1.1.png")
 	pass_btn.show()
 	open_btn.show()
 
@@ -64,6 +64,7 @@ func _show_loot_ui() -> void:
 	pass_btn.pressed.disconnect(_on_pass_pressed)
 	pass_btn.pressed.connect(_on_take_gold_pressed)
 	open_btn.pressed.connect(_on_take_item_pressed)
+	chest_texture.texture = load("res://Assets/chest_treasure_1.0.png")
 	_generate_item_loot()
 
 func _generate_item_loot() -> void:
