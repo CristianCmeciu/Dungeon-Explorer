@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chvmqooaffefq"
-path="res://.godot/imported/camera_3opt.png-4851aa943b9f255bb9cdf81a5cd800c4.ctex"
+uid="uid://bl0a086tupyn0"
+path="res://.godot/imported/Coins_Gold_7.png-7f214061bbb5cf61b43040377e3c7049.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/camera_3opt.png"
-dest_files=["res://.godot/imported/camera_3opt.png-4851aa943b9f255bb9cdf81a5cd800c4.ctex"]
+source_file="res://Assets/Coins_Gold_7.png"
+dest_files=["res://.godot/imported/Coins_Gold_7.png-7f214061bbb5cf61b43040377e3c7049.ctex"]
 
 [params]
 

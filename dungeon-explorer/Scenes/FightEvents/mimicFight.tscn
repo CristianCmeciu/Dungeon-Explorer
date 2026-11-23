@@ -36,6 +36,7 @@ offset_right = 1284.0
 offset_bottom = 1080.0
 
 [node name="EnemyTexture" type="TextureRect" parent="CanvasLayer/TreasureOverlay" unique_id=1326230943]
+texture_filter = 1
 custom_minimum_size = Vector2(644, 480)
 custom_maximum_size = Vector2(644, 480)
 layout_mode = 2

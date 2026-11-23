@@ -20,6 +20,7 @@ func initialize():
 	isDefending = false
 	turnsDefending = 0
 	owned_minions.clear()
+	statusEffectManager.applyEffect(Poison.new(20),self)
 	
 func get_default_armor() -> Armor:
 	for a in Equipments.armors:
@@ -65,7 +66,6 @@ func attack() -> int:
 	return statusEffectManager.modifyDamage(val)
 
 func equipArmor(newArmor: Armor):
-	print("equipped armor: ",newArmor.name)
 	armor = newArmor
 	
 func equipWeapon(newWeapon: Weapon):

@@ -38,6 +38,7 @@ expand_mode = 2
 stretch_mode = 5
 
 [node name="EnemyImage" type="TextureRect" parent="CanvasLayer/FightOverlay/EnemyTexture" unique_id=2121419356]
+texture_filter = 1
 layout_mode = 0
 offset_left = 77.0
 offset_top = 91.0

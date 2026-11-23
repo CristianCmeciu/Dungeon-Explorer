@@ -6,7 +6,7 @@ var initialDamage: int
 func _init(initDamage:int = 0):
 	initialDamage = initDamage
 	name = "Poison"
-	duration = 3
+	duration = 2
 
 func onApply(target: Node):
 	target.takeDamage(initialDamage)

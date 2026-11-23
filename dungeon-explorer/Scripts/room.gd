@@ -106,7 +106,7 @@ func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAG
 		if my_event == "usa fache":
 			while future_event == "trap room" or (future_event == "minion room" and minions_happened):
 				future_event = get_random_event()
-		#future_event = "minion room"
+		future_event = "treasure room"
 		doors[i].set_target_event(future_event,true if Equipments.Minion.FORESIGHT in player.owned_minions else false)
 		doors[i].clicked.connect(_on_door_clicked)
 		doors[i].fake_clicked.connect(_on_fake_door_clicked)
@@ -120,10 +120,8 @@ func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAG
 	updateLabels()
 
 func apply_foresight():
-	print("test")
 	for door in doors:
 		door.applyMinion(true)
-		#door.get_child(1).show()
 
 
 func setup_fake_doors():
@@ -131,20 +129,17 @@ func setup_fake_doors():
 	if doors.size() == 2:
 		var fake_index = randi() % 2
 		doors[fake_index].is_fake = true
-		doors[fake_index].set_mist_fake()
 	elif doors.size() == 3:
 		var num_fakes = randi() % 2
 		
 		if num_fakes:
 			doors[1].is_fake = true
-			doors[1].set_mist_fake()
 			var other_fake = 0 if randi() % 2 else 2
 			doors[other_fake].is_fake = true
-			doors[other_fake].set_mist_fake()
 		else:
 			var fake_index = randi() % 3
 			doors[fake_index].is_fake = true
-			doors[fake_index].set_mist_fake()
+
 func get_random_event() -> String:
 	
 	var roll = randi_range(1, 100)
@@ -187,7 +182,13 @@ func _process(_delta):
 		bg_image.hide()
 		if doors.size() == 3:
 			doors[1].hide()
+		for door in doors:
+			if door.mist_particles:
+				door.mist_particles.hide()
 	else:
+		for door in doors:
+			if door.mist_particles:
+				door.mist_particles.show()
 		bg_image.show()
 		if doors.size() == 3:
 			doors[1].show()

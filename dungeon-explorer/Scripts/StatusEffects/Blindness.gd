@@ -3,4 +3,4 @@ extends StatusEffect
 
 func _init():
 	name = "Blindness"
-	duration = 3
+	duration = 2

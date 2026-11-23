@@ -26,11 +26,13 @@ offset_right = 1280.0
 offset_bottom = 1080.0
 
 [node name="EnemyTexture" type="TextureRect" parent="CanvasLayer/FightOverlay" unique_id=655390762]
+texture_filter = 1
 custom_minimum_size = Vector2(644, 480)
 custom_maximum_size = Vector2(644, 480)
 layout_mode = 2
 texture = ExtResource("3_24tyk")
 expand_mode = 3
+stretch_mode = 5
 
 [node name="Label" type="Label" parent="CanvasLayer/FightOverlay" unique_id=1859397939]
 custom_minimum_size = Vector2(644, 140)

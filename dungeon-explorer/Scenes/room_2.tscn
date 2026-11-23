@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://boxsy56s3xvts" path="res://Scenes/fightScene.tscn" id="2_udpsw"]
 [ext_resource type="PackedScene" uid="uid://5046f4o8jwle" path="res://Scenes/event_treasure.tscn" id="3_88q72"]
 [ext_resource type="PackedScene" uid="uid://crcyhcrven5u5" path="res://Scenes/minion_scene.tscn" id="4_shwdd"]
-[ext_resource type="Texture2D" uid="uid://d3ovfafu7l0fa" path="res://Assets/camera_2opt.png" id="5_4qow7"]
+[ext_resource type="Texture2D" uid="uid://cnc617xk7w8dm" path="res://Assets/main_bg_2_usi_1.5.png" id="5_6vblq"]
 [ext_resource type="Script" uid="uid://bjb10f70fulpx" path="res://Scripts/door.gd" id="6_ghlka"]
 
 [node name="room_2" type="Node2D" unique_id=1677610979 node_paths=PackedStringArray("doors", "fake_door_label")]
@@ -16,7 +16,8 @@ treasure_room = ExtResource("3_88q72")
 minion_scene = ExtResource("4_shwdd")
 
 [node name="bg_image" type="Sprite2D" parent="." unique_id=1813972507]
-texture = ExtResource("5_4qow7")
+texture_filter = 1
+texture = ExtResource("5_6vblq")
 centered = false
 
 [node name="FakeDoorLabel" type="Label" parent="." unique_id=624991337]
@@ -25,27 +26,27 @@ offset_top = 374.0
 offset_right = 1670.0
 offset_bottom = 879.0
 theme_override_colors/font_color = Color(18.892157, 0, 0, 1)
-theme_override_font_sizes/font_size = 250
+theme_override_font_sizes/font_size = 300
 text = "FAKE DOOR"
 
 [node name="DoorRight" type="Area2D" parent="." unique_id=429143043]
-position = Vector2(1479, 361)
+position = Vector2(1674, 365)
 script = ExtResource("6_ghlka")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DoorRight" unique_id=1888983164]
-polygon = PackedVector2Array(0, 0, 197, 81, 177, 539, -2, 407, -1, 0)
+polygon = PackedVector2Array(-37, 187, 19, 189, 67, 211, 93, 260, 90, 604, -69, 528, -72, 212)
 
 [node name="Polygon2D" type="Polygon2D" parent="DoorRight" unique_id=899587892]
 color = Color(1, 1, 1, 0.15686275)
-polygon = PackedVector2Array(0, 0, 197, 81, 177, 539, -2, 407, -1, 0)
+polygon = PackedVector2Array(-37, 187, 19, 189, 67, 211, 93, 260, 90, 604, -69, 528, -72, 212)
 
 [node name="DoorLeft" type="Area2D" parent="." unique_id=349915579]
 position = Vector2(224, 396)
 script = ExtResource("6_ghlka")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="DoorLeft" unique_id=893072663]
-polygon = PackedVector2Array(164, -86, 0, -1, 20, 540, 182, 428)
+polygon = PackedVector2Array(93, 190, 44, 153, -14, 160, -60, 185, -75, 229, -71, 566, 94, 495)
 
 [node name="Polygon2D" type="Polygon2D" parent="DoorLeft" unique_id=1952413590]
 color = Color(1, 1, 1, 0.15686275)
-polygon = PackedVector2Array(164, -86, 0, -1, 20, 540, 182, 428)
+polygon = PackedVector2Array(94, 191, 44, 153, -14, 160, -60, 185, -75, 229, -71, 566, 94, 495)

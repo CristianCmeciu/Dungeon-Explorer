@@ -22,11 +22,12 @@ extends Node2D
 @export var skeleton_death: AudioStreamPlayer
 @export var minion_happy: AudioStreamPlayer
 @export var next_room: AudioStreamPlayer
+@export var win_sound: AudioStreamPlayer
 
 enum SoundType {BACKGROUND, OPEN_CHEST, EQUIP_ARMOR, EQUIP_WEAPON, TAKE_GOLD, MIMIC_DEATH,
 				TRAP_DEATH, FIGHT_DEATH, ATTACK_PLAYER, DUNGEON_COLLAPSE, PLAYER_DEFEND, 
 				POTION_THROW, MINION_PROTECT, MIMIC_ATTACK, USA_FACHE, SKELETON_ATTACK,
-				WITCH_DEATH, MINION_CRY, SKELETON_DEATH, MINION_HAPPY, NEXT_ROOM
+				WITCH_DEATH, MINION_CRY, SKELETON_DEATH, MINION_HAPPY, NEXT_ROOM, WIN_SOUND
 				}
 				
 var sounds = {SoundType.BACKGROUND : ["bg_sound"],
@@ -49,7 +50,8 @@ var sounds = {SoundType.BACKGROUND : ["bg_sound"],
 				SoundType.MINION_CRY: ["minion_cry"],
 				SoundType.SKELETON_DEATH: ["skeleton_death"],
 				SoundType.MINION_HAPPY: ["minion_happy"],
-				SoundType.NEXT_ROOM: ["next_room"]
+				SoundType.NEXT_ROOM: ["next_room"],
+				SoundType.WIN_SOUND: ["win_sound"]
 				
 				}
 
@@ -58,6 +60,13 @@ func play_sound(key: SoundType):
 	var sound = get(sounds[key][randi() % sounds[key].size()])
 	if sound is AudioStreamPlayer:
 		sound.play()
+
+func stop_all_sounds():
+	for i in range(sounds.size()):
+		for s in sounds[i]:
+			var sound = get(s)
+			if sound is AudioStreamPlayer:
+				sound.stop()
 
 func stop_sound(key: SoundType):
 	var sound = get(sounds[key][randi() % sounds[key].size()])

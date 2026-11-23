@@ -23,18 +23,10 @@ func applyMinion(hasForesight: bool):
 	if target_event == "treasure room" or target_event == "minion room":
 		set_door_mist("good")
 		highlight.color = Color(1.0, 1.0, 1.0, 0.4)
-		#highlight.color = Color(1.0, 0.8, 0.0, 0.4)
 	elif target_event in ["witch fight", "trap room", "mimic fight", "skeleton fight"]:
-		#highlight.color = Color(1.0, 0.0, 0.0, 0.4)
 		set_door_mist("bad")
 		highlight.color = Color(1.0, 1.0, 1.0, 0.4)
 	else:
-		set_door_mist("none")
-		highlight.color = Color(1.0, 1.0, 1.0, 0.4)
-		#highlight.color = Color(1.0, 1.0, 1.0, 0.4)
-
-func set_mist_fake():
-	if hasMinion:
 		set_door_mist("none")
 		highlight.color = Color(1.0, 1.0, 1.0, 0.4)
 
@@ -46,48 +38,35 @@ func set_target_event(event_name: String,has_minion: bool):
 		if event_name == "treasure room" or target_event == "minion room":
 			set_door_mist("good")
 			highlight.color = Color(1.0, 1.0, 1.0, 0.4)
-			#highlight.color = Color(1.0, 0.8, 0.0, 0.4)
 		elif event_name in ["witch fight", "trap room", "mimic fight", "skeleton fight"]:
-			#highlight.color = Color(1.0, 0.0, 0.0, 0.4)
 			set_door_mist("bad")
 			highlight.color = Color(1.0, 1.0, 1.0, 0.4)
 		else:
 			set_door_mist("none")
 			highlight.color = Color(1.0, 1.0, 1.0, 0.4)
-			#highlight.color = Color(1.0, 1.0, 1.0, 0.4)
 	else:
-		#if event_name == "treasure room":
-			#highlight.color = Color(0, 1, 0, 0.4)
-		#elif event_name in ["witch fight", "trap room", "mimic fight", "skeleton fight"]:
-			#highlight.color = Color(1.0, 0.0, 1, 0.4)
-		#else:
-			#highlight.color = Color(1.0, 1.0, 1.0, 0.4)
 		highlight.color = Color(1.0, 1.0, 1.0, 0.4)
 
 
-# Call this from room.gd when setting up doors!
 func set_door_mist(state: String) -> void:
 	if not mist_particles:
 		return
 		
 	match state:
-		"good": # e.g., treasure room
+		"good": 
 			mist_particles.emitting = true
-			mist_particles.modulate = Color(0.3, 1.0, 0.5, 0.85) # Emerald/gold mist
-		"bad": # e.g., trap room / fight / fake door
+			mist_particles.modulate = Color(0.3, 1.0, 0.5, 0.85)
+		"bad":
 			mist_particles.emitting = true
-			mist_particles.modulate = Color(0.85, 0.15, 0.25, 0.85) # Crimson/dark red mist
+			mist_particles.modulate = Color(0.85, 0.15, 0.25, 0.85)
 		"none":
 			mist_particles.emitting = true
-		"test":
-			mist_particles.emitting = true
-			mist_particles.modulate = Color.ORANGE
 
 func _setup_procedural_mist() -> void:
 	mist_particles = GPUParticles2D.new()
 	mist_particles.amount = 35
 	mist_particles.lifetime = 2.2
-	mist_particles.preprocess = 1.0 # Starts already active so there's no initial delay
+	mist_particles.preprocess = 1.0
 	mist_particles.z_index = 5
 	
 	mist_particles.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -128,7 +107,7 @@ func _setup_procedural_mist() -> void:
 	mat.color_ramp = alpha_tex
 	
 	mist_particles.process_material = mat
-	mist_particles.position = Vector2(90, 310)
+	mist_particles.position = Vector2(9, 348)
 	add_child(mist_particles)
 
 func _on_mouse_entered():
@@ -141,6 +120,8 @@ func _on_mouse_exited():
 		highlight.hide()
 		
 func pressed():
+	if is_fake and mist_particles:
+		mist_particles.hide()
 	is_disabled = true
 	wasClicked = true
 	highlight.hide()
@@ -152,6 +133,8 @@ func _on_input_event(_viewport, event, _shape_idx):
 	
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if is_fake and !wasClicked:
+			if mist_particles:
+				mist_particles.hide()
 			wasClicked = true
 			is_disabled = true
 			highlight.hide()

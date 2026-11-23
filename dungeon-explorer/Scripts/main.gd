@@ -37,6 +37,7 @@ var gameover_timer: Timer
 @onready var minion_attack: TextureRect = $HUD/MinionAttack
 @onready var minion_defend: TextureRect = $HUD/MinionDefend
 @onready var minion_potion: TextureRect = $HUD/MinionPotion
+@onready var time_icon: TextureRect = $"HUD/PlayerUI/HP+Time/TimeBar/TimeIcon"
 @onready var gold_icon: TextureRect = $"HUD/PlayerUI/Potions+Stats/Stats/Gold/GoldIcon"
 @onready var weapon_icon: TextureRect = $"HUD/PlayerUI/Potions+Stats/Stats/Weapon/WeaponIcon"
 @onready var armor_icon: TextureRect = $"HUD/PlayerUI/Potions+Stats/Stats/Armor/ArmorIcon"
@@ -46,12 +47,12 @@ var minion_avatars = ["res://Assets/minion_1_1.0.png",
 					"res://Assets/minion_3_1.0.png",
 					"res://Assets/minion_4_1.0.png"]
 
-
+var time_icons = ["res://Assets/clepsidra.png", "res://Assets/clepsidra2.png", "res://Assets/clepsidra3.png"]
 
 func _ready():
 	game_timer.timeout.connect(_on_timer_timeout)
 	play_again_btn.pressed.connect(_on_play_again_pressed)
-	quit_btn.pressed.connect(_on_quit_pressed)
+	#quit_btn.pressed.connect(_on_quit_pressed)
 	player.died.connect(game_over.bind(GameOverType.DIED))
 	gameover_timer = Timer.new()
 	gameover_timer.wait_time = 2.0
@@ -81,6 +82,7 @@ func start_game():
 	poison_left.size.x = 0
 	
 	HUD.show()
+	AudioManager.stop_all_sounds()
 	AudioManager.play_sound(AudioManager.SoundType.BACKGROUND)
 	is_game_over = false
 	rooms_cleared = 0
@@ -124,6 +126,7 @@ func generate_next_room(next_event: String):
 	
 func updateLabel():
 	
+	time_icon.texture = load(time_icons[randi() % time_icons.size()])
 	hp_left.size.x = (hp_left.custom_maximum_size.x / 100) * player.hp
 	gold_label.text = str(player.gold) + " gold"
 		
@@ -142,7 +145,10 @@ func updateLabel():
 			armor_label.text = "+" + str(player.armor.defense) + " DEF"
 			
 	else:
-		armor_label.text = "+0 DEF"
+		if Equipments.Minion.PROTECTION in player.owned_minions:
+			armor_label.text = "+1 DEF"
+		else:
+			armor_label.text = "+0 DEF"
 		armor_icon.texture = load("res://Assets/nimic.png")
 
 		
@@ -153,6 +159,15 @@ func updateLabel():
 				weapon_icon.texture = load("res://Assets/sword_1.0.png")
 			"Dagger":
 				weapon_icon.texture = load("res://Assets/dagger_1.0.png")
+			"Bow":
+				weapon_icon.texture = load("res://Assets/bow.png")
+			"Crossbow":
+				weapon_icon.texture = load("res://Assets/crossbow.png")
+			"Club":
+				weapon_icon.texture = load("res://Assets/club_1.0.png")
+			"Axe":
+				weapon_icon.texture = load("res://Assets/axe_1.0.png")
+
 		
 		if Equipments.Minion.DAMAGE in player.owned_minions:
 			weapon_label.text = "+" + str(player.weapon.damage + 2) + " DMG"
@@ -169,8 +184,11 @@ func updateLabel():
 		if player.weapon.effect:
 			weapon_label.text += "\n Bleed"
 	else:
+		if Equipments.Minion.DAMAGE in player.owned_minions:
+			weapon_label.text = "+3 dmg"
+		else:
+			weapon_label.text = "+1 dmg"
 		weapon_icon.texture = load("res://Assets/nimic.png")
-		weapon_label.text = "+1 dmg"
 	
 	if Equipments.Minion.POTION in player.owned_minions:
 		minion_potion.show()
@@ -194,12 +212,19 @@ func updateLabel():
 		minion_stun.texture = load(minion_avatars[randi()%4])
 		
 	if player.statusEffectManager.hasEffect("Poison"):
-		poison_left.size.x = (poison_left.custom_maximum_size.x / 3) * player.statusEffectManager.getRoundsLeft("Poison")
+		poison_left.size.x = (poison_left.custom_maximum_size.x / 3) * (player.statusEffectManager.getRoundsLeft("Poison")+1)
+	else:
+		poison_left.size.x = 0
 	if player.statusEffectManager.hasEffect("Weakness"):
-		weakness_left.size.x = (weakness_left.custom_maximum_size.x / 3) * player.statusEffectManager.getRoundsLeft("Weakness")
+		weakness_left.size.x = (weakness_left.custom_maximum_size.x / 3) * (player.statusEffectManager.getRoundsLeft("Weakness")+1)
+	else:
+		weakness_left.size.x = 0
 	if player.statusEffectManager.hasEffect("Blindness"):
-		blindness_left.size.x = (blindness_left.custom_maximum_size.x / 3) * player.statusEffectManager.getRoundsLeft("Blindness")
-	
+		blindness_left.size.x = (blindness_left.custom_maximum_size.x / 3) * (player.statusEffectManager.getRoundsLeft("Blindness")+1)
+	else:
+		blindness_left.size.x = 0
+		
+
 func _process(_delta):
 	
 	if not is_game_over:
@@ -233,18 +258,19 @@ func game_over(cond: GameOverType):
 	gameover_screen.show()	
 	match cond:
 		GameOverType.SUCCESS:
-			result_label.text = "BRAVO!!"
+			result_label.text = "You escaped from the dungeon!"
+			AudioManager.play_sound(AudioManager.SoundType.WIN_SOUND)
 			result_label.add_theme_color_override("font_color", Color(0.2, 0.8, 0.2))
 		GameOverType.TIMEOUT:
-			result_label.text = "vaide capu tau"
+			result_label.text = "You didn't get out in time!"
 			AudioManager.play_sound(AudioManager.SoundType.DUNGEON_COLLAPSE)
 			result_label.add_theme_color_override("font_color", Color(0.8, 0.2, 0.2))
 		GameOverType.TRAP:
-			result_label.text = "ai cazut in capcana"
+			result_label.text = "You fell in a trap and died!"
 			AudioManager.play_sound(AudioManager.SoundType.TRAP_DEATH)
 			result_label.add_theme_color_override("font_color", Color(0.8, 0.2, 0.2))
 		GameOverType.DIED:
-			result_label.text = "ai murit"
+			result_label.text = "You fell in battle!"
 			AudioManager.play_sound(AudioManager.SoundType.FIGHT_DEATH)
 			result_label.add_theme_color_override("font_color", Color(0.8, 0.2, 0.2))
 			
@@ -265,5 +291,5 @@ func game_over(cond: GameOverType):
 func _on_play_again_pressed():
 	start_game()
 
-func _on_quit_pressed():
-	get_tree().quit()
+#func _on_quit_pressed():
+	#get_tree().quit()
