@@ -93,7 +93,7 @@ func start_game():
 	is_game_over = false
 	rooms_cleared = 0
 	gameover_screen.hide()
-	game_timer.start(20000.0)
+	game_timer.start(20.0)
 	player.initialize()
 	generate_next_room("nimic", thresholds)
 
@@ -104,7 +104,7 @@ func generate_next_room(next_event: String, threshold: PackedFloat32Array):
 	if current_room:
 		current_room.queue_free()
 		rooms_cleared += 1
-	if rooms_cleared >= 15000:
+	if rooms_cleared >= 15:
 		game_over(GameOverType.SUCCESS)
 		return
 		

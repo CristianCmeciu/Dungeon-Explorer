@@ -194,7 +194,7 @@ func _process(_delta):
 	blind = player.statusEffectManager.hasEffect("Blindness")
 	
 	if blind:
-		bg_image.hide()
+		bg_image.modulate = Color(0.2,0.2,0.35)
 		if doors.size() == 3:
 			doors[1].hide()
 		for door in doors:
