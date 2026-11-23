@@ -42,6 +42,7 @@ var gameover_timer: Timer
 @onready var weapon_icon: TextureRect = $"HUD/PlayerUI/Potions+Stats/Stats/Weapon/WeaponIcon"
 @onready var armor_icon: TextureRect = $"HUD/PlayerUI/Potions+Stats/Stats/Armor/ArmorIcon"
 
+var thresholds: PackedFloat32Array
 var minion_avatars = ["res://Assets/minion_1_1.0.png",
 					"res://Assets/minion_2_1.0.png",
 					"res://Assets/minion_3_1.0.png",
@@ -75,6 +76,11 @@ func start_game():
 	minion_foresight.hide()
 	minion_potion.hide()
 	minion_stun.hide()
+	thresholds = PackedFloat32Array([20, 15, 25, 10, 5, 0, 10, 10])
+	#var events = [
+	#"nimic", "minion room", "treasure room", "usa fache", 
+	#"witch fight", "trap room", "mimic fight", "skeleton fight"
+#]
 	hp_left.size.x = hp_left.custom_maximum_size.x
 	time_left.size.x = time_left.custom_maximum_size.x
 	blindness_left.size.x = 0
@@ -87,17 +93,18 @@ func start_game():
 	is_game_over = false
 	rooms_cleared = 0
 	gameover_screen.hide()
-	game_timer.start(20.0)
+	game_timer.start(20000.0)
 	player.initialize()
-	generate_next_room("nimic")
+	generate_next_room("nimic", thresholds)
 
-func generate_next_room(next_event: String):
+func generate_next_room(next_event: String, threshold: PackedFloat32Array):
 	if is_game_over:
 		return
+	thresholds = threshold
 	if current_room:
 		current_room.queue_free()
 		rooms_cleared += 1
-	if rooms_cleared >= 15:
+	if rooms_cleared >= 15000:
 		game_over(GameOverType.SUCCESS)
 		return
 		
@@ -108,9 +115,9 @@ func generate_next_room(next_event: String):
 	add_child(current_room)
 	
 	if next_event=="minion room":
-		current_room.initialise(player,rooms_cleared, true if possible_minions.size()-1 == 0 else false)
+		current_room.initialise(player,rooms_cleared, true if possible_minions.size()-1 == 0 else false, thresholds)
 	else:
-		current_room.initialise(player,rooms_cleared,possible_minions.is_empty())
+		current_room.initialise(player,rooms_cleared,possible_minions.is_empty(),thresholds)
 		
 	current_room.updateLabel.connect(updateLabel)
 	current_room.room_completed.connect(generate_next_room)
@@ -246,6 +253,8 @@ func game_over(cond: GameOverType):
 	if is_game_over:
 		return
 	
+	print(rooms_cleared)
+	print(thresholds)
 	is_game_over = true
 	gameover_timer.start()
 	var timeleft = game_timer.time_left

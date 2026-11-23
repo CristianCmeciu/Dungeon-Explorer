@@ -1,6 +1,6 @@
 extends Node2D
 
-signal room_completed(next_event: String)
+signal room_completed(next_event: String, threshold: PackedFloat32Array)
 signal room_died
 signal updateLabel
 
@@ -18,17 +18,19 @@ var blind: bool
 var currentEvent: Node2D
 var rooms: int
 var minions_happened: bool
-var thresholds = [20, 35, 60, 70, 75, 80, 90, 100]
-#var thresholds = [10,20,40,70,75,75,90,100]
+var rng = RandomNumberGenerator.new()
+var thresholds: PackedFloat32Array
+var reper =  PackedFloat32Array([20, 15, 25, 10, 5, 0, 10, 10])
 var events = [
 	"nimic", "minion room", "treasure room", "usa fache", 
 	"witch fight", "trap room", "mimic fight", "skeleton fight"
 ]
 
-func initialise(p: Player, rooms_cleared: int,m: bool):
+func initialise(p: Player, rooms_cleared: int,m: bool, threshold: PackedFloat32Array):
 	player = p
 	rooms = rooms_cleared
 	minions_happened = m
+	thresholds = threshold
 	player.player_healed.connect(popup_wrapper)
 	player.onNextRoom()
 
@@ -42,6 +44,9 @@ func spawn_popup(msg: String, color: Color, pos: Vector2) -> Signal:
 
 func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAGE):
 	blind = player.statusEffectManager.hasEffect("Blindness")
+	print(thresholds)
+	change_thresholds(my_event)
+	
 	if Equipments.Minion.FORESIGHT in player.owned_minions and !blind:
 		apply_foresight()
 	
@@ -53,7 +58,6 @@ func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAG
 		currentEvent.initialise(minion,player)
 		currentEvent.updateLabel.connect(updateLabels)
 		currentEvent.foresight.connect(apply_foresight)
-		
 	if my_event == "mimic fight" and !blind:
 		currentEvent = fight_scene.instantiate()
 		self.add_child(currentEvent)
@@ -106,7 +110,7 @@ func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAG
 		if my_event == "usa fache":
 			while future_event == "trap room" or (future_event == "minion room" and minions_happened):
 				future_event = get_random_event()
-		future_event = "minion room"
+		#future_event = "minion room"
 		doors[i].set_target_event(future_event,true if Equipments.Minion.FORESIGHT in player.owned_minions else false)
 		doors[i].clicked.connect(_on_door_clicked)
 		doors[i].fake_clicked.connect(_on_fake_door_clicked)
@@ -140,25 +144,36 @@ func setup_fake_doors():
 			var fake_index = randi() % 3
 			doors[fake_index].is_fake = true
 
+func change_thresholds(my_event: String):
+	var index = events.find(my_event)
+	
+	var sum = 0
+	for i in range(thresholds.size()):
+		if i==index:
+			thresholds[i] = reper[i]
+		else:
+			thresholds[i]+=(5/(thresholds[i]+1))
+		sum+=thresholds[i]
+	
+	for i in range(thresholds.size()):
+		if events[i]=="trap room":
+			thresholds[i] = min(5,(thresholds[i]/sum)*100)
+		else:
+			thresholds[i] = (thresholds[i]/sum)*100
+
 func get_random_event() -> String:
 	
-	var roll = randi_range(1, 100)
-	var index = thresholds.bsearch(roll)
-	index = clampi(index, 0, events.size() - 1)
-	return events[index]
+	return events[rng.rand_weighted(thresholds)]
 	
 func get_random_bun() -> String:
 	
-	var roll = randi_range(1, 70)
-	var index = thresholds.bsearch(roll)
-	index = clampi(index, 0, events.size() - 5)
-	return events[index]
+	return events[rng.rand_weighted(thresholds.slice(0,4))]
 
 func _on_door_clicked(event_passed_from_door: String):
 	if is_instance_valid(currentEvent):
 		return
 	AudioManager.play_sound(AudioManager.SoundType.NEXT_ROOM)
-	room_completed.emit(event_passed_from_door)
+	room_completed.emit(event_passed_from_door,thresholds)
 
 func _on_fake_door_clicked():
 	if fake_door_label:
