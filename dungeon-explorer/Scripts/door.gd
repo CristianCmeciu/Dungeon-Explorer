@@ -9,7 +9,7 @@ var is_fake: bool = false
 var is_disabled: bool = false
 var hasMinion: bool = false
 var wasClicked: bool = false
-var mist_particles: GPUParticles2D
+var mist_particles: CPUParticles2D
 
 func _ready():
 	highlight.hide()
@@ -63,7 +63,7 @@ func set_door_mist(state: String) -> void:
 			mist_particles.emitting = true
 
 func _setup_procedural_mist() -> void:
-	mist_particles = GPUParticles2D.new()
+	mist_particles = CPUParticles2D.new()
 	mist_particles.amount = 35
 	mist_particles.lifetime = 2.2
 	mist_particles.preprocess = 1.0
@@ -84,29 +84,25 @@ func _setup_procedural_mist() -> void:
 	grad_tex.gradient = tex_grad
 	mist_particles.texture = grad_tex
 	
-	var mat := ParticleProcessMaterial.new()
-	mat.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_BOX
-	mat.emission_box_extents = Vector3(25.0, 5.0, 0.0) 
+	mist_particles.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
+	mist_particles.emission_rect_extents = Vector2(25.0, 5.0) 
 	
-	mat.direction = Vector3(0, -1, 0)
-	mat.spread = 35.0
-	mat.initial_velocity_min = 12.0
-	mat.initial_velocity_max = 28.0
-	mat.gravity = Vector3(0, -5, 0)
+	mist_particles.direction = Vector2(0, -1)
+	mist_particles.spread = 35.0
+	mist_particles.initial_velocity_min = 12.0
+	mist_particles.initial_velocity_max = 28.0
+	mist_particles.gravity = Vector2(0, -5)
 	
-	mat.scale_min = 0.8
-	mat.scale_max = 1.6
+	mist_particles.scale_amount_min = 0.8
+	mist_particles.scale_amount_max = 1.6
 	
 	var alpha_curve := Gradient.new()
 	alpha_curve.add_point(0.0, Color(1, 1, 1, 0.0))
 	alpha_curve.add_point(0.25, Color(1, 1, 1, 1.0))
 	alpha_curve.add_point(1.0, Color(1, 1, 1, 0.0))
 	
-	var alpha_tex := GradientTexture1D.new()
-	alpha_tex.gradient = alpha_curve
-	mat.color_ramp = alpha_tex
+	mist_particles.color_ramp = alpha_curve
 	
-	mist_particles.process_material = mat
 	mist_particles.position = Vector2(9, 348)
 	add_child(mist_particles)
 

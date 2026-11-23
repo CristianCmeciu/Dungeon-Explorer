@@ -19,7 +19,6 @@ config/icon="uid://rfkq8at5jlmg"
 [autoload]
 
 Equipments="*uid://buxvx7vpbgrns"
-StatsUi="uid://bq5ptni1p7hb6"
 AudioManager="*uid://vi55vh18tj2m"
 
 [display]
