@@ -67,7 +67,7 @@ func attack() -> int:
 func equipArmor(newArmor: Armor):
 	armor = newArmor
 
-func takeTrueDamage(damage: int):
+func takeTrueDamage(damage: int) -> int:
 	hp-=damage
 	if hp <= 0:
 		die()
