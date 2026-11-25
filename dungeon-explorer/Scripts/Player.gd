@@ -39,19 +39,19 @@ func defend():
 
 func takeDamage(damage: int) -> int:
 	var damageTaken = damage
-	print("Should have taken: ",damageTaken," damage")
+	#print("Should have taken: ",damageTaken," damage")
 	if isDefending:
 		damageTaken /= 2
 		turnsDefending-= 1
 		if turnsDefending <= 0:
-			print("No more defending")
+			#print("No more defending")
 			isDefending = false
 	if armor:
 		damageTaken -= armor.defense
 	if Equipments.Minion.PROTECTION in owned_minions:
 		damageTaken -=1
 	hp -= max(0,damageTaken)
-	print("Player took damage for: ",max(0,damageTaken), ". Remaining HP: ",hp)
+	#print("Player took damage for: ",max(0,damageTaken), ". Remaining HP: ",hp)
 	if hp <= 0:
 		die()
 	return max(0,damageTaken)
@@ -66,6 +66,12 @@ func attack() -> int:
 
 func equipArmor(newArmor: Armor):
 	armor = newArmor
+
+func takeTrueDamage(damage: int):
+	hp-=damage
+	if hp <= 0:
+		die()
+	return max(0,damage)
 	
 func equipWeapon(newWeapon: Weapon):
 	weapon = newWeapon

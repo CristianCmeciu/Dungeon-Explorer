@@ -49,7 +49,7 @@ func playerAttack():
 	enemy.takeDamage(player.attack())
 	AudioManager.play_sound(AudioManager.SoundType.ATTACK_PLAYER)
 	hpLeft.size.x = (hpLeft.custom_maximum_size.x / enemy.maxHp) * enemy.hp
-	print("Enemy got hit ",player.attack(),". Remaining hp: ",enemy.hp)
+	#print("Enemy got hit ",player.attack(),". Remaining hp: ",enemy.hp)
 	text.text = "You hit the enemy!"
 	var dmgText = " -" + str(player.attack()) + " HP"
 	if (player.attack() == 0):
@@ -125,7 +125,7 @@ func enemyTurn():
 func endCombat():
 	potion_blocked = false
 	if player.hp > 0:
-		print("Player won")
+		#print("Player won")
 		player.addGold(enemy.goldValue)
 		match enemy:
 			Mimic:
@@ -135,5 +135,5 @@ func endCombat():
 			Skeleton:
 				AudioManager.play_sound(AudioManager.SoundType.SKELETON_DEATH)
 		fightWon.emit()
-	else:
-		print("Player not won")
+	#else:
+		#print("Player not won")

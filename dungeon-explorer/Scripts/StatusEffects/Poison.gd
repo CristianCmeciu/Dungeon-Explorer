@@ -9,8 +9,8 @@ func _init(initDamage:int = 0):
 	duration = 2
 
 func onApply(target: Node):
-	target.takeDamage(initialDamage)
+	target.takeTrueDamage(initialDamage)
 	
 func onTurnOrRoomEnd(target: Node):
 	duration -=1
-	target.takeDamage(damage)
+	target.takeTrueDamage(damage)

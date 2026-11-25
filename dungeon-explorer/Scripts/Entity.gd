@@ -10,7 +10,7 @@ func _ready():
 	
 func applyEffect(effect: StatusEffect):
 	if effect != null:
-		print(name," got hit by a potion: ",effect.name)
+		#print(name," got hit by a potion: ",effect.name)
 		statusEffectManager.applyEffect(effect, self)
 
 func onTurnEnd():

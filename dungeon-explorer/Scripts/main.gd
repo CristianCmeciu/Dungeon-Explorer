@@ -76,7 +76,7 @@ func start_game():
 	minion_foresight.hide()
 	minion_potion.hide()
 	minion_stun.hide()
-	thresholds = PackedFloat32Array([20, 15, 25, 10, 5, 0, 10, 10])
+	thresholds = PackedFloat32Array([20, 15, 25, 10, 5, 0.65, 10, 10])
 	#var events = [
 	#"nimic", "minion room", "treasure room", "usa fache", 
 	#"witch fight", "trap room", "mimic fight", "skeleton fight"

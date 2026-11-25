@@ -20,7 +20,7 @@ var rooms: int
 var minions_happened: bool
 var rng = RandomNumberGenerator.new()
 var thresholds: PackedFloat32Array
-var reper =  PackedFloat32Array([20, 15, 25, 10, 5, 0, 10, 10])
+var reper =  PackedFloat32Array([20, 15, 25, 10, 5, 0.65, 10, 10])
 var events = [
 	"nimic", "minion room", "treasure room", "usa fache", 
 	"witch fight", "trap room", "mimic fight", "skeleton fight"
@@ -147,19 +147,14 @@ func setup_fake_doors():
 func change_thresholds(my_event: String):
 	var index = events.find(my_event)
 	
-	var sum = 0
 	for i in range(thresholds.size()):
 		if i==index:
 			thresholds[i] = reper[i]
 		else:
-			thresholds[i]+=(5/(thresholds[i]+1))
-		sum+=thresholds[i]
+			thresholds[i] = 1.025*thresholds[i]
 	
-	for i in range(thresholds.size()):
-		if events[i]=="trap room":
-			thresholds[i] = min(5,(thresholds[i]/sum)*100)
-		else:
-			thresholds[i] = (thresholds[i]/sum)*100
+	thresholds[5] = min(3,thresholds[5]) #sansa trap room
+	
 
 func get_random_event() -> String:
 	
