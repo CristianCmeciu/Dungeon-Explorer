@@ -28,6 +28,9 @@ func attack() -> int:
 		return 0
 	return damage
 
+func takeTrueDamage(damageTaken: int): 
+	takeDamage(damageTaken)
+	
 func takeDamage(damageTaken: int):
 	hp-=damageTaken
 	if hp <= 0:

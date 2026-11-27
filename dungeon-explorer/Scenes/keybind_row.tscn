@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bjtxfowsq6m2t"]
+
+[ext_resource type="Script" uid="uid://ga42semq66cr" path="res://Scripts/keybind_row.gd" id="1_fkh1a"]
+
+[node name="KeybindRow" type="HBoxContainer" unique_id=1669863898]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_fkh1a")
+
+[node name="KeybindLabel" type="Label" parent="." unique_id=68998602]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+
+[node name="KeybindButton" type="Button" parent="." unique_id=313897399]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+
+[connection signal="pressed" from="KeybindButton" to="." method="_on_keybind_button_pressed"]

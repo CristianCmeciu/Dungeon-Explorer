@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://4b3dfvgrv7yb"]
+
+[ext_resource type="Texture2D" uid="uid://cdc1upaiwbm33" path="res://Assets/full_cover_mare.png" id="1_4geyq"]
+[ext_resource type="Script" uid="uid://laosj8jh767j" path="res://Scripts/settings.gd" id="1_lhmql"]
+[ext_resource type="Texture2D" uid="uid://tmn74cf21w1q" path="res://Assets/butonel.png" id="2_i44u3"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lhmql"]
+texture = ExtResource("2_i44u3")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aaqfp"]
+texture = ExtResource("2_i44u3")
+modulate_color = Color(0.53333336, 0.53333336, 0.53333336, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j2dne"]
+texture = ExtResource("2_i44u3")
+modulate_color = Color(0.67058825, 0.67058825, 0.67058825, 1)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_fkh1a"]
+
+[node name="Settings" type="Node2D" unique_id=1957904901]
+script = ExtResource("1_lhmql")
+
+[node name="FullCoverMare" type="Sprite2D" parent="." unique_id=65602931]
+scale = Vector2(3.0476189, 2.1599998)
+texture = ExtResource("1_4geyq")
+centered = false
+
+[node name="MainMenuButton" type="Button" parent="." unique_id=1080678168]
+custom_minimum_size = Vector2(502, 102)
+custom_maximum_size = Vector2(502, 102)
+offset_left = 725.0
+offset_top = 950.0
+offset_right = 1227.0
+offset_bottom = 1052.0
+theme_override_styles/normal = SubResource("StyleBoxTexture_lhmql")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_aaqfp")
+theme_override_styles/hover = SubResource("StyleBoxTexture_j2dne")
+
+[node name="Label" type="Label" parent="MainMenuButton" unique_id=701844997]
+texture_filter = 1
+custom_minimum_size = Vector2(502, 102)
+custom_maximum_size = Vector2(502, 102)
+layout_mode = 0
+offset_right = 502.0
+offset_bottom = 102.0
+theme_override_font_sizes/font_size = 90
+text = "Main Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_trim_flags = 0
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=814402359]
+offset_left = 96.0
+offset_top = 96.0
+offset_right = 1826.0
+offset_bottom = 912.0
+color = Color(0.53333336, 0.53333336, 0.53333336, 0.39215687)
+
+[node name="SettingsContainer" type="VBoxContainer" parent="." unique_id=1030735171]
+material = SubResource("CanvasItemMaterial_fkh1a")
+offset_left = 100.0
+offset_top = 100.0
+offset_right = 1822.0
+offset_bottom = 908.0
+theme_override_constants/separation = 10
+
+[node name="VolumeMasterContainer" type="HBoxContainer" parent="SettingsContainer" unique_id=1046747970]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MasterLabel" type="Label" parent="SettingsContainer/VolumeMasterContainer" unique_id=2049291153]
+custom_minimum_size = Vector2(202, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Master Volume:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MasterSlider" type="HSlider" parent="SettingsContainer/VolumeMasterContainer" unique_id=1218014222]
+custom_minimum_size = Vector2(1000, 36)
+layout_mode = 2
+
+[node name="VolumeMusicContainer" type="HBoxContainer" parent="SettingsContainer" unique_id=1749613114]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MusicLabel" type="Label" parent="SettingsContainer/VolumeMusicContainer" unique_id=1931059301]
+custom_minimum_size = Vector2(202, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Music:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="SettingsContainer/VolumeMusicContainer" unique_id=1288548597]
+custom_minimum_size = Vector2(1000, 36)
+layout_mode = 2
+
+[node name="VolumeSFXContainer" type="HBoxContainer" parent="SettingsContainer" unique_id=1355012600]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SFXLabel" type="Label" parent="SettingsContainer/VolumeSFXContainer" unique_id=463650598]
+custom_minimum_size = Vector2(202, 36)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Sound Effects:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SFXSlider" type="HSlider" parent="SettingsContainer/VolumeSFXContainer" unique_id=1029355507]
+custom_minimum_size = Vector2(1000, 36)
+layout_mode = 2
+
+[node name="KeybindsContainer" type="VBoxContainer" parent="SettingsContainer" unique_id=776494358]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[connection signal="pressed" from="MainMenuButton" to="." method="_on_close_button_pressed"]

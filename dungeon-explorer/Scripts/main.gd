@@ -138,14 +138,7 @@ func updateLabel():
 	gold_label.text = str(player.gold) + " gold"
 		
 	if player.armor:
-		match player.armor.defense:
-			1:
-				armor_icon.texture = load("res://Assets/armor_leather_1.0.png")
-			2:
-				armor_icon.texture = load("res://Assets/armor_chainmail_1.0.png")
-			3:
-				armor_icon.texture = load("res://Assets/armor_plate_1.0.png")
-		
+		armor_icon.texture = load(player.armor.imgPath)
 		if Equipments.Minion.PROTECTION in player.owned_minions:
 			armor_label.text = "+" + str(player.armor.defense + 1) + " DEF"
 		else:
@@ -160,21 +153,7 @@ func updateLabel():
 
 		
 	if player.weapon:
-		
-		match player.weapon.name:
-			"Sword":
-				weapon_icon.texture = load("res://Assets/sword_1.0.png")
-			"Dagger":
-				weapon_icon.texture = load("res://Assets/dagger_1.0.png")
-			"Bow":
-				weapon_icon.texture = load("res://Assets/bow.png")
-			"Crossbow":
-				weapon_icon.texture = load("res://Assets/crossbow.png")
-			"Club":
-				weapon_icon.texture = load("res://Assets/club_1.0.png")
-			"Axe":
-				weapon_icon.texture = load("res://Assets/axe_1.0.png")
-
+		weapon_icon.texture = load(player.weapon.imgPath)
 		
 		if Equipments.Minion.DAMAGE in player.owned_minions:
 			weapon_label.text = "+" + str(player.weapon.damage + 2) + " DMG"
@@ -241,7 +220,7 @@ func _process(_delta):
 			if Input.is_action_just_pressed("attack"):
 				start_game()
 			if Input.is_action_just_pressed("defend"):
-				get_tree().quit()
+					get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")
 		
 
 func _on_timer_timeout():
@@ -296,9 +275,8 @@ func game_over(cond: GameOverType):
 			
 	score_label.text = "Score: "+ str(int(formula))
 
-
 func _on_play_again_pressed():
 	start_game()
 
-#func _on_quit_pressed():
-	#get_tree().quit()
+func _on_quit_pressed():
+		get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")

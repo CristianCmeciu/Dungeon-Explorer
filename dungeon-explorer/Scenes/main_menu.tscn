@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://d12jv243ynai6"]
+
+[ext_resource type="Script" uid="uid://b7u561dqvfaln" path="res://Scripts/main_menu.gd" id="1_1ehe0"]
+[ext_resource type="Texture2D" uid="uid://tmn74cf21w1q" path="res://Assets/butonel.png" id="2_1ehe0"]
+[ext_resource type="Texture2D" uid="uid://cdc1upaiwbm33" path="res://Assets/full_cover_mare.png" id="2_ce3w2"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yhxw7"]
+texture = ExtResource("2_1ehe0")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_trj04"]
+texture = ExtResource("2_1ehe0")
+modulate_color = Color(0.53333336, 0.53333336, 0.53333336, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_16hvj"]
+texture = ExtResource("2_1ehe0")
+modulate_color = Color(0.67058825, 0.67058825, 0.67058825, 1)
+
+[node name="MainMenu" type="Node2D" unique_id=1511668992]
+script = ExtResource("1_1ehe0")
+
+[node name="FullCoverMare" type="Sprite2D" parent="." unique_id=577731269]
+scale = Vector2(3.0476189, 2.1599998)
+texture = ExtResource("2_ce3w2")
+centered = false
+
+[node name="TitleLabel" type="Label" parent="." unique_id=28304604]
+offset_left = 130.0
+offset_top = 94.0
+offset_right = 1077.0
+offset_bottom = 194.0
+theme_override_font_sizes/font_size = 88
+text = "Down the Magic Dungeon"
+
+[node name="PlayButton" type="Button" parent="." unique_id=529115042]
+custom_minimum_size = Vector2(502, 102)
+custom_maximum_size = Vector2(502, 102)
+offset_left = 189.0
+offset_top = 325.0
+offset_right = 691.0
+offset_bottom = 427.0
+theme_override_styles/normal = SubResource("StyleBoxTexture_yhxw7")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_trj04")
+theme_override_styles/hover = SubResource("StyleBoxTexture_16hvj")
+
+[node name="Label" type="Label" parent="PlayButton" unique_id=1686034209]
+texture_filter = 1
+custom_minimum_size = Vector2(502, 102)
+custom_maximum_size = Vector2(502, 102)
+layout_mode = 0
+offset_right = 502.0
+offset_bottom = 102.0
+theme_override_font_sizes/font_size = 90
+text = "PLAY!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_trim_flags = 0
+
+[node name="Settings" type="Button" parent="." unique_id=1095894891]
+offset_left = 189.0
+offset_top = 515.0
+offset_right = 691.0
+offset_bottom = 617.0
+theme_override_styles/normal = SubResource("StyleBoxTexture_yhxw7")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_trj04")
+theme_override_styles/hover = SubResource("StyleBoxTexture_16hvj")
+
+[node name="Label" type="Label" parent="Settings" unique_id=1040779799]
+custom_minimum_size = Vector2(502, 102)
+custom_maximum_size = Vector2(502, 102)
+layout_mode = 0
+offset_right = 502.0
+offset_bottom = 102.0
+theme_override_font_sizes/font_size = 90
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_trim_flags = 0
+
+[node name="Compendium" type="Button" parent="." unique_id=1820453928]
+offset_left = 189.0
+offset_top = 715.0
+offset_right = 691.0
+offset_bottom = 817.0
+theme_override_styles/normal = SubResource("StyleBoxTexture_yhxw7")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_trj04")
+theme_override_styles/hover = SubResource("StyleBoxTexture_16hvj")
+
+[node name="Label" type="Label" parent="Compendium" unique_id=1184832767]
+custom_minimum_size = Vector2(502, 102)
+custom_maximum_size = Vector2(502, 102)
+layout_mode = 0
+offset_right = 502.0
+offset_bottom = 102.0
+theme_override_font_sizes/font_size = 90
+text = "Compendium"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_trim_flags = 0
+
+[node name="Label" type="Label" parent="." unique_id=1021899516]
+custom_minimum_size = Vector2(436, 91)
+custom_maximum_size = Vector2(436, 91)
+offset_left = 1484.0
+offset_top = 989.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+theme_override_font_sizes/font_size = 38
+text = "meowmeowmeowmeowmeowmeowmeowmeowmeowmeowmeow"
+horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 3
+visible_characters = 40
+visible_ratio = 0.92
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Compendium" to="." method="_on_compendium_pressed"]

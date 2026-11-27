@@ -68,7 +68,12 @@ func stop_all_sounds():
 			if sound is AudioStreamPlayer:
 				sound.stop()
 
-func stop_sound(key: SoundType):
-	var sound = get(sounds[key][randi() % sounds[key].size()])
-	if sound is AudioStreamPlayer:
-		sound.stop()
+func stop_sound(key: SoundType) -> void:
+	for s in sounds[key]:
+		var sound = get(s)
+		if sound is AudioStreamPlayer:
+			sound.stop()
+
+func play_random_sfx() -> void:
+	var sfx_keys := sounds.keys().filter(func(key): return key != SoundType.BACKGROUND and key != SoundType.MINION_CRY)
+	play_sound(sfx_keys.pick_random())

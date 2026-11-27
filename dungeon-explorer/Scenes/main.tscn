@@ -69,12 +69,11 @@ theme_override_font_sizes/font_size = 48
 text = "PLAY AGAIN"
 
 [node name="QuitButton" type="Button" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=689147699]
-visible = false
 custom_maximum_size = Vector2(400, -1)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 48
-text = "QUIT"
+text = "MAIN MENU"
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1162756784]
 layer = 2
@@ -365,3 +364,6 @@ offset_left = 1234.0
 offset_top = 875.0
 offset_right = 1471.778
 offset_bottom = 1048.333
+
+[connection signal="pressed" from="GameOverScreen/CenterContainer/VBoxContainer/PlayAgainButton" to="." method="_on_play_again_pressed"]
+[connection signal="pressed" from="GameOverScreen/CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_pressed"]
