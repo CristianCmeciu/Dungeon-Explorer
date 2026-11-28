@@ -45,14 +45,6 @@ layout_mode = 2
 theme_override_constants/separation = 15
 alignment = 1
 
-[node name="SeedLabel" type="Label" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=2042421036]
-custom_maximum_size = Vector2(400, -1)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 67
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="ResultLabel" type="Label" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=2031443078]
 custom_maximum_size = Vector2(400, -1)
 layout_mode = 2
@@ -60,6 +52,24 @@ size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 67
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=328072302]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="SeedLabel" type="Label" parent="GameOverScreen/CenterContainer/VBoxContainer/HBoxContainer" unique_id=2042421036]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 67
+text = "7376152454277060680"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="GameOverScreen/CenterContainer/VBoxContainer/HBoxContainer" unique_id=762397543]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Copy"
 
 [node name="ScoreLabel" type="Label" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=1609257108]
 custom_maximum_size = Vector2(400, -1)
@@ -373,3 +383,5 @@ offset_left = 1234.0
 offset_top = 875.0
 offset_right = 1471.778
 offset_bottom = 1048.333
+
+[connection signal="pressed" from="GameOverScreen/CenterContainer/VBoxContainer/HBoxContainer/Button" to="." method="_on_copy_button_pressed"]

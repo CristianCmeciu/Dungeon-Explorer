@@ -1,0 +1,375 @@
+[gd_scene format=3 uid="uid://b7cwus8vsu8jo"]
+
+[ext_resource type="Script" uid="uid://bqpeo7tndbbdk" path="res://Scripts/main.gd" id="1_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://ctllidl2x1poj" path="res://Scenes/room_2.tscn" id="2_kry3j"]
+[ext_resource type="PackedScene" uid="uid://1q4dhvxj2yiq" path="res://Scenes/room_3.tscn" id="3_21xkr"]
+[ext_resource type="Script" uid="uid://bb1nx4dygfpq" path="res://Scripts/Player.gd" id="4_6bp64"]
+[ext_resource type="Texture2D" uid="uid://dc5p18kqrb4ks" path="res://Assets/health.png" id="5_344ge"]
+[ext_resource type="Texture2D" uid="uid://dfwmsnge1y4bb" path="res://Assets/blind3.png" id="6_ynf5e"]
+[ext_resource type="Texture2D" uid="uid://d347qlhytinod" path="res://Assets/poison2.png" id="7_hptm8"]
+[ext_resource type="Texture2D" uid="uid://d3pxbpgbjq2xm" path="res://Assets/weakness2.png" id="8_d1ilt"]
+[ext_resource type="Texture2D" uid="uid://bl0a086tupyn0" path="res://Assets/Coins_Gold_7.png" id="9_ynf5e"]
+
+[sub_resource type="Gradient" id="Gradient_jjvhh"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qsuaf"]
+gradient = SubResource("Gradient_jjvhh")
+width = 100
+height = 100
+
+[node name="main" type="Node2D" unique_id=291351431]
+script = ExtResource("1_jjvhh")
+possible_rooms = Array[PackedScene]([ExtResource("2_kry3j"), ExtResource("3_21xkr")])
+
+[node name="GameTimer" type="Timer" parent="." unique_id=15269563]
+one_shot = true
+
+[node name="GameOverScreen" type="CanvasLayer" parent="." unique_id=727161437]
+
+[node name="ColorRect" type="ColorRect" parent="GameOverScreen" unique_id=896604140]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5882353)
+
+[node name="CenterContainer" type="CenterContainer" parent="GameOverScreen" unique_id=1470993377]
+offset_left = 110.0
+offset_top = 100.0
+offset_right = 1810.0
+offset_bottom = 1000.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverScreen/CenterContainer" unique_id=1719656818]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="SeedLabel" type="Label" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=2042421036]
+custom_maximum_size = Vector2(400, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 67
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ResultLabel" type="Label" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=2031443078]
+custom_maximum_size = Vector2(400, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 67
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=1609257108]
+custom_maximum_size = Vector2(400, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 67
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayAgainButton" type="Button" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=1872762619]
+custom_maximum_size = Vector2(400, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 48
+text = "PLAY AGAIN"
+
+[node name="QuitButton" type="Button" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=689147699]
+visible = false
+custom_maximum_size = Vector2(400, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 48
+text = "QUIT"
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1162756784]
+layer = 2
+
+[node name="Player" type="Node" parent="HUD" unique_id=1635015]
+script = ExtResource("4_6bp64")
+metadata/_custom_type_script = "uid://bb1nx4dygfpq"
+
+[node name="ColorRect" type="ColorRect" parent="HUD" unique_id=1028711056]
+offset_left = 1293.0
+offset_top = 137.0
+offset_right = 1876.0
+offset_bottom = 434.0
+color = Color(0.3137255, 0.3137255, 0.3137255, 0.39215687)
+
+[node name="PlayerUI" type="VBoxContainer" parent="HUD" unique_id=264455872]
+custom_maximum_size = Vector2(1880, -1)
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 1900.0
+offset_bottom = 393.0
+theme_override_constants/separation = 25
+
+[node name="HP+Time" type="HBoxContainer" parent="HUD/PlayerUI" unique_id=357042056]
+layout_mode = 2
+theme_override_constants/separation = 1152
+alignment = 1
+
+[node name="HPBar" type="HBoxContainer" parent="HUD/PlayerUI/HP+Time" unique_id=434084627]
+layout_mode = 2
+
+[node name="HPIcon" type="TextureRect" parent="HUD/PlayerUI/HP+Time/HPBar" unique_id=1126155122]
+texture_filter = 1
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("5_344ge")
+
+[node name="HPMax" type="ColorRect" parent="HUD/PlayerUI/HP+Time/HPBar" unique_id=2017015204]
+layout_mode = 2
+color = Color(1, 1, 1, 0)
+
+[node name="HPBG" type="ColorRect" parent="HUD/PlayerUI/HP+Time/HPBar/HPMax" unique_id=1435530541]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 510.0
+offset_bottom = 80.0
+color = Color(0, 0, 0, 1)
+
+[node name="HPLeft" type="ColorRect" parent="HUD/PlayerUI/HP+Time/HPBar/HPMax" unique_id=871530365]
+custom_maximum_size = Vector2(498, -1)
+layout_mode = 0
+offset_left = 11.0
+offset_top = 11.0
+offset_right = 509.0
+offset_bottom = 79.0
+color = Color(1, 0, 0, 1)
+
+[node name="TimeBar" type="HBoxContainer" parent="HUD/PlayerUI/HP+Time" unique_id=1603614807]
+layout_mode = 2
+theme_override_constants/separation = 525
+
+[node name="TimeMax" type="ColorRect" parent="HUD/PlayerUI/HP+Time/TimeBar" unique_id=1533271068]
+layout_mode = 2
+color = Color(1, 1, 1, 0)
+
+[node name="TimeBG" type="ColorRect" parent="HUD/PlayerUI/HP+Time/TimeBar/TimeMax" unique_id=729898898]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 510.0
+offset_bottom = 80.0
+color = Color(0, 0, 0, 1)
+
+[node name="TimeLeft" type="ColorRect" parent="HUD/PlayerUI/HP+Time/TimeBar/TimeMax" unique_id=3669565]
+custom_maximum_size = Vector2(498, -1)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 509.0
+offset_top = 79.0
+offset_right = 1007.0
+offset_bottom = 147.0
+grow_horizontal = 0
+rotation = 3.1415927
+color = Color(0.003921569, 0.3137255, 1, 1)
+
+[node name="TimeIcon" type="TextureRect" parent="HUD/PlayerUI/HP+Time/TimeBar" unique_id=21317835]
+texture_filter = 1
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = SubResource("GradientTexture2D_qsuaf")
+stretch_mode = 5
+
+[node name="Potions+Stats" type="HBoxContainer" parent="HUD/PlayerUI" unique_id=1548578303]
+layout_mode = 2
+theme_override_constants/separation = 1175
+alignment = 1
+
+[node name="Potions" type="VBoxContainer" parent="HUD/PlayerUI/Potions+Stats" unique_id=1414531441]
+custom_maximum_size = Vector2(-1, 265)
+layout_mode = 2
+alignment = 1
+
+[node name="Blindness" type="HBoxContainer" parent="HUD/PlayerUI/Potions+Stats/Potions" unique_id=1510241848]
+layout_mode = 2
+alignment = 1
+
+[node name="BlindnessIcon" type="TextureRect" parent="HUD/PlayerUI/Potions+Stats/Potions/Blindness" unique_id=633930393]
+texture_filter = 1
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+texture = ExtResource("6_ynf5e")
+stretch_mode = 5
+
+[node name="BlindnessMax" type="ColorRect" parent="HUD/PlayerUI/Potions+Stats/Potions/Blindness" unique_id=1786803752]
+layout_mode = 2
+color = Color(1, 1, 1, 0)
+
+[node name="BlindnessBG" type="ColorRect" parent="HUD/PlayerUI/Potions+Stats/Potions/Blindness/BlindnessMax" unique_id=1436478822]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 10.0
+offset_right = 320.0
+offset_bottom = 70.0
+color = Color(0, 0, 0, 1)
+
+[node name="BlindnessLeft" type="ColorRect" parent="HUD/PlayerUI/Potions+Stats/Potions/Blindness/BlindnessMax" unique_id=564343959]
+custom_maximum_size = Vector2(298, -1)
+layout_mode = 0
+offset_left = 21.0
+offset_top = 11.0
+offset_right = 319.0
+offset_bottom = 69.0
+color = Color(0.4862745, 0.39607844, 0.39607844, 1)
+
+[node name="Poison" type="HBoxContainer" parent="HUD/PlayerUI/Potions+Stats/Potions" unique_id=1264594067]
+layout_mode = 2
+alignment = 1
+
+[node name="PoisonIcon" type="TextureRect" parent="HUD/PlayerUI/Potions+Stats/Potions/Poison" unique_id=1637000141]
+texture_filter = 1
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+texture = ExtResource("7_hptm8")
+stretch_mode = 5
+
+[node name="PoisonMax" type="ColorRect" parent="HUD/PlayerUI/Potions+Stats/Potions/Poison" unique_id=1199694535]
+layout_mode = 2
+color = Color(1, 1, 1, 0)
+
+[node name="PoisonBG" type="ColorRect" parent="HUD/PlayerUI/Potions+Stats/Potions/Poison/PoisonMax" unique_id=2045847115]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 10.0
+offset_right = 320.0
+offset_bottom = 70.0
+color = Color(0, 0, 0, 1)
+
+[node name="PoisonLeft" type="ColorRect" parent="HUD/PlayerUI/Potions+Stats/Potions/Poison/PoisonMax" unique_id=34438002]
+custom_maximum_size = Vector2(298, -1)
+layout_mode = 0
+offset_left = 21.0
+offset_top = 11.0
+offset_right = 319.0
+offset_bottom = 69.0
+color = Color(0.22745098, 0.4509804, 0.1882353, 1)
+
+[node name="Weakness" type="HBoxContainer" parent="HUD/PlayerUI/Potions+Stats/Potions" unique_id=1725973398]
+layout_mode = 2
+alignment = 1
+
+[node name="WeaknessIcon" type="TextureRect" parent="HUD/PlayerUI/Potions+Stats/Potions/Weakness" unique_id=60764315]
+texture_filter = 1
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+texture = ExtResource("8_d1ilt")
+stretch_mode = 5
+
+[node name="WeaknessMax" type="ColorRect" parent="HUD/PlayerUI/Potions+Stats/Potions/Weakness" unique_id=150483145]
+layout_mode = 2
+color = Color(1, 1, 1, 0)
+
+[node name="WeaknessBG" type="ColorRect" parent="HUD/PlayerUI/Potions+Stats/Potions/Weakness/WeaknessMax" unique_id=1222562655]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 10.0
+offset_right = 320.0
+offset_bottom = 70.0
+color = Color(0, 0, 0, 1)
+
+[node name="WeaknessLeft" type="ColorRect" parent="HUD/PlayerUI/Potions+Stats/Potions/Weakness/WeaknessMax" unique_id=186331343]
+custom_maximum_size = Vector2(298, -1)
+layout_mode = 0
+offset_left = 21.0
+offset_top = 11.0
+offset_right = 319.0
+offset_bottom = 69.0
+color = Color(0.98039216, 0.9843137, 0.9882353, 1)
+
+[node name="Stats" type="HBoxContainer" parent="HUD/PlayerUI/Potions+Stats" unique_id=869324627]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Gold" type="VBoxContainer" parent="HUD/PlayerUI/Potions+Stats/Stats" unique_id=2146105206]
+layout_mode = 2
+
+[node name="GoldIcon" type="TextureRect" parent="HUD/PlayerUI/Potions+Stats/Stats/Gold" unique_id=707375437]
+texture_filter = 1
+custom_minimum_size = Vector2(175, 100)
+layout_mode = 2
+texture = ExtResource("9_ynf5e")
+stretch_mode = 5
+
+[node name="GoldLabel" type="Label" parent="HUD/PlayerUI/Potions+Stats/Stats/Gold" unique_id=2100310876]
+custom_minimum_size = Vector2(175, 58)
+custom_maximum_size = Vector2(175, -1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "999 gold"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Weapon" type="VBoxContainer" parent="HUD/PlayerUI/Potions+Stats/Stats" unique_id=223553992]
+layout_mode = 2
+
+[node name="WeaponIcon" type="TextureRect" parent="HUD/PlayerUI/Potions+Stats/Stats/Weapon" unique_id=1811973116]
+texture_filter = 1
+custom_minimum_size = Vector2(175, 100)
+layout_mode = 2
+stretch_mode = 5
+
+[node name="WeaponLabel" type="Label" parent="HUD/PlayerUI/Potions+Stats/Stats/Weapon" unique_id=965127334]
+custom_minimum_size = Vector2(185, 58)
+custom_maximum_size = Vector2(185, -1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "+10 DMG
+stun
+bleed"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Armor" type="VBoxContainer" parent="HUD/PlayerUI/Potions+Stats/Stats" unique_id=1227899535]
+layout_mode = 2
+
+[node name="ArmorIcon" type="TextureRect" parent="HUD/PlayerUI/Potions+Stats/Stats/Armor" unique_id=781393937]
+texture_filter = 1
+layout_mode = 2
+stretch_mode = 3
+
+[node name="ArmorLabel" type="Label" parent="HUD/PlayerUI/Potions+Stats/Stats/Armor" unique_id=1144255538]
+custom_minimum_size = Vector2(175, 58)
+custom_maximum_size = Vector2(175, -1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "+3 def"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="MinionForesight" type="TextureRect" parent="HUD" unique_id=767619617]
+offset_left = 435.0
+offset_top = 750.0
+offset_right = 672.778
+offset_bottom = 923.333
+
+[node name="MinionStun" type="TextureRect" parent="HUD" unique_id=672013429]
+offset_left = 369.0
+offset_top = 876.0
+offset_right = 606.778
+offset_bottom = 1049.333
+
+[node name="MinionAttack" type="TextureRect" parent="HUD" unique_id=1598754614]
+offset_left = 509.0
+offset_top = 876.0
+offset_right = 746.778
+offset_bottom = 1049.333
+
+[node name="MinionPotion" type="TextureRect" parent="HUD" unique_id=1939582357]
+offset_left = 1392.0
+offset_top = 875.0
+offset_right = 1629.778
+offset_bottom = 1048.333
+
+[node name="MinionDefend" type="TextureRect" parent="HUD" unique_id=342959412]
+offset_left = 1234.0
+offset_top = 875.0
+offset_right = 1471.778
+offset_bottom = 1048.333

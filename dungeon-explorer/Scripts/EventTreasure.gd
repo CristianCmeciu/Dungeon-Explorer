@@ -80,7 +80,7 @@ func _generate_item_loot() -> void:
 	var is_armor: bool = rng.randf() < 0.5 
 	
 	if is_armor:
-		var armor_index = rng.randi_range(0,Equipments.armors.size())
+		var armor_index = rng.randi_range(0,Equipments.armors.size() - 1)
 		current_armor = Equipments.armors[armor_index]
 		
 		current_gold_value = current_armor.goldValue
@@ -95,7 +95,7 @@ func _generate_item_loot() -> void:
 			open_btn_texture.modulate -= Color(1,1,1,0)
 			
 	else:
-		var weapon_index = rng.randi_range(0,Equipments.weapons.size())
+		var weapon_index = rng.randi_range(0,Equipments.weapons.size() - 1)
 		current_weapon = Equipments.weapons[weapon_index]
 
 		current_gold_value = current_weapon.goldValue

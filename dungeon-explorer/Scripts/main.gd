@@ -23,7 +23,7 @@ var gameover_timer: Timer
 @onready var play_again_btn = $GameOverScreen/CenterContainer/VBoxContainer/PlayAgainButton
 @onready var quit_btn = $GameOverScreen/CenterContainer/VBoxContainer/QuitButton
 @onready var player: Player = $HUD/Player
-@onready var seed_label: Label = $GameOverScreen/CenterContainer/VBoxContainer/SeedLabel
+@onready var seed_label: Label = $GameOverScreen/CenterContainer/VBoxContainer/HBoxContainer/SeedLabel
 @onready var score_label: Label = $GameOverScreen/CenterContainer/VBoxContainer/ScoreLabel
 @onready var hp_left: ColorRect = $"HUD/PlayerUI/HP+Time/HPBar/HPMax/HPLeft"
 @onready var time_left: ColorRect = $"HUD/PlayerUI/HP+Time/TimeBar/TimeMax/TimeLeft"
@@ -44,9 +44,6 @@ var gameover_timer: Timer
 @onready var armor_icon: TextureRect = $"HUD/PlayerUI/Potions+Stats/Stats/Armor/ArmorIcon"
 
 var rng: RandomNumberGenerator
-const SEED_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-const SEED_LENGTH = 8
-var current_seed: String
 
 var thresholds: PackedFloat32Array
 var minion_avatars = ["res://Assets/minion_1_1.0.png",
@@ -65,20 +62,18 @@ func _ready():
 	gameover_timer.wait_time = 2.0
 	gameover_timer.one_shot = true
 	add_child(gameover_timer)
-	start_game("96LFU1BE")
+	start_game(-8320246919515227499)
 
 
 
-func start_game(seed_string: String = ""):
+func start_game(seedNumber = null):
 	rng = RandomNumberGenerator.new()
-	
-	if (seed_string.is_empty()):
-		current_seed = generateRandomSeed()
-	else:
-		current_seed = seed_string
-		
-	rng.seed = hash(current_seed)
-		
+	if seedNumber:
+		if seedNumber is String:
+			rng.seed = hash(seedNumber)
+		elif seedNumber is int:
+			rng.seed = seedNumber
+
 	possible_minions.clear()
 	possible_minions.append(Equipments.Minion.DAMAGE)
 	possible_minions.append(Equipments.Minion.PROTECTION)
@@ -126,7 +121,7 @@ func generate_next_room(next_event: String, threshold: PackedFloat32Array):
 		
 	AudioManager.stop_sound(AudioManager.SoundType.MINION_CRY)
 	
-	var next_scene_index = rng.randi_range(0,possible_rooms.size())
+	var next_scene_index = rng.randi_range(0,possible_rooms.size() - 1)
 	var next_scene = possible_rooms[next_scene_index]
 	current_room = next_scene.instantiate()
 	add_child(current_room)
@@ -146,14 +141,6 @@ func generate_next_room(next_event: String, threshold: PackedFloat32Array):
 		possible_minions.pop_front()
 	else: 
 		current_room.setup(next_event)
-
-func generateRandomSeed() -> String:
-	var result = ""
-	for i in range(SEED_LENGTH):
-		var index = randi_range(0,SEED_CHARACTERS.length()-1)
-		result += SEED_CHARACTERS[index]
-		
-	return result
 	
 func updateLabel():
 	
@@ -319,10 +306,14 @@ func game_over(cond: GameOverType):
 	formula += 200 * player.owned_minions.size()
 			
 	score_label.text = "Score: "+ str(int(formula))
-	seed_label.text = current_seed
+	seed_label.text = "Seed: " + str(rng.seed)
 
 func _on_play_again_pressed():
 	start_game()
 
 #func _on_quit_pressed():
 	#get_tree().quit()
+
+
+func _on_copy_button_pressed():
+	DisplayServer.clipboard_set(str(rng.seed))
