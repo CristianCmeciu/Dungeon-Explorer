@@ -1,7 +1,6 @@
 extends Entity
 class_name Player
 
-signal died
 signal player_healed
 var armor: Armor
 var weapon: Weapon
@@ -66,12 +65,6 @@ func attack() -> int:
 
 func equipArmor(newArmor: Armor):
 	armor = newArmor
-
-func takeTrueDamage(damage: int) -> int:
-	hp-=damage
-	if hp <= 0:
-		die()
-	return max(0,damage)
 	
 func equipWeapon(newWeapon: Weapon):
 	weapon = newWeapon
@@ -95,6 +88,3 @@ func getScore():
 	
 func addMinion(minion: Equipments.Minion):
 	owned_minions.append(minion)
-
-func die():
-	died.emit()

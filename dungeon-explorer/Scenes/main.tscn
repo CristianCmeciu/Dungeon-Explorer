@@ -45,6 +45,14 @@ layout_mode = 2
 theme_override_constants/separation = 15
 alignment = 1
 
+[node name="SeedLabel" type="Label" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=2042421036]
+custom_maximum_size = Vector2(400, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 67
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="ResultLabel" type="Label" parent="GameOverScreen/CenterContainer/VBoxContainer" unique_id=2031443078]
 custom_maximum_size = Vector2(400, -1)
 layout_mode = 2
