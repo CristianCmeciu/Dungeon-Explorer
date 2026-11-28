@@ -25,12 +25,20 @@ scale = Vector2(3.0476189, 2.1599998)
 texture = ExtResource("1_4geyq")
 centered = false
 
+[node name="Label" type="Label" parent="." unique_id=931778588]
+offset_left = 769.5
+offset_top = 40.0
+offset_right = 1150.5
+offset_bottom = 153.0
+theme_override_font_sizes/font_size = 100
+text = "SETTINGS"
+
 [node name="MainMenuButton" type="Button" parent="." unique_id=1080678168]
 custom_minimum_size = Vector2(502, 102)
 custom_maximum_size = Vector2(502, 102)
-offset_left = 725.0
+offset_left = 709.0
 offset_top = 950.0
-offset_right = 1227.0
+offset_right = 1211.0
 offset_bottom = 1052.0
 theme_override_styles/normal = SubResource("StyleBoxTexture_lhmql")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_aaqfp")
@@ -51,18 +59,29 @@ autowrap_trim_flags = 0
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=814402359]
 offset_left = 96.0
-offset_top = 96.0
+offset_top = 166.0
 offset_right = 1826.0
 offset_bottom = 912.0
-color = Color(0.53333336, 0.53333336, 0.53333336, 0.39215687)
+color = Color(0.6, 0.6, 0.6, 0.39215687)
 
 [node name="SettingsContainer" type="VBoxContainer" parent="." unique_id=1030735171]
 material = SubResource("CanvasItemMaterial_fkh1a")
-offset_left = 100.0
-offset_top = 100.0
-offset_right = 1822.0
-offset_bottom = 908.0
+offset_left = 361.0
+offset_top = 169.0
+offset_right = 1582.0
+offset_bottom = 903.0
 theme_override_constants/separation = 10
+
+[node name="SoundLabel" type="Label" parent="SettingsContainer" unique_id=1610371887]
+custom_minimum_size = Vector2(1000, 0)
+custom_maximum_size = Vector2(1215, -1)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 43
+text = "Sounds"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="VolumeMasterContainer" type="HBoxContainer" parent="SettingsContainer" unique_id=1046747970]
 layout_mode = 2
@@ -71,6 +90,8 @@ theme_override_constants/separation = 8
 [node name="MasterLabel" type="Label" parent="SettingsContainer/VolumeMasterContainer" unique_id=2049291153]
 custom_minimum_size = Vector2(202, 36)
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 32
 text = "Master Volume:"
 horizontal_alignment = 1
@@ -87,6 +108,8 @@ theme_override_constants/separation = 8
 [node name="MusicLabel" type="Label" parent="SettingsContainer/VolumeMusicContainer" unique_id=1931059301]
 custom_minimum_size = Vector2(202, 36)
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 32
 text = "Music:"
 horizontal_alignment = 1
@@ -103,6 +126,8 @@ theme_override_constants/separation = 8
 [node name="SFXLabel" type="Label" parent="SettingsContainer/VolumeSFXContainer" unique_id=463650598]
 custom_minimum_size = Vector2(202, 36)
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 32
 text = "Sound Effects:"
 horizontal_alignment = 1
@@ -111,6 +136,17 @@ vertical_alignment = 1
 [node name="SFXSlider" type="HSlider" parent="SettingsContainer/VolumeSFXContainer" unique_id=1029355507]
 custom_minimum_size = Vector2(1000, 36)
 layout_mode = 2
+
+[node name="ControlLabel" type="Label" parent="SettingsContainer" unique_id=1575639224]
+custom_minimum_size = Vector2(1000, 0)
+custom_maximum_size = Vector2(1215, -1)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 43
+text = "Controls"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="KeybindsContainer" type="VBoxContainer" parent="SettingsContainer" unique_id=776494358]
 layout_mode = 2

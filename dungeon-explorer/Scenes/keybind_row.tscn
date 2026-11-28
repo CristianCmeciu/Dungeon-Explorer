@@ -2,6 +2,16 @@
 
 [ext_resource type="Script" uid="uid://ga42semq66cr" path="res://Scripts/keybind_row.gd" id="1_fkh1a"]
 
+[sub_resource type="Gradient" id="Gradient_fkh1a"]
+offsets = PackedFloat32Array(0, 0.0028089888)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fkh1a"]
+gradient = SubResource("Gradient_fkh1a")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1ehe0"]
+texture = SubResource("GradientTexture2D_fkh1a")
+modulate_color = Color(0.53333336, 0.53333336, 0.53333336, 1)
+
 [node name="KeybindRow" type="HBoxContainer" unique_id=1669863898]
 offset_right = 40.0
 offset_bottom = 40.0
@@ -10,10 +20,18 @@ script = ExtResource("1_fkh1a")
 [node name="KeybindLabel" type="Label" parent="." unique_id=68998602]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 32
 
 [node name="KeybindButton" type="Button" parent="." unique_id=313897399]
 layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_1ehe0")
 
 [connection signal="pressed" from="KeybindButton" to="." method="_on_keybind_button_pressed"]

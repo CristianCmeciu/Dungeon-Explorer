@@ -41,14 +41,14 @@ var gameover_timer: Timer
 @onready var gold_icon: TextureRect = $"HUD/PlayerUI/Potions+Stats/Stats/Gold/GoldIcon"
 @onready var weapon_icon: TextureRect = $"HUD/PlayerUI/Potions+Stats/Stats/Weapon/WeaponIcon"
 @onready var armor_icon: TextureRect = $"HUD/PlayerUI/Potions+Stats/Stats/Armor/ArmorIcon"
-
+var clepsidra_frame = 0
 var thresholds: PackedFloat32Array
 var minion_avatars = ["res://Assets/minion_1_1.0.png",
 					"res://Assets/minion_2_1.0.png",
 					"res://Assets/minion_3_1.0.png",
 					"res://Assets/minion_4_1.0.png"]
 
-var time_icons = ["res://Assets/clepsidra.png", "res://Assets/clepsidra2.png", "res://Assets/clepsidra3.png"]
+var time_icons = ["res://Assets/clepsidra3.png", "res://Assets/clepsidra2.png", "res://Assets/clepsidra.png"]
 
 func _ready():
 	game_timer.timeout.connect(_on_timer_timeout)
@@ -76,6 +76,7 @@ func start_game():
 	minion_foresight.hide()
 	minion_potion.hide()
 	minion_stun.hide()
+	clepsidra_frame = 0
 	thresholds = PackedFloat32Array([20, 15, 25, 10, 5, 0.65, 10, 10])
 	#var events = [
 	#"nimic", "minion room", "treasure room", "usa fache", 
@@ -132,8 +133,12 @@ func generate_next_room(next_event: String, threshold: PackedFloat32Array):
 
 	
 func updateLabel():
-	
-	time_icon.texture = load(time_icons[randi() % time_icons.size()])
+
+	time_icon.texture = load(time_icons[clepsidra_frame])
+	clepsidra_frame+=1
+	if clepsidra_frame == time_icons.size():
+		clepsidra_frame = 0
+		
 	hp_left.size.x = (hp_left.custom_maximum_size.x / 100) * player.hp
 	gold_label.text = str(player.gold) + " gold"
 		
@@ -279,4 +284,6 @@ func _on_play_again_pressed():
 	start_game()
 
 func _on_quit_pressed():
-		get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")
+	AudioManager.stop_all_sounds()
+	AudioManager.play_sound(AudioManager.SoundType.BACKGROUND)
+	get_tree().change_scene_to_file("res://Scenes/main_menu.tscn")
