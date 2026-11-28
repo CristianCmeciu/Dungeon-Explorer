@@ -1,7 +1,6 @@
 class_name Enemy
 extends Entity
 
-signal died
 var damage: int
 var timeStunned: int
 var goldValue: int
@@ -35,6 +34,4 @@ func takeDamage(damageTaken: int):
 	hp-=damageTaken
 	if hp <= 0:
 		die()
-		
-func die():
-	died.emit()
+	

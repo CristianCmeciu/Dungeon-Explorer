@@ -1,6 +1,7 @@
 class_name Entity
 extends Node
 
+signal died
 var statusEffectManager: StatusEffectManager
 var hp: int
 var maxHp: int
@@ -15,3 +16,12 @@ func applyEffect(effect: StatusEffect):
 
 func onTurnEnd():
 	statusEffectManager.onTurnOrRoomEnd(self)
+	
+func takeTrueDamage(damage: int) -> int:
+	hp-=damage
+	if hp <= 0:
+		die()
+	return max(0,damage)
+
+func die():
+	died.emit()

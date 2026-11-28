@@ -28,19 +28,22 @@ var betterWeapons = {"Crossbow":["Bow","Dagger","Crossbow"],
 
 const FLOATING_TEXT = preload("res://Scenes/FX.tscn")
 
+var rng: RandomNumberGenerator
+
 func spawn_popup(msg: String, color: Color, pos: Vector2) -> Signal:
 	var popup: FloatingText = FLOATING_TEXT.instantiate()
 	get_tree().current_scene.add_child(popup)
 	return popup.setup(msg, color, pos)
 
 
-func initialise(p: Player) -> void:
+func initialise(p: Player,ranNumGen: RandomNumberGenerator) -> void:
 	player = p
+	rng = ranNumGen
 	setup()
 
 func setup() -> void:
 	randomize()
-	is_chest = randf() < 0.5
+	is_chest = rng.randf() < 0.5
 	
 	if is_chest:
 		chest_ui = true
@@ -74,11 +77,11 @@ func _generate_item_loot() -> void:
 	var player_weapon = _get_equipped_weapon()
 	
 
-	var is_armor: bool = randf() < 0.5 
+	var is_armor: bool = rng.randf() < 0.5 
 	
 	if is_armor:
-		
-		current_armor = Equipments.armors.pick_random()
+		var armor_index = rng.randi_range(0,Equipments.armors.size() - 1)
+		current_armor = Equipments.armors[armor_index]
 		
 		current_gold_value = current_armor.goldValue
 		chest_label.text = "Loot: " + current_armor.name + " (DEF: " + str(current_armor.defense) + ")"
@@ -92,7 +95,8 @@ func _generate_item_loot() -> void:
 			open_btn_texture.modulate -= Color(1,1,1,0)
 			
 	else:
-		current_weapon = Equipments.weapons.pick_random()
+		var weapon_index = rng.randi_range(0,Equipments.weapons.size() - 1)
+		current_weapon = Equipments.weapons[weapon_index]
 
 		current_gold_value = current_weapon.goldValue
 		chest_label.text = "Loot: " + current_weapon.name + " (DMG: " + str(current_weapon.damage) + ")"

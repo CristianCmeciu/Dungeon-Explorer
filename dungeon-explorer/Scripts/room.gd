@@ -26,13 +26,14 @@ var events = [
 	"witch fight", "trap room", "mimic fight", "skeleton fight"
 ]
 
-func initialise(p: Player, rooms_cleared: int,m: bool, threshold: PackedFloat32Array):
+func initialise(p: Player, rooms_cleared: int,m: bool, threshold: PackedFloat32Array, ranNumGen: RandomNumberGenerator):
 	player = p
 	rooms = rooms_cleared
 	minions_happened = m
 	thresholds = threshold
 	player.player_healed.connect(popup_wrapper)
 	player.onNextRoom()
+	rng = ranNumGen
 
 func popup_wrapper(hp: int):
 	spawn_popup("+"+str(hp)+"HP", Color.GREEN, Vector2(450,120))
@@ -86,12 +87,12 @@ func setup(my_event: String, minion: Equipments.Minion = Equipments.Minion.DAMAG
 	if my_event == "treasure room" and !blind: 
 		currentEvent = treasure_room.instantiate()
 		self.add_child(currentEvent)
-		currentEvent.initialise(player)
+		currentEvent.initialise(player,rng)
 		currentEvent.treasure_chosen.connect(fightWon)
 	
 	var random_bun = 4
 	if rooms<=3:
-		random_bun = randi() % doors.size()
+		random_bun = rng.randi() % doors.size()
 	
 	for i in range(doors.size()):
 		var future_event = ""
@@ -131,17 +132,17 @@ func apply_foresight():
 func setup_fake_doors():
 	
 	if doors.size() == 2:
-		var fake_index = randi() % 2
+		var fake_index = rng.randi() % 2
 		doors[fake_index].is_fake = true
 	elif doors.size() == 3:
-		var num_fakes = randi() % 2
+		var num_fakes = rng.randi() % 2
 		
 		if num_fakes:
 			doors[1].is_fake = true
-			var other_fake = 0 if randi() % 2 else 2
+			var other_fake = 0 if rng.randi() % 2 else 2
 			doors[other_fake].is_fake = true
 		else:
-			var fake_index = randi() % 3
+			var fake_index = rng.randi() % 3
 			doors[fake_index].is_fake = true
 
 func change_thresholds(my_event: String):
