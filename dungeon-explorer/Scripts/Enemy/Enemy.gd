@@ -26,9 +26,6 @@ func attack() -> int:
 		wasStunned = true
 		return 0
 	return damage
-
-func takeTrueDamage(damageTaken: int): 
-	takeDamage(damageTaken)
 	
 func takeDamage(damageTaken: int):
 	hp-=damageTaken

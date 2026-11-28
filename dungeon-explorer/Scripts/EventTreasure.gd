@@ -42,7 +42,6 @@ func initialise(p: Player,ranNumGen: RandomNumberGenerator) -> void:
 	setup()
 
 func setup() -> void:
-	randomize()
 	is_chest = rng.randf() < 0.5
 	
 	if is_chest:
@@ -77,7 +76,7 @@ func _generate_item_loot() -> void:
 	var player_weapon = _get_equipped_weapon()
 	
 
-	var is_armor: bool = rng.randf() < 0.5 
+	var is_armor: bool = rng.randf() < 0.3
 	
 	if is_armor:
 		var armor_index = rng.randi_range(0,Equipments.armors.size() - 1)

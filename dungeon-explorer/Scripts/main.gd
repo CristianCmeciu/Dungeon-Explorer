@@ -80,7 +80,6 @@ func start_game(seedNumber = null):
 	possible_minions.append(Equipments.Minion.STUN)
 	possible_minions.append(Equipments.Minion.FORESIGHT)
 	seed(rng.seed)
-	possible_minions.shuffle()
 	minion_attack.hide()
 	minion_defend.hide()
 	minion_foresight.hide()
@@ -137,8 +136,9 @@ func generate_next_room(next_event: String, threshold: PackedFloat32Array):
 
 	
 	if next_event=="minion room":
-		current_room.setup(next_event,possible_minions[0])
-		possible_minions.pop_front()
+		var index = rng.randi() % possible_minions.size()
+		current_room.setup(next_event,possible_minions[index])
+		possible_minions.pop_at(index)
 	else: 
 		current_room.setup(next_event)
 	
